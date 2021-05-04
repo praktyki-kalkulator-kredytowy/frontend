@@ -20,10 +20,9 @@ export default {
   },
   methods: {
     onSubmit() {
-      const Text = {body: this.enteredText}
-      axios.get(`http://localhost:4200/api/v1/concat/`+Text)
+      axios.get(`http://localhost:4200/api/v1/concat/`+this.enteredText)
       .then(response => {
-        response.data = this.editedText
+        this.editedText = response.data
       })
     }
 
