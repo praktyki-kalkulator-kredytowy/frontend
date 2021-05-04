@@ -13,20 +13,15 @@ export default {
   name: 'HelloWorld',
   data() {
     return {
-      enteredText: '',
-      editedText: '',
-      errors: []
-      
+      enteredText: '' 
     }
   },
   methods: {
     onSubmit() {
       const Text = {body: this.enteredText}
-      axios.post(`wklej url`  , Text)
-        .then(response => response.data = this.enteredText)
-      axios.get(`wklej url`)
+      axios.get(`http://localhost:8080/api/v1/concat/`+Text)
       .then(response => {
-        this.editedText = response.data
+        response.data = this.enteredText
       })
     }
 
