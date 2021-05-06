@@ -21,8 +21,8 @@
   </form>
   {{withdrawalDate}}
 
-
-  {{test}}
+ {{test}}
+  <div></div>
 </div>
 </template>
 
@@ -56,7 +56,7 @@ export default {
             installmentType: this.chosenInstallment,
             installmentAmount: this.installmentAmount,
             interestRate: this.interestRate,
-            withdrawalDate: this.withDrawalDate
+            withdrawalDate: this.withdrawalDate
        });
         axios.post(`http://localhost:4200/api/v1/schedule`, data,
         {headers:{"Content-type" : "application/json"}
