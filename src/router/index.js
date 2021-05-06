@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home'
-import TestPage from '../views/HarmonogramPage'
+import HarmonogramPage from '../views/HarmonogramPage'
 
 const routes = [
     {
@@ -11,7 +11,7 @@ const routes = [
     {
         path: '/harmonogram',
         name: 'harmonogram',
-        component: TestPage
+        component: HarmonogramPage
     }
 ]
 

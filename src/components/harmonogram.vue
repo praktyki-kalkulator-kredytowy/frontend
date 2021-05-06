@@ -1,48 +1,79 @@
 <template>
+<div>
   <form @submit.prevent="onSubmit">
-  <label for="enteredKwota">Kwota kredytu</label>
-  <input name="enteredKwota" v-model="enteredKwota" type="number" placeholder="kwota">
-  <label for="enteredText">Liczba rat</label>
-  <input name="enteredRaty" v-model="enteredRaty" type="number" placeholder="liczba rat">
-  <label for="enteredText">Rodzaj rat</label>
-  <select>
-    <option value="">rosnące</option>
-    <option value="">malejące</option>
+  <label for="Kwota">Kwota kredytu</label>
+  <input name="Kwota" v-model="capital" type="number" placeholder="kwota">
+  <label for="liczbaRat">Liczba rat</label>
+  <input name="liczbaRat" v-model="installmentAmount" type="number" placeholder="liczba rat">
+  <label for="rodzajRaty">Rodzaj rat</label>
+  <select id="rodzajRaty" v-model="chosenInstallment">
+    <option :value="typ.value" v-for="(typ, index) in rodzajRaty" :key="index">
+      {{typ.name}}
+    </option>
+  
   </select>
-  <label for="enteredText">Oprocentowanie</label>
-  <input name="enteredProcent" v-model="enteredProcent" type="number" placeholder="procent">
-  <label for="enteredText">Data wypłaty środków</label>
-  <input name="enteredData" v-model="enteredData" type="date" placeholder="data">
-  <input type="submit" value="Wprowadź">
+  <label for="oprocentowanie">Oprocentowanie</label>
+  <input name="oprocentowanie" v-model="interestRate" type="number" placeholder="procent">
+  <label for="dataWyplaty">Data wypłaty środków</label>
+  <input name="dataWyplaty" v-model="withdrawalDate" type="date" placeholder="data">
+  <input type="submit" value="Oblicz">
   <router-link to="/">Przejdź do strony głównej</router-link>
   </form>
+  {{withdrawalDate}}
+
+
+  {{test}}
+</div>
 </template>
 
 
+
 <script>
-import axios from 'axios';
+import axios from 'axios'
 export default {
-  name: 'HelloWorld',
+  name: 'Harmonogram',
   data() {
     return {
-      enteredText: '',
-      editedText: ''
- 
-    }
+      capital: '',
+      installmentAmount: '',
+      rodzajRaty: [
+        { value: 'DECREASING', name: 'malejące' },
+        { value: 'CONSTANT', name: 'równe'}
+      ],
+      chosenInstallment: '',
+      interestRate: '',
+      withdrawalDate: '',
+      test: '',
+      
+
+      }
+  
   },
   methods: {
-    onSubmit() {
-      const Text = {body: this.enteredText}
-      axios.get(`http://localhost:8080/api/v1/concat/`+ Text)
-      axios.get(`http://localhost:4200/api/v1/concat/`+this.enteredKwota)
-      .then(response => {
-        this.editedText = response.data
-      })
+     onSubmit() {
+       let data = JSON.stringify({
+            capital: this.capital,
+            installmentType: this.chosenInstallment,
+            installmentAmount: this.installmentAmount,
+            interestRate: this.interestRate,
+            withdrawalDate: this.withDrawalDate
+       });
+        axios.post(`http://localhost:4200/api/v1/schedule`, data,
+        {headers:{"Content-type" : "application/json"}
+            
+        })
+        .then(response => {
+            this.test = response.data
+        })
     },
+    
+    
+  },
+  
 
   
 }
-}
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

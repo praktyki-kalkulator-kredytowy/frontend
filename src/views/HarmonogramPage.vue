@@ -1,14 +1,18 @@
 <template>
-    <HelloWorld />
+    <div>
+        <Harmonogram />
+    </div>
+    
 </template>
 
 <script>
-import HelloWorld from '../components/harmonogram'
+import Harmonogram from '../components/harmonogram'
 
 export default {
-    name: 'Harmonogramage',
+    name: 'HarmonogramPage',
     components: {
-        HelloWorld
-    }
+        Harmonogram
+    },
+    
 }
 </script>
