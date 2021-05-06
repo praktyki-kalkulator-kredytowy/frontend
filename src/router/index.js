@@ -4,7 +4,7 @@ import TestPage from '../views/TestPage'
 
 const routes = [
     {
-        path: '/home',
+        path: '/',
         name: 'Home',
         component: Home,
     },
