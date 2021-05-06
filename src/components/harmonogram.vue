@@ -19,10 +19,31 @@
   <input type="submit" value="Oblicz">
   <router-link to="/">Przejdź do strony głównej</router-link>
   </form>
-  {{withdrawalDate}}
+  
 
- {{test}}
-  <div></div>
+ 
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Rata</th>
+          <th>Data raty</th>
+          <th>Rata odsetkowa</th>
+          <th>Rata kapitałowa</th>
+          <th>Kapitał po spłacie</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr :key="rata.index" v-for="rata in harmonogram">
+          <td> {{ rata.index }} </td>
+          <td> {{ rata.installmentDate }} </td>
+          <td> {{ rata.interestInstallment}} </td>
+          <td> {{ rata.capitalInstallment }} </td>
+          <td> {{ rata.remainingDebt }} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 </template>
 
@@ -43,7 +64,7 @@ export default {
       chosenInstallment: '',
       interestRate: '',
       withdrawalDate: '',
-      test: '',
+      harmonogram: []
       
 
       }
@@ -63,7 +84,7 @@ export default {
             
         })
         .then(response => {
-            this.test = response.data
+            this.harmonogram = response.data
         })
     },
     
@@ -82,5 +103,9 @@ export default {
 * {display: flex;
 flex-direction:column;
 align-items: center;
+}
+
+table {
+  display: inline;
 }
 </style>
