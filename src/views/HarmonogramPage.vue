@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import HelloWorld from '../components/HelloWorld'
+import HelloWorld from '../components/harmonogram'
 
 export default {
-    name: 'TestPage',
+    name: 'Harmonogramage',
     components: {
         HelloWorld
     }

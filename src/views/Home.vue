@@ -1,6 +1,7 @@
 
 <template>
-  <h3>Version 1.0.0</h3>
+  <h1>Kalkulator RRSO</h1>
+  <router-link to="/harmonogram">Przejdź do harmonogramu</router-link>
 </template>
 
 <script>
