@@ -23,8 +23,7 @@
 
  
   <div>
-    <table>
-      <thead>
+    <table style="width:100%">
         <tr>
           <th>Rata</th>
           <th>Data raty</th>
@@ -32,8 +31,6 @@
           <th>Rata kapitałowa</th>
           <th>Kapitał po spłacie</th>
         </tr>
-      </thead>
-      <tbody>
         <tr :key="rata.index" v-for="rata in harmonogram">
           <td> {{ rata.index }} </td>
           <td> {{ rata.installmentDate }} </td>
@@ -41,7 +38,6 @@
           <td> {{ rata.capitalInstallment }} </td>
           <td> {{ rata.remainingDebt }} </td>
         </tr>
-      </tbody>
     </table>
   </div>
 </div>
@@ -70,7 +66,10 @@ export default {
       }
   
   },
-  methods: {
+  methods: 
+  {
+
+
      onSubmit() {
        let data = JSON.stringify({
             capital: this.capital,
@@ -89,23 +88,25 @@ export default {
     },
     
     
-  },
+  }
   
 
-  
 }
 
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-* {display: flex;
-flex-direction:column;
-align-items: center;
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
 }
 
-table {
-  display: inline;
-}
+
+
+
 </style>
