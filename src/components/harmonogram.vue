@@ -1,21 +1,21 @@
 <template>
 <div>
   <form @submit.prevent="onSubmit">
-  <label for="Amount">Kwota kredytu</label>
-  <input name="Amount" v-model="capital" type="number" placeholder="kwota">
-  <label for="InstallmentAmount">Liczba rat</label>
-  <input name="InstallmentAmount" v-model="installmentAmount" type="number" placeholder="liczba rat">
-  <label for="InstallmentType">Rodzaj rat</label>
-  <select id="InstallmentType" v-model="chosenInstallment">
-    <option :value="type.value" v-for="(type, index) in installmentType" :key="index">
-      {{ type.name }}
+  <label for="Kwota">Kwota kredytu</label>
+  <input name="Kwota" v-model="capital" type="number" placeholder="kwota">
+  <label for="liczbaRat">Liczba rat</label>
+  <input name="liczbaRat" v-model="installmentAmount" type="number" placeholder="liczba rat">
+  <label for="rodzajRaty">Rodzaj rat</label>
+  <select id="rodzajRaty" v-model="chosenInstallment">
+    <option :value="typ.value" v-for="(typ, index) in rodzajRaty" :key="index">
+      {{typ.name}}
     </option>
   
   </select>
-  <label for="InterestRate">Oprocentowanie</label>
-  <input name="InterestRate" v-model="interestRate" type="number" placeholder="procent">
-  <label for="WithdrawalDate">Data wypłaty środków</label>
-  <input name="WithdrawalDate" v-model="withdrawalDate" type="date" placeholder="data">
+  <label for="oprocentowanie">Oprocentowanie</label>
+  <input name="oprocentowanie" v-model="interestRate" type="number" placeholder="procent">
+  <label for="dataWyplaty">Data wypłaty środków</label>
+  <input name="dataWyplaty" v-model="withdrawalDate" type="date" placeholder="data">
   <input type="submit" value="Oblicz">
   <router-link to="/">Przejdź do strony głównej</router-link>
   </form>
@@ -34,12 +34,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr :key="installment.index" v-for="installment in schedule">
-          <td> {{ installment.index }} </td>
-          <td> {{ installment.installmentDate }} </td>
-          <td> {{ installment.interestInstallment}} </td>
-          <td> {{ installment.capitalInstallment }} </td>
-          <td> {{ installment.remainingDebt }} </td>
+        <tr :key="rata.index" v-for="rata in harmonogram">
+          <td> {{ rata.index }} </td>
+          <td> {{ rata.installmentDate }} </td>
+          <td> {{ rata.interestInstallment}} </td>
+          <td> {{ rata.capitalInstallment }} </td>
+          <td> {{ rata.remainingDebt }} </td>
         </tr>
       </tbody>
     </table>
@@ -57,14 +57,14 @@ export default {
     return {
       capital: '',
       installmentAmount: '',
-      installmentType: [
+      rodzajRaty: [
         { value: 'DECREASING', name: 'malejące' },
         { value: 'CONSTANT', name: 'równe'}
       ],
       chosenInstallment: '',
       interestRate: '',
       withdrawalDate: '',
-      schedule: []
+      harmonogram: []
       
 
       }
@@ -84,15 +84,13 @@ export default {
             
         })
         .then(response => {
-            this.schedule = response.data
+            this.harmonogram = response.data
         })
     },
     
     
   },
-  computed: {
-    
-  }
+  
 
   
 }
