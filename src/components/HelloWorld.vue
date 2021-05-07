@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="onSubmit">
   <label for="enteredText">Strona główna</label>
-
-  
+  <input name="enteredText" v-model="enteredText" type="text" placeholder="Podaj dane">
+  <input type="submit" value="Wprowadź">
   <h1> {{ editedText }}</h1>
   <router-link to="/harmonogram">Przejdź do kalkulatora kredytowego</router-link>
   </form>
