@@ -75,7 +75,7 @@ export default {
             capital: this.capital,
             installmentType: this.chosenInstallment,
             installmentAmount: this.installmentAmount,
-            interestRate: this.interestRate,
+            interestRate: this.interestRate/100,
             withdrawalDate: this.withdrawalDate
        });
         axios.post(`http://localhost:4200/api/v1/schedule`, data,
