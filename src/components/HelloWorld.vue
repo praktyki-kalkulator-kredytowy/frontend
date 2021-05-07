@@ -6,15 +6,19 @@
   <h1> {{ editedText }}</h1>
   <router-link to="/harmonogram">Przejdź do kalkulatora kredytowego</router-link>
   </form>
+
+
+
 </template>
 
 <script>
 import axios from 'axios';
+
 export default {
   name: 'HelloWorld',
   data() {
     return {
-      enteredText: '',
+    ScheduleConfigurationnteredText: '',
       editedText: ''
  
     }

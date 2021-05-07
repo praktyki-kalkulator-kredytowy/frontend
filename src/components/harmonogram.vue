@@ -1,45 +1,18 @@
 <template>
 <div>
-  <form @submit.prevent="onSubmit">
-  <label for="Kwota">Kwota kredytu</label>
-  <input name="Kwota" v-model="capital" type="number" placeholder="kwota">
-  <label for="liczbaRat">Liczba rat</label>
-  <input name="liczbaRat" v-model="installmentAmount" type="number" placeholder="liczba rat">
-  <label for="rodzajRaty">Rodzaj rat</label>
-  <select id="rodzajRaty" v-model="chosenInstallment">
-    <option :value="typ.value" v-for="(typ, index) in rodzajRaty" :key="index">
-      {{typ.name}}
-    </option>
-  
-  </select>
-  <label for="oprocentowanie">Oprocentowanie</label>
-  <input name="oprocentowanie" v-model="interestRate" type="number" placeholder="procent">
-  <label for="dataWyplaty">Data wypłaty środków</label>
-  <input name="dataWyplaty" v-model="withdrawalDate" type="date" placeholder="data">
-  <input type="submit" value="Oblicz">
+
+  <schedule-configuration v-bind:onSubmit="fetchSchedule"/>
+
+
+  <br/>
   <router-link to="/">Przejdź do strony głównej</router-link>
-  </form>
+  <br/>
+  
+  <div class="scheduleContainer">
+    <schedule v-bind:installments="installments"/>
+  </div>
   
 
- 
-  <div>
-    <table style="width:100%">
-        <tr>
-          <th>Rata</th>
-          <th>Data raty</th>
-          <th>Rata odsetkowa</th>
-          <th>Rata kapitałowa</th>
-          <th>Kapitał po spłacie</th>
-        </tr>
-        <tr :key="rata.index" v-for="rata in harmonogram">
-          <td> {{ rata.index }} </td>
-          <td> {{ rata.installmentDate }} </td>
-          <td> {{ rata.interestInstallment}} </td>
-          <td> {{ rata.capitalInstallment }} </td>
-          <td> {{ rata.remainingDebt }} </td>
-        </tr>
-    </table>
-  </div>
 </div>
 </template>
 
@@ -47,44 +20,30 @@
 
 <script>
 import axios from 'axios'
+import scheduleConfiguration from './scheduleConfiguration'
+import Schedule from './schedule.vue'
+
 export default {
   name: 'Harmonogram',
+  components: {
+    scheduleConfiguration,
+    Schedule
+  },
   data() {
     return {
-      capital: '',
-      installmentAmount: '',
-      rodzajRaty: [
-        { value: 'DECREASING', name: 'malejące' },
-        { value: 'CONSTANT', name: 'równe'}
-      ],
-      chosenInstallment: '',
-      interestRate: '',
-      withdrawalDate: '',
-      harmonogram: []
-      
-
-      }
+      installments: []
+    }
   
   },
   methods: 
   {
+     async fetchSchedule(data) {
+        let response =  await axios.post(`http://localhost:4200/api/v1/schedule`, JSON.stringify(data), { 
+          headers:{"Content-type" : "application/json"}
+          });
 
+          this.installments = response.data;
 
-     onSubmit() {
-       let data = JSON.stringify({
-            capital: this.capital,
-            installmentType: this.chosenInstallment,
-            installmentAmount: this.installmentAmount,
-            interestRate: this.interestRate,
-            withdrawalDate: this.withdrawalDate
-       });
-        axios.post(`http://localhost:4200/api/v1/schedule`, data,
-        {headers:{"Content-type" : "application/json"}
-            
-        })
-        .then(response => {
-            this.harmonogram = response.data
-        })
     },
     
     
@@ -104,6 +63,12 @@ table, th, td {
 th, td {
   padding: 5px;
   text-align: left;
+}
+
+.scheduleContainer {
+  width:65%;
+  margin: auto;
+  margin-top: 30px;
 }
 
 
