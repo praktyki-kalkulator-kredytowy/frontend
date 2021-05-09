@@ -1,7 +1,7 @@
 <template>
 <div>
 
-  <schedule-configuration v-bind:onSubmit="fetchSchedule"/>
+  <schedule-configuration :onSubmit="fetchSchedule"/>
 
 
   <br/>
@@ -9,7 +9,7 @@
   <br/>
   
   <div class="scheduleContainer">
-    <schedule v-bind:installments="installments"/>
+    <schedule :installments="installments"/>
   </div>
   
 
@@ -20,8 +20,8 @@
 
 <script>
 import axios from 'axios'
-import scheduleConfiguration from './scheduleConfiguration'
-import Schedule from './schedule.vue'
+import scheduleConfiguration from '../components/scheduleConfiguration'
+import Schedule from '../components/schedule.vue'
 
 export default {
   name: 'Harmonogram',
