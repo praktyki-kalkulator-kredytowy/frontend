@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      axios.get(`http://localhost:4200/api/v1/concat/`+this.enteredText)
+      axios.get(`http://localhost:4200/api/v1/concat`, { params: { value: this.enteredText } } )
       .then(response => {
         this.editedText = response.data
       })
