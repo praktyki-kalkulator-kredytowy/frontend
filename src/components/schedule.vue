@@ -13,19 +13,19 @@
         <tr :key="installment.index" v-for="installment in installments">
           <td> {{ installment.index }}</td>
           <td> {{ formatDate(installment.installmentDate)}}</td>
-          <td> {{ (installment.interestInstallment).toFixed(2)}}zł</td>
-          <td> {{ (installment.capitalInstallment).toFixed(2) }}zł </td>
-          <td> {{ (installment.capitalInstallment + installment.interestInstallment).toFixed(2) }}zł </td>
-          <td> {{ (installment.remainingDebt).toFixed(2) }}zł </td>
+          <td> {{ PLNformat(installment.interestInstallment) }}</td>
+          <td> {{ PLNformat(installment.capitalInstallment) }} </td>
+          <td> {{ PLNformat(installment.capitalInstallment + installment.interestInstallment) }}</td>
+          <td> {{ PLNformat(installment.remainingDebt) }}</td>
           <td> placeholder </td>
         </tr>
 
         <tr>
           <td></td>
           <td></td>
-          <td> {{ calculateSum(i => i.interestInstallment) }} </td>
-          <td> {{ calculateSum(i => i.capitalInstallment) }} </td>
-          <td> {{ calculateSum(i => i.capitalInstallment + i.interestInstallment) }} </td>
+          <td> {{ PLNformat(calculateSum(i => i.interestInstallment)) }} </td>
+          <td> {{ PLNformat(calculateSum(i => i.capitalInstallment)) }} </td>
+          <td> {{ PLNformat(calculateSum(i => i.capitalInstallment + i.interestInstallment)) }} </td>
           <td></td>
           <td> sumPlaceholder </td>
         </tr>
@@ -46,12 +46,15 @@ export default {
             for(const i of this.installments) {
                 sum += elementExtractor(i);
             }
-            return sum.toFixed(2) + "zł";
+            return sum;
         },
         formatDate(date){
             if (date) {
                 return moment(String(date)).format('DD.MM.YYYY')
             }
+        },
+        PLNformat(num) {
+            return Number(num).toLocaleString('pl-PL', { style: 'currency', currency: 'PLN'} )
         }
 
 }
