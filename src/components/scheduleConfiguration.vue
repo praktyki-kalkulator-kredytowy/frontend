@@ -1,6 +1,12 @@
 <template>
 
     <div class="form">
+        <div class="errorAlert" v-if="errors.length">
+            <h1>Proszę o poprawę następujących błędów:</h1>
+            <ul>
+                <li :key="error.index" v-for="error in errors"> {{ error }} </li>
+            </ul>
+        </div>
         <div class="form-row">
             <label>Kapitał: </label>
             <input v-model="capital" class="capital-input" type="number" placeholder="kapitał">
@@ -53,8 +59,7 @@
                 <option value="over65">66+</option>   
         </select>
         </div>
-        <button @click="submit()">Wylicz</button>
-
+        <button @click="checkForm(), submit()">Wylicz</button>
     
 </div>
 
@@ -65,6 +70,7 @@
 export default {
     data() {
         return {
+            errors: [],
             capital: null,
             installmentType: null,
             installmentAmount: null,
@@ -80,8 +86,42 @@ export default {
         onSubmit: Function
     },
     methods: {
-        
+        checkForm() {
+            if (this.capital && this.installmentType && this.installmentAmount 
+            && this.interestRate && this.withdrawalDate && this.commission
+            &&this.hasInsurance && this.ageGroup ) return true
+
+            this.errors = [];
+
+            if (!this.capital) {
+                this.errors.push("Nieprawidłowa kwota.")
+            }
+            if (!this.installmentType) {
+                this.errors.push("Określ typ rat.")
+            }
+            if (!this.installmentAmount) {
+                this.errors.push("Nieprawidłowa liczba rat.")
+            }
+            if (!this.interestRate) {
+                this.errors.push("Nieprawidłowe oprocentowanie.")
+            }
+            if (!this.withdrawalDate) {
+                this.errors.push("Wybierz datę wypłaty.")
+            }
+            if (!this.commission || this.commission < 0 || this.commission > 20) {
+                this.errors.push("Nieprawidłowa prowizja(0-20%).")
+            }
+            if (this.hasInsurance == 'yes') {
+                if (!this.ageGroup) 
+                    this.errors.push("Określ grupę wiekową")
+            }
+            else if (this.hasInsurance != 'no') 
+                this.errors.push("Określ czy wymagane jest ubezpieczenie.")
+
+
+        },
         submit() { 
+            if(this.errors.length>0) return
             if(this.onSubmit != undefined) {
                 this.onSubmit({
                     capital: this.capital,
@@ -142,5 +182,14 @@ export default {
         border-color: #0097A7;
     }
 
-
+    .errorAlert {
+        color: red;
+        text-align: left;
+        border: 2px solid red;
+        margin: 20px;
+        padding: 10px;
+    }
+    .errorAlert h1 {
+        color: rgb(200, 0, 0)
+    }
 </style>
