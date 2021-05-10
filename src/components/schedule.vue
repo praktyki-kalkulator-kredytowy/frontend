@@ -9,12 +9,13 @@
           <th>Kapitał po spłacie</th>
         </tr>
         <tr :key="installment.index" v-for="installment in installments">
-          <td> {{ installment.index }} </td>
-          <td> {{ installment.installmentDate }} </td>
-          <td> {{ installment.interestInstallment}} </td>
-          <td> {{ installment.capitalInstallment }} </td>
-          <td> {{ (installment.capitalInstallment + installment.interestInstallment).toFixed(2) }} </td>
-          <td> {{ installment.remainingDebt }} </td>
+          <td> {{ installment.index }}</td>
+          <td> {{ (installment.installmentDate)}}</td>
+          <td> {{ (installment.interestInstallment).toFixed(2)}}zł</td>
+          <td> {{ (installment.capitalInstallment).toFixed(2) }}zł </td>
+          <td> {{ (installment.capitalInstallment + installment.interestInstallment).toFixed(2) }}zł </td>
+          <td> {{ (installment.remainingDebt).toFixed(2) }}zł </td>
+
         </tr>
 
         <tr>
@@ -30,7 +31,7 @@
 </template>
 
 <script>
-
+import moment from 'moment'
 export default {
     props: {
         installments: []
@@ -42,11 +43,17 @@ export default {
             for(const i of this.installments) {
                 sum += elementExtractor(i);
             }
-        
-            return sum.toFixed(2);
+            return sum.toFixed(2) + "zł";
+        },
+        aaaa(){
+            moment(32)
+            return (32)
         }
-    }
+
 }
+    }
+    
+
 
 </script>
 
@@ -58,6 +65,7 @@ export default {
         width: 100%;
         margin: auto;
         font-size: larger;
+        text-align: left;
     }
 
     .scheduleTable, .scheduleTable td, th {

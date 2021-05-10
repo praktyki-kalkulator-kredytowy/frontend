@@ -18,7 +18,7 @@
 
         <div class="form-row">
             <label>Ilość rat: </label>
-            <input v-model="installmentAmount" type="number" placeholder="ilość rat">
+            <input v-model="installmentAmount" type="number" placeholder="liczba rat">
         </div>
 
         <div class="form-row">
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+
 export default {
     data() {
         return {
@@ -53,7 +54,6 @@ export default {
     props: {
         onSubmit: Function
     },
-
     methods: {
 
         submit() { 
@@ -81,6 +81,8 @@ export default {
 
     .form {
         display: inline-block;
+        
+        
     }
 
     .form-row {
@@ -88,6 +90,7 @@ export default {
         flex-flow: row nowrap;
         justify-content: space-between;
         margin-bottom: 7px;
+        text-align: left;
     }
 
     .form-row label {
