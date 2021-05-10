@@ -12,12 +12,12 @@
                 <option value="DECREASING">Malejące</option>
                 <option value="CONSTANT">Stałe</option>
 
-                <div class="select-arrow"></div>
+                
             </select>
         </div>
 
         <div class="form-row">
-            <label>Ilość rat: </label>
+            <label>Liczba rat: </label>
             <input v-model="installmentAmount" type="number" placeholder="liczba rat">
         </div>
 
@@ -31,10 +31,32 @@
             <input v-model="withdrawalDate" type="date" placeholder="data wypłaty">
         </div>
 
-        <button v-on:click="submit()">Wylicz</button>
+        <div class="form-row">
+            <label>Prowizja </label>
+            <input v-model="commission" type="number" placeholder="prowizja">
+        </div>
 
-    </div>
+        <div class="form-row">
+            <label>Ubezpieczenie?</label>
+            <select v-model="hasInsurance">
+                <option value='yes'>Tak</option>
+                <option value='no'>Nie</option>   
+            </select>
+        </div>
+        
+        <div class="form-row" v-show="hasInsurance ==='yes' ">
+            <label>Wiek </label>
+             <select v-model="ageGroup">
+                <option value="under30">18-30</option>
+                <option value="under50">31-50</option>
+                <option value="under65">51-65</option>
+                <option value="over65">66+</option>   
+        </select>
+        </div>
+        <button @click="submit()">Wylicz</button>
 
+    
+</div>
 
 </template>
 
@@ -47,7 +69,10 @@ export default {
             installmentType: null,
             installmentAmount: null,
             interestRate: null,
-            withdrawalDate: null
+            withdrawalDate: null,
+            commission: null,
+            hasInsurance: null,
+            ageGroup: null
         }
     },
 
@@ -55,7 +80,7 @@ export default {
         onSubmit: Function
     },
     methods: {
-
+        
         submit() { 
             if(this.onSubmit != undefined) {
                 this.onSubmit({
@@ -67,6 +92,7 @@ export default {
                 })
             }
         }
+        
 
     }
 }
