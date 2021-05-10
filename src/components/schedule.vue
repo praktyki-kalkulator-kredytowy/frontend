@@ -7,24 +7,27 @@
           <th>Rata kapitałowa</th>
           <th>Rata całkowita</th>
           <th>Kapitał po spłacie</th>
+          <th>Składka ubezpieczeniowa</th>
+          
         </tr>
         <tr :key="installment.index" v-for="installment in installments">
           <td> {{ installment.index }}</td>
-          <td> {{ (installment.installmentDate)}}</td>
+          <td> {{ formatDate(installment.installmentDate)}}</td>
           <td> {{ (installment.interestInstallment).toFixed(2)}}zł</td>
           <td> {{ (installment.capitalInstallment).toFixed(2) }}zł </td>
           <td> {{ (installment.capitalInstallment + installment.interestInstallment).toFixed(2) }}zł </td>
           <td> {{ (installment.remainingDebt).toFixed(2) }}zł </td>
-
+          <td> placeholder </td>
         </tr>
 
         <tr>
-          <td> {{ installments.length }} </td>
-          <td> - </td>
+          <td></td>
+          <td></td>
           <td> {{ calculateSum(i => i.interestInstallment) }} </td>
           <td> {{ calculateSum(i => i.capitalInstallment) }} </td>
           <td> {{ calculateSum(i => i.capitalInstallment + i.interestInstallment) }} </td>
-          <td> - </td>
+          <td></td>
+          <td> sumPlaceholder </td>
         </tr>
     </table>
 
@@ -45,9 +48,10 @@ export default {
             }
             return sum.toFixed(2) + "zł";
         },
-        aaaa(){
-            moment(32)
-            return (32)
+        formatDate(date){
+            if (date) {
+                return moment(String(date)).format('DD.MM.YYYY')
+            }
         }
 
 }
@@ -65,7 +69,7 @@ export default {
         width: 100%;
         margin: auto;
         font-size: larger;
-        text-align: left;
+        text-align: right;
     }
 
     .scheduleTable, .scheduleTable td, th {
