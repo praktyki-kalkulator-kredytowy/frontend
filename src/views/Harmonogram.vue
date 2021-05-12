@@ -1,7 +1,6 @@
-import moment from moment
-<template>
+<template> 
+{{ installments }}
 <div>
-
   <schedule-configuration :onSubmit="fetchSchedule"/>
 
 
@@ -10,7 +9,7 @@ import moment from moment
   <br/>
   
   <div class="scheduleContainer">
-    <schedule :installments="installments"/>
+    <schedule :installments="installments" :xd="xd" />
   </div>
   
 
@@ -32,7 +31,11 @@ export default {
   },
   data() {
     return {
-      installments: []
+      installments: {},
+      xd: {
+        xdxd: '123',
+        xdxdxd: '321'
+      }
     }
   
   },
