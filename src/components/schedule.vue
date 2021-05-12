@@ -1,5 +1,7 @@
 <template>
-    <table v-if="installments != undefined && installments.length > 0" class="scheduleTable">
+
+
+    <table v-if="installments != undefined" class="scheduleTable">
         <tr>
           <th>Rata</th>
           <th>Data raty</th>
@@ -7,17 +9,16 @@
           <th>Rata kapitałowa</th>
           <th>Rata całkowita</th>
           <th>Kapitał po spłacie</th>
-          <th>Składka ubezpieczeniowa</th>
           
         </tr>
-        <tr :key="installment.index" v-for="installment in installments">
+
+        <tr :key="installment.index" v-for="installment in installments.installmentList">
           <td> {{ installment.index }}</td>
           <td> {{ formatDate(installment.installmentDate)}}</td>
           <td> {{ PLNformat(installment.interestInstallment) }}</td>
           <td> {{ PLNformat(installment.capitalInstallment) }} </td>
           <td> {{ PLNformat(installment.capitalInstallment + installment.interestInstallment) }}</td>
           <td> {{ PLNformat(installment.remainingDebt) }}</td>
-          <td> placeholder </td>
         </tr>
 
         <tr>
@@ -27,7 +28,29 @@
           <td> {{ PLNformat(calculateSum(i => i.capitalInstallment)) }} </td>
           <td> {{ PLNformat(calculateSum(i => i.capitalInstallment + i.interestInstallment)) }} </td>
           <td></td>
-          <td> sumPlaceholder </td>
+        </tr>
+    
+    
+        <tr>
+            <th colspan="3">Data zapłaty składki</th>
+            <th colspan="3">Kwota składki ubezpieczeniowej</th>
+        </tr>
+        <tr :key="premium.index" v-for="premium in installments.insurancePremiumList">
+            <td colspan="3">{{formatDate(premium.insurancePremiumDate)}}</td>
+            <td colspan="3">{{PLNformat(premium.insurancePremiumValue)}}</td>
+        </tr>
+        <tr>
+            <th colspan="2">Kwota kredytu do wypłaty</th>
+            <th colspan="1">Kwota prowizji</th>
+            <th colspan="1">Łączna kwota składek ubezpieczeniowych</th>
+            <th colspan="2">Łączne koszty kredytu</th>
+        </tr>
+        
+        <tr>
+            <td colspan="2">{{PLNformat(installments.loanPaidOutAmount)}}</td>
+            <td colspan="1">{{PLNformat(installments.commissionAmount)}}</td>
+            <td colspan="1">{{PLNformat(installments.insuranceTotalAmount)}}</td>
+            <td colspan="2">{{PLNformat(installments.loanTotalCost)}}</td>
         </tr>
     </table>
 
@@ -36,16 +59,15 @@
 <script>
 import moment from 'moment'
 export default {
-    props: {
-        installments: []
-    },
-
+   props: {
+       installments: Object,
+       xd: Object
+   },
+   
     methods: {
-        calculateSum(elementExtractor) {
+        calculateSum() {
             let sum = 0;
-            for(const i of this.installments) {
-                sum += elementExtractor(i);
-            }
+            
             return sum;
         },
         formatDate(date){
@@ -57,8 +79,8 @@ export default {
             return Number(num).toLocaleString('pl-PL', { style: 'currency', currency: 'PLN'} )
         }
 
-}
     }
+}
     
 
 
