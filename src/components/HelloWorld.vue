@@ -18,7 +18,7 @@ export default {
   name: 'HelloWorld',
   data() {
     return {
-    ScheduleConfigurationnteredText: '',
+      enteredText: '',
       editedText: ''
  
     }
