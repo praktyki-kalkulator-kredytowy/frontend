@@ -9,7 +9,7 @@
   <br/>
   
   <div class="scheduleContainer">
-    <schedule :installments="installments" :xd="xd" />
+    <schedule :installments="installments" />
   </div>
   
 
@@ -31,11 +31,7 @@ export default {
   },
   data() {
     return {
-      installments: {},
-      xd: {
-        xdxd: '123',
-        xdxdxd: '321'
-      }
+      installments: {}
     }
   
   },
