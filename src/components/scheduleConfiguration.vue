@@ -57,36 +57,34 @@
 
         <div class="form-row">
             <label>Ubezpieczenie?</label>
-            <select v-model="insurance">
-                <option value=true>Tak</option>
-                <option value=false>Nie</option>   
-            </select>
+            <input type="radio" id="insurance" name="insurance" v-model='insurance' :value=true >
+            <label for="insurance">Tak</label>
+            <input type="radio" id="noinsurance" name="insurance" v-model='insurance' :value=false >
+            <label for="noinsurance">Nie</label>
             <p v-if="v$.insurance.$error">
                 {{ v$.insurance.$errors[0].$message }}
             </p>
         </div>
         
-        <div class="form-row" v-show="insurance">
+        <div class="form-row" v-if="insurance">
             <label>Wiek </label>
-             <select v-model="ageGroup">
-                <option value="under30">18-30</option>
-                <option value="under50">31-50</option>
-                <option value="under65">51-65</option>
-                <option value="over65">66+</option>   
-        </select>
-        <p v-if="v$.ageGroup.$error">
-                {{ v$.ageGroup.$errors[0].$message }}
+             <input v-model="age" type="number" placeholder="wiek">
+        <p v-if="v$.age.$error">
+                {{ v$.age.$errors[0].$message }}
             </p>
         </div>
         <button @click="submit()">Wylicz</button>
-   
+        {{ insurance }}
+        <br>
+        {{ v$.age }}
 </div>
 
 </template>
 
 <script>
 import useValidate from '@vuelidate/core'
-import { required, minValue, maxValue, helpers } from '@vuelidate/validators'
+import { required, minValue, maxValue, helpers} from '@vuelidate/validators'
+
 
 const notEmpty = 'Pole nie może być puste'
 export default {
@@ -99,8 +97,8 @@ export default {
             interestRate: null,
             withdrawalDate: null,
             commission: null,
-            insurance: false,
-            ageGroup: null
+            insurance: null,
+            age: null
         }
     },
     validations() {
@@ -110,7 +108,9 @@ export default {
             installmentType: { 
                 required: helpers.withMessage(notEmpty, required) },
             installmentAmount: { 
-                required: helpers.withMessage(notEmpty, required) },
+                required: helpers.withMessage(notEmpty, required),
+                minValue: helpers.withMessage('Minimalna liczba rat to 2', minValue(2)),
+                maxValue: helpers.withMessage('Maksymalna liczba rat to 360', maxValue(360)) },
             interestRate: { 
                 required: helpers.withMessage(notEmpty, required) },
             withdrawalDate: { 
@@ -121,8 +121,9 @@ export default {
                 maxValue: helpers.withMessage('Prowizja może wynosić maksymalnie 20%', maxValue(20)) },
             insurance: { 
                 required: helpers.withMessage(notEmpty, required) },
-            ageGroup: { 
-                required: helpers.withMessage(notEmpty, required) },
+            age: {
+                minValue: helpers.withMessage('Musisz mieć skończone 18 lat!', minValue(18))
+            }
         }
     },
     props: {
@@ -131,9 +132,13 @@ export default {
     methods: {
        
         submit() { 
-            this.v$.$validate()
-            if (!this.v$.$error) {
-            if(this.onSubmit != undefined) {
+            this.v$.$touch()
+            if (this.v$.$invalid) {
+                alert('Nieprawidłowe dane')
+                return
+            }
+            else {
+                if (this.onSubmit != undefined) {
                 this.onSubmit({
                     capital: this.capital,
                     installmentType: this.installmentType,
@@ -143,10 +148,7 @@ export default {
                 })
             }
         }
-        else  {
-            alert('Nieprawidłowe dane')
-        }
-
+       
     }
 }
 }
