@@ -74,9 +74,6 @@
             </p>
         </div>
         <button @click="submit()">Wylicz</button>
-        {{ insurance }}
-        <br>
-        {{ v$.age }}
 </div>
 
 </template>
