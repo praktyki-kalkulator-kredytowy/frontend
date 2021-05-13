@@ -1,7 +1,7 @@
 <template>
 
 
-    <table v-if="installments != undefined" class="scheduleTable">
+    <table v-if="installments.installmentList.length > 0" class="scheduleTable">
         <tr>
           <th>Rata</th>
           <th>Data raty</th>
@@ -60,15 +60,17 @@
 import moment from 'moment'
 export default {
    props: {
-       installments: Object,
-       xd: Object
+       installments: Object
    },
    
     methods: {
-        calculateSum() {
+        calculateSum(elementExtractor) {
             let sum = 0;
-            
-            return sum;
+            for(const i of this.installments.installmentList) {
+                sum += elementExtractor(i);
+            }
+        
+            return sum
         },
         formatDate(date){
             if (date) {

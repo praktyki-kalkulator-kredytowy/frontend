@@ -1,5 +1,4 @@
 <template> 
-{{ installments }}
 <div>
   <schedule-configuration :onSubmit="fetchSchedule"/>
 
@@ -31,7 +30,9 @@ export default {
   },
   data() {
     return {
-      installments: {}
+      installments: {
+        installmentList: []
+      }
     }
   
   },
