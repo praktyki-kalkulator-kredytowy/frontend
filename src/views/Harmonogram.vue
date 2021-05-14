@@ -31,7 +31,8 @@ export default {
   data() {
     return {
       installments: {
-        installmentList: []
+        installmentList: [],
+        aprc: 0
       }
     }
   
