@@ -145,7 +145,7 @@ export default {
                     interestRate: this.interestRate / 100,
                     withdrawalDate: this.withdrawalDate,
                     commissionRate: this.commissionRate / 100,
-                    insuranceRate: this.insuranceRate
+                    insuranceRate: this.insuranceRate / 100
                 })
             }
         }
