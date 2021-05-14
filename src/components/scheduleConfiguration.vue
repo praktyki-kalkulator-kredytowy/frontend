@@ -57,13 +57,8 @@
 
         <div class="form-row">
             <label>Ubezpieczenie?</label>
-            <input type="radio" id="insurance" name="insurance" v-model='insurance' :value=true >
-            <label for="insurance">Tak</label>
-            <input type="radio" id="noinsurance" name="insurance" v-model='insurance' :value=false >
-            <label for="noinsurance">Nie</label>
-            <p v-if="v$.insurance.$error">
-                {{ v$.insurance.$errors[0].$message }}
-            </p>
+            <input type="checkbox" v-model="insurance">
+            
         </div>
         
         <div class="form-row" v-if="insurance">
@@ -74,6 +69,9 @@
             </p>
         </div>
         <button @click="submit()">Wylicz</button>
+        {{v$.age}}
+        <br>
+        {{insurance}}
 </div>
 
 </template>
@@ -94,7 +92,7 @@ export default {
             interestRate: null,
             withdrawalDate: null,
             commissionRate: null,
-            insurance: null,
+            insurance: false,
             age: null
         }
     },
@@ -116,9 +114,9 @@ export default {
                 required: helpers.withMessage(notEmpty, required) , 
                 minValue: helpers.withMessage('Prowizja musi być większa od zera.', minValue(0)),
                 maxValue: helpers.withMessage('Prowizja może wynosić maksymalnie 20%', maxValue(20)) },
-            insurance: { 
-                required: helpers.withMessage(notEmpty, required) },
+            
             age: {
+                required: this.insurance ? helpers.withMessage(notEmpty, required) : !required,
                 minValue: helpers.withMessage('Musisz mieć skończone 18 lat!', minValue(18))
             }
         }
@@ -137,7 +135,7 @@ export default {
     methods: {
        
         submit() { 
-            this.v$.$touch()
+            this.v$.$validate()
             if (this.v$.$invalid) {
                 alert('Nieprawidłowe dane')
                 return
