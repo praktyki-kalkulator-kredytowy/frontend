@@ -52,8 +52,11 @@
             <td colspan="1">{{PLNformat(installments.insuranceTotalAmount)}}</td>
             <td colspan="2">{{PLNformat(installments.loanTotalCost)}}</td>
         </tr>
+        <tr>
+            <td colspan="6">RRSO: {{(installments.aprc*100).toFixed(2)}}%</td></tr>
+        
     </table>
-
+    
 </template>
 
 <script>
@@ -115,6 +118,7 @@ export default {
     .scheduleTable tr:last-of-type {
         background-color: #0097A7;
         font-weight: bold;
+        height:50px;
     }
 
     
