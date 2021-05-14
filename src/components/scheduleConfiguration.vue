@@ -49,9 +49,9 @@
 
         <div class="form-row">
             <label>Prowizja </label>
-            <input v-model="commission" type="number" placeholder="prowizja">
-            <p v-if="v$.commission.$error">
-                {{ v$.commission.$errors[0].$message }}
+            <input v-model="commissionRate" type="number" placeholder="prowizja">
+            <p v-if="v$.commissionRate.$error">
+                {{ v$.commissionRate.$errors[0].$message }}
             </p>
         </div>
 
@@ -93,7 +93,7 @@ export default {
             installmentAmount: null,
             interestRate: null,
             withdrawalDate: null,
-            commission: null,
+            commissionRate: null,
             insurance: null,
             age: null
         }
@@ -112,7 +112,7 @@ export default {
                 required: helpers.withMessage(notEmpty, required) },
             withdrawalDate: { 
                 required: helpers.withMessage(notEmpty, required) },
-            commission: { 
+            commissionRate: { 
                 required: helpers.withMessage(notEmpty, required) , 
                 minValue: helpers.withMessage('Prowizja musi być większa od zera.', minValue(0)),
                 maxValue: helpers.withMessage('Prowizja może wynosić maksymalnie 20%', maxValue(20)) },
@@ -125,6 +125,14 @@ export default {
     },
     props: {
         onSubmit: Function
+    },
+    computed: {
+        insuranceRate() {
+            if (this.age<=30) return 0
+            if (this.age<=50) return 0.2
+            if (this.age<=65) return 0.5
+            else return 0.9
+        }
     },
     methods: {
        
@@ -141,7 +149,9 @@ export default {
                     installmentType: this.installmentType,
                     installmentAmount: this.installmentAmount,
                     interestRate: this.interestRate / 100,
-                    withdrawalDate: this.withdrawalDate
+                    withdrawalDate: this.withdrawalDate,
+                    commissionRate: this.commissionRate / 100,
+                    insuranceRate: this.insuranceRate
                 })
             }
         }
