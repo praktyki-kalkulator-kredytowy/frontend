@@ -69,11 +69,7 @@
             </p>
         </div>
         <button @click="submit()">Wylicz</button>
-        {{v$.age}}
-        <br>
-        {{insurance}}
-</div>
-
+    </div>
 </template>
 
 <script>
