@@ -138,14 +138,6 @@ export default {
     props: {
         onSubmit: Function
     },
-    computed: {
-        insuranceRate() {
-            if (this.age<=30) return 0
-            if (this.age<=50) return 0.2
-            if (this.age<=65) return 0.5
-            else return 0.9
-        }
-    },
     methods: {
        
         submit() { 
@@ -164,7 +156,7 @@ export default {
                     withdrawalDate: this.withdrawalDate,
                     commissionRate: this.commissionRate / 100,
                     insurance: this.insurance,
-                    insuranceRate: this.insuranceRate / 100,
+                    age: this.age 
 
                 })
             }
