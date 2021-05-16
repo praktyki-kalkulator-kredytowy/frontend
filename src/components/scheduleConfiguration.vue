@@ -5,10 +5,13 @@
         <div class="form-row">
             <label>Kapitał: </label>
             <input v-model="capital" class="capital-input" type="number" placeholder="kapitał">
-            <p v-if="v$.capital.$error">
-                {{ v$.capital.$errors[0].$message }}
-            </p>
+            
         </div>
+
+        <p class="errorAlert" v-if="v$.capital.$error">
+            {{ v$.capital.$errors[0].$message }}
+        </p>
+
 
         <div class="form-row">
             <label>Typ rat: </label>
@@ -18,42 +21,53 @@
 
                 
             </select>
-            <p v-if="v$.installmentType.$error">
-                {{ v$.installmentType.$errors[0].$message }}
-            </p>
+            
         </div>
+
+        <p class="errorAlert" v-if="v$.installmentType.$error">
+            {{ v$.installmentType.$errors[0].$message }}
+        </p>
+
 
         <div class="form-row">
             <label>Liczba rat: </label>
             <input v-model="installmentAmount" type="number" placeholder="liczba rat">
-            <p v-if="v$.installmentAmount.$error">
-                {{ v$.installmentAmount.$errors[0].$message }}
-            </p>
+            
         </div>
+
+        <p class="errorAlert" v-if="v$.installmentAmount.$error">
+            {{ v$.installmentAmount.$errors[0].$message }}
+        </p>
+
 
         <div class="form-row">
             <label>Oprocentowanie: </label>
             <input v-model="interestRate" type="number" placeholder="oprocentowanie">
-            <p v-if="v$.interestRate.$error">
-                {{ v$.interestRate.$errors[0].$message }}
-            </p>
         </div>
+
+        <p class="errorAlert" v-if="v$.interestRate.$error">
+            {{ v$.interestRate.$errors[0].$message }}
+        </p>
+
 
         <div class="form-row">
             <label>Data wypłaty: </label>
             <input v-model="withdrawalDate" type="date" placeholder="data wypłaty">
-            <p v-if="v$.withdrawalDate.$error">
-                {{ v$.withdrawalDate.$errors[0].$message }}
-            </p>
         </div>
+
+        <p class="errorAlert" v-if="v$.withdrawalDate.$error">
+            {{ v$.withdrawalDate.$errors[0].$message }}
+        </p>
+
 
         <div class="form-row">
             <label>Prowizja </label>
             <input v-model="commissionRate" type="number" placeholder="prowizja">
-            <p v-if="v$.commissionRate.$error">
-                {{ v$.commissionRate.$errors[0].$message }}
-            </p>
         </div>
+
+        <p class="errorAlert" v-if="v$.commissionRate.$error">
+        {{ v$.commissionRate.$errors[0].$message }}
+        </p>
 
         <div class="form-row">
             <label>Ubezpieczenie?</label>
@@ -61,13 +75,15 @@
             
         </div>
         
+
         <div class="form-row" v-if="insurance">
             <label>Wiek </label>
              <input v-model="age" type="number" placeholder="wiek">
-        <p v-if="v$.age.$error">
-                {{ v$.age.$errors[0].$message }}
-            </p>
         </div>
+
+        <p class="errorAlert" v-if="v$.age.$error">
+            {{ v$.age.$errors[0].$message }}
+        </p>
         <button @click="submit()">Wylicz</button>
     </div>
 </template>
@@ -147,7 +163,9 @@ export default {
                     interestRate: this.interestRate / 100,
                     withdrawalDate: this.withdrawalDate,
                     commissionRate: this.commissionRate / 100,
-                    insuranceRate: this.insuranceRate / 100
+                    insurance: this.insurance,
+                    insuranceRate: this.insuranceRate / 100,
+
                 })
             }
         }
@@ -189,10 +207,7 @@ export default {
         border: 2px solid #758078;
         border-radius: 7px;
     }
-    .form-row p {
-        color: red;
-        display: block;
-    }
+    
 
     button {
         cursor: pointer;
@@ -205,9 +220,8 @@ export default {
 
     .errorAlert {
         color: red;
-        text-align: left;
-        border: 2px solid red;
-        margin: 20px;
+        text-align: right;
+        margin: 10px;
         padding: 10px;
     }
     
