@@ -95,7 +95,7 @@ export default {
     validations() {
         return {
             capital: {
-                 required: helpers.withMessage(notEmpty, required) },
+                 required: helpers.withMessage('Kapitał musi wynosić przynajmniej 1', minValue(1)) },
             installmentType: { 
                 required: helpers.withMessage(notEmpty, required) },
             installmentAmount: { 
