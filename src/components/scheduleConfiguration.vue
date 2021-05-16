@@ -95,7 +95,8 @@ export default {
     validations() {
         return {
             capital: {
-                 required: helpers.withMessage('Kapitał musi wynosić przynajmniej 1', minValue(1)) },
+                required: helpers.withMessage(notEmpty, required),
+                minValue: helpers.withMessage('Kapitał musi wynosić przynajmniej 1', minValue(1)) },
             installmentType: { 
                 required: helpers.withMessage(notEmpty, required) },
             installmentAmount: { 
@@ -103,7 +104,8 @@ export default {
                 minValue: helpers.withMessage('Minimalna liczba rat to 2', minValue(2)),
                 maxValue: helpers.withMessage('Maksymalna liczba rat to 360', maxValue(360)) },
             interestRate: { 
-                required: helpers.withMessage(notEmpty, required) },
+                required: helpers.withMessage(notEmpty, required),
+                minValue: helpers.withMessage('Minmalna wartość oprocentowania to 1%', minValue(1)) },
             withdrawalDate: { 
                 required: helpers.withMessage(notEmpty, required) },
             commissionRate: { 

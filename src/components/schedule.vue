@@ -31,7 +31,7 @@
         </tr>
     
     
-        <tr>
+        <tr v-if="installments.insurancePremiumList.length">
             <th colspan="3">Data zapłaty składki</th>
             <th colspan="3">Kwota składki ubezpieczeniowej</th>
         </tr>
