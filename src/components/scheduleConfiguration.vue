@@ -131,7 +131,8 @@ export default {
             
             age: {
                 required: this.insurance ? helpers.withMessage(notEmpty, required) : !required,
-                minValue: helpers.withMessage('Musisz mieć skończone 18 lat!', minValue(18))
+                minValue: helpers.withMessage('Musisz mieć skończone 18 lat!', minValue(18)),
+                maxValue: helpers.withMessage('Wiek nie może przektoczyć 150.', maxValue(150))
             }
         }
     },
