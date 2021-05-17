@@ -21,7 +21,7 @@
           <td> {{ PLNformat(installment.remainingDebt) }}</td>
         </tr>
 
-        <tr>
+        <tr class="installment-summary">
           <td></td>
           <td></td>
           <td> {{ PLNformat(calculateSum(i => i.interestInstallment)) }} </td>
@@ -121,6 +121,9 @@ export default {
         height:50px;
     }
 
+    .installment-summary {
+        font-weight: bold;
+    }
     
 
 </style>
