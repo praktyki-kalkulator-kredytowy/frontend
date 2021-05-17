@@ -112,7 +112,7 @@ export default {
         return {
             capital: {
                 required: helpers.withMessage(notEmpty, required),
-                minValue: helpers.withMessage('Kapitał musi wynosić przynajmniej 1', minValue(1)) },
+                minValue: helpers.withMessage('Kapitał musi wynosić przynajmniej 100', minValue(100)) },
             installmentType: { 
                 required: helpers.withMessage(notEmpty, required) },
             installmentAmount: { 
@@ -132,7 +132,7 @@ export default {
             age: {
                 required: this.insurance ? helpers.withMessage(notEmpty, required) : !required,
                 minValue: helpers.withMessage('Musisz mieć skończone 18 lat!', minValue(18)),
-                maxValue: helpers.withMessage('Wiek nie może przektoczyć 150.', maxValue(150))
+                maxValue: helpers.withMessage('Wiek nie może przekroczyć 150.', maxValue(150))
             }
         }
     },
