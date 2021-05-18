@@ -4,7 +4,7 @@
        
         <div class="form-row">
             <label>Kapitał: </label>
-            <input v-model="capital" class="capital-input" type="number" placeholder="kapitał">
+            <input v-model="capital" type="number" placeholder="kapitał">
             
         </div>
 
@@ -52,7 +52,14 @@
 
         <div class="form-row">
             <label>Data wypłaty: </label>
-            <input v-model="withdrawalDate" type="date" placeholder="data wypłaty">
+            <v-date-picker v-model="withdrawalDate" locale="pl-PL" :update-on-input="false">
+                <template v-slot="{ inputValue, inputEvents }">
+                    <input
+                    :value="inputValue"
+                    v-on="inputEvents"
+                    />
+                </template>
+            </v-date-picker>
         </div>
 
         <p class="errorAlert" v-if="v$.withdrawalDate.$error">
@@ -102,7 +109,7 @@ export default {
             installmentType: null,
             installmentAmount: null,
             interestRate: null,
-            withdrawalDate: null,
+            withdrawalDate: new Date(),
             commissionRate: null,
             insurance: false,
             age: null
@@ -112,22 +119,22 @@ export default {
         return {
             capital: {
                 required: helpers.withMessage(notEmpty, required),
-                minValue: helpers.withMessage('Kapitał musi wynosić przynajmniej 100', minValue(100)) },
+                minValue: helpers.withMessage('Kapitał musi wynosić przynajmniej 100zł.', minValue(100)) },
             installmentType: { 
                 required: helpers.withMessage(notEmpty, required) },
             installmentAmount: { 
                 required: helpers.withMessage(notEmpty, required),
-                minValue: helpers.withMessage('Minimalna liczba rat to 2', minValue(2)),
-                maxValue: helpers.withMessage('Maksymalna liczba rat to 360', maxValue(360)) },
+                minValue: helpers.withMessage('Minimalna liczba rat to 2,', minValue(2)),
+                maxValue: helpers.withMessage('Maksymalna liczba rat to 360,', maxValue(360)) },
             interestRate: { 
                 required: helpers.withMessage(notEmpty, required),
-                minValue: helpers.withMessage('Minmalna wartość oprocentowania to 1%', minValue(1)) },
+                minValue: helpers.withMessage('Oprocentowanie nie może być ujemne,', minValue(0)) },
             withdrawalDate: { 
                 required: helpers.withMessage(notEmpty, required) },
             commissionRate: { 
                 required: helpers.withMessage(notEmpty, required) , 
-                minValue: helpers.withMessage('Prowizja musi być większa od zera.', minValue(0)),
-                maxValue: helpers.withMessage('Prowizja może wynosić maksymalnie 20%', maxValue(20)) },
+                minValue: helpers.withMessage('Prowizja nie może być ujemna.', minValue(0)),
+                maxValue: helpers.withMessage('Prowizja może wynosić maksymalnie 20%,', maxValue(20)) },
             
             age: {
                 required: this.insurance ? helpers.withMessage(notEmpty, required) : !required,
