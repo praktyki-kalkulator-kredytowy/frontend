@@ -1,6 +1,5 @@
 <template>
 
-
     <table v-if="installments.installmentList.length > 0" class="scheduleTable">
         <tr>
           <th>Rata</th>
@@ -15,18 +14,18 @@
         <tr :key="installment.index" v-for="installment in installments.installmentList">
           <td> {{ installment.index }}</td>
           <td> {{ formatDate(installment.installmentDate)}}</td>
-          <td> {{ PLNformat(installment.interestInstallment) }}</td>
-          <td> {{ PLNformat(installment.capitalInstallment) }} </td>
-          <td> {{ PLNformat(installment.capitalInstallment + installment.interestInstallment) }}</td>
-          <td> {{ PLNformat(installment.remainingDebt) }}</td>
+          <td> {{ currencyFormat(installment.interestInstallment) }}</td>
+          <td> {{ currencyFormat(installment.capitalInstallment) }} </td>
+          <td> {{ currencyFormat(installment.capitalInstallment + installment.interestInstallment) }}</td>
+          <td> {{ currencyFormat(installment.remainingDebt) }}</td>
         </tr>
 
         <tr class="installment-summary">
           <td></td>
           <td></td>
-          <td> {{ PLNformat(calculateSum(i => i.interestInstallment)) }} </td>
-          <td> {{ PLNformat(calculateSum(i => i.capitalInstallment)) }} </td>
-          <td> {{ PLNformat(calculateSum(i => i.capitalInstallment + i.interestInstallment)) }} </td>
+          <td> {{ currencyFormat(calculateSum(i => i.interestInstallment)) }} </td>
+          <td> {{ currencyFormat(calculateSum(i => i.capitalInstallment)) }} </td>
+          <td> {{ currencyFormat(calculateSum(i => i.capitalInstallment + i.interestInstallment)) }} </td>
           <td></td>
         </tr>
     
@@ -37,7 +36,7 @@
         </tr>
         <tr :key="premium.index" v-for="premium in installments.insurancePremiumList">
             <td colspan="3">{{formatDate(premium.insurancePremiumDate)}}</td>
-            <td colspan="3">{{PLNformat(premium.insurancePremiumValue)}}</td>
+            <td colspan="3">{{currencyFormat(premium.insurancePremiumValue)}}</td>
         </tr>
         <tr>
             <th colspan="2">Kwota kredytu do wypłaty</th>
@@ -47,10 +46,10 @@
         </tr>
         
         <tr>
-            <td colspan="2">{{PLNformat(installments.loanPaidOutAmount)}}</td>
-            <td colspan="1">{{PLNformat(installments.commissionAmount)}}</td>
-            <td colspan="1">{{PLNformat(installments.insuranceTotalAmount)}}</td>
-            <td colspan="2">{{PLNformat(installments.loanTotalCost)}}</td>
+            <td colspan="2">{{currencyFormat(installments.loanPaidOutAmount)}}</td>
+            <td colspan="1">{{currencyFormat(installments.commissionAmount)}}</td>
+            <td colspan="1">{{currencyFormat(installments.insuranceTotalAmount)}}</td>
+            <td colspan="2">{{currencyFormat(installments.loanTotalCost)}}</td>
         </tr>
         <tr>
             <td colspan="6">RRSO: {{(installments.aprc*100).toFixed(2)}}%</td></tr>
@@ -65,7 +64,6 @@ export default {
    props: {
        installments: Object
    },
-   
     methods: {
         calculateSum(elementExtractor) {
             let sum = 0;
@@ -80,8 +78,8 @@ export default {
                 return moment(String(date)).format('DD.MM.YYYY')
             }
         },
-        PLNformat(num) {
-            return Number(num).toLocaleString('pl-PL', { style: 'currency', currency: 'PLN'} )
+        currencyFormat(num) {
+            return Number(num).toLocaleString('ru-RU', {minimumFractionDigits: 2, maximumFractionDigits: 2} )+' zł'
         }
 
     }
