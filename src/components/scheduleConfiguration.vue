@@ -91,7 +91,17 @@
         <p class="errorAlert" v-if="v$.age.$error">
             {{ v$.age.$errors[0].$message }}
         </p>
-        <button @click="submit()">Wylicz</button>
+        
+        <div class="button">
+            <button @click="submit()">Wylicz</button>
+        </div>
+
+        <div class="button">
+            <button @click="downloadpdf()">Pobierz PDF</button>
+        </div>
+
+
+
     </div>
 </template>
 
@@ -170,6 +180,9 @@ export default {
             }
         }
        
+    },
+    downloadpdf() {
+        return 0;
     }
 }
 }
@@ -194,7 +207,11 @@ export default {
         margin-bottom: 7px;
         text-align: left;
     }
-
+    .button {
+        margin: 7px;
+        justify-content: space-between;
+        
+    }
     .form-row label {
         margin-right: 15px;
         font-size: 23px;
