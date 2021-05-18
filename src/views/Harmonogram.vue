@@ -32,7 +32,8 @@ export default {
     return {
       installments: {
         installmentList: [],
-        aprc: 0
+        aprc: 0,
+        insurancePremiumList: []
       }
     }
   

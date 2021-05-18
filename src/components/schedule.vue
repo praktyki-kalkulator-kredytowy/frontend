@@ -8,16 +8,18 @@
           <th>Rata kapitałowa</th>
           <th>Rata całkowita</th>
           <th>Kapitał po spłacie</th>
+          <th v-if="installments.insurancePremiumList.length">Składka ubezpieczeniowa</th>
           
         </tr>
 
-        <tr :key="installment.index" v-for="installment in installments.installmentList">
+        <tr :key="installment.index" v-for="installment in fullInstallmentList">
           <td> {{ installment.index }}</td>
           <td> {{ formatDate(installment.installmentDate)}}</td>
           <td> {{ currencyFormat(installment.interestInstallment) }}</td>
           <td> {{ currencyFormat(installment.capitalInstallment) }} </td>
           <td> {{ currencyFormat(installment.capitalInstallment + installment.interestInstallment) }}</td>
           <td> {{ currencyFormat(installment.remainingDebt) }}</td>
+          <td v-if="installments.insurancePremiumList.length"> {{ currencyFormat(installment.insurancePremiumValue) }}</td>
         </tr>
 
         <tr class="installment-summary">
@@ -27,32 +29,25 @@
           <td> {{ currencyFormat(calculateSum(i => i.capitalInstallment)) }} </td>
           <td> {{ currencyFormat(calculateSum(i => i.capitalInstallment + i.interestInstallment)) }} </td>
           <td></td>
+          <td v-if="installments.insurancePremiumList.length">{{currencyFormat(installments.insuranceTotalAmount)}}</td>
         </tr>
     
     
-        <tr v-if="installments.insurancePremiumList.length">
-            <th colspan="3">Data zapłaty składki</th>
-            <th colspan="3">Kwota składki ubezpieczeniowej</th>
-        </tr>
-        <tr :key="premium.index" v-for="premium in installments.insurancePremiumList">
-            <td colspan="3">{{formatDate(premium.insurancePremiumDate)}}</td>
-            <td colspan="3">{{currencyFormat(premium.insurancePremiumValue)}}</td>
-        </tr>
+        
         <tr>
             <th colspan="2">Kwota kredytu do wypłaty</th>
             <th colspan="1">Kwota prowizji</th>
-            <th colspan="1">Łączna kwota składek ubezpieczeniowych</th>
             <th colspan="2">Łączne koszty kredytu</th>
+            <th>RSSO: </th>
         </tr>
         
         <tr>
             <td colspan="2">{{currencyFormat(installments.loanPaidOutAmount)}}</td>
             <td colspan="1">{{currencyFormat(installments.commissionAmount)}}</td>
-            <td colspan="1">{{currencyFormat(installments.insuranceTotalAmount)}}</td>
             <td colspan="2">{{currencyFormat(installments.loanTotalCost)}}</td>
+            <td>{{(installments.aprc*100).toFixed(2)}}%</td>
         </tr>
-        <tr>
-            <td colspan="6">RRSO: {{(installments.aprc*100).toFixed(2)}}%</td></tr>
+        
         
     </table>
     
@@ -63,6 +58,22 @@ import moment from 'moment'
 export default {
    props: {
        installments: Object
+   },
+   computed: {
+       fullInstallmentList() {
+           let arr1 = this.installments.installmentList
+           let arr2 = this.installments.insurancePremiumList
+
+           let merged = []
+
+           for(let i=0; i<arr1.length; i++) {
+               merged.push({
+                   ...arr1[i],
+                   ...(arr2.find((itmInner) => itmInner.insurancePremiumDate === arr1[i].installmentDate))
+               })
+           }
+           return merged
+       }
    },
     methods: {
         calculateSum(elementExtractor) {
@@ -79,7 +90,7 @@ export default {
             }
         },
         currencyFormat(num) {
-            return Number(num).toLocaleString('ru-RU', {minimumFractionDigits: 2, maximumFractionDigits: 2} )+' zł'
+            if(num != undefined) return Number(num).toLocaleString('ru-RU', {minimumFractionDigits: 2, maximumFractionDigits: 2} )+' zł'
         }
 
     }
