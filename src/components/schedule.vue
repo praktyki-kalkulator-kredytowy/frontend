@@ -1,6 +1,6 @@
 <template>
-
-    <table v-if="installments.installmentList.length > 0" class="scheduleTable">
+    <div v-if="installments.installmentList.length > 0">
+    <table class="scheduleTable">
         <tr>
           <th>Rata</th>
           <th>Data raty</th>
@@ -51,6 +51,11 @@
         
     </table>
     
+    <button @click="exportJSON">Eksportuj do pliku JSON</button>
+    
+    <button @click="downloadPDF">Pobierz PDF</button>
+    
+    </div>
 </template>
 
 <script>
@@ -91,7 +96,21 @@ export default {
         },
         currencyFormat(num) {
             if(num != undefined) return Number(num).toLocaleString('ru-RU', {minimumFractionDigits: 2, maximumFractionDigits: 2} )+' zł'
-        }
+        },
+        exportJSON() {
+            const data = JSON.stringify(this.installments)
+            const blob = new Blob([data], {type: 'text/plain'})
+            const e = document.createEvent('MouseEvents'),
+            a = document.createElement('a');
+            a.download = "harmonogram.json";
+            a.href = window.URL.createObjectURL(blob);
+            a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+            e.initEvent('click', true, false, window)
+            a.dispatchEvent(e);
+        },
+        downloadPDF() {
+            console.log('XDDDDDDDDDDDDd')
+        },
 
     }
 }
