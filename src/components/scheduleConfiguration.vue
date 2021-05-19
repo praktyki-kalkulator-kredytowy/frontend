@@ -1,5 +1,7 @@
 <template>
 
+    
+
     <div class="form">
        
         <div class="form-row">
@@ -96,12 +98,6 @@
             <button @click="submit()">Wylicz</button>
         </div>
 
-        <div class="button">
-            <button @click="downloadpdf()">Pobierz PDF</button>
-        </div>
-
-
-
     </div>
 </template>
 
@@ -154,7 +150,7 @@ export default {
         }
     },
     props: {
-        onSubmit: Function
+        onSubmit: Function 
     },
     methods: {
        
@@ -180,10 +176,8 @@ export default {
             }
         }
        
-    },
-    downloadpdf() {
-        return 0;
     }
+    
 }
 }
 </script>
