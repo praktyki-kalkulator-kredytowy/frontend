@@ -171,14 +171,18 @@ export default {
                     commissionRate: this.commissionRate / 100,
                     insurance: this.insurance,
                     age: this.age 
-
-                })
-            }
-        }
+                    })
+                }
+            }   
        
+        }
+    },
+    mounted: {
+        async getCommission() {
+            await axios.get(`http://localhost:4200/api/v1/schedule/configuration/group?groupKey=DEFAULT&key=DEFAULT_COMMISSION_RATE`)
+            .then(response => this.commissionRate = response.data)
+        }
     }
-    
-}
 }
 </script>
 
