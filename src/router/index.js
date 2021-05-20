@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home'
 import Harmonogram from '../views/Harmonogram'
+import UserConfig from '../views/UserConfig'
 
 const routes = [
     {
@@ -12,6 +13,11 @@ const routes = [
         path: '/harmonogram',
         name: 'harmonogram',
         component: Harmonogram
+    },
+    {
+        path: '/config',
+        name: 'config',
+        component: UserConfig
     }
 ]
 
