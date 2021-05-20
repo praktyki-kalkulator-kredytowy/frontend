@@ -88,9 +88,9 @@ export default {
     }
   },
   methods: {
-    async getConfiguration(_data, key) {
+    async getConfiguration(_data, key, isPercentage) {
        await axios.get(`http://localhost:4200/api/v1/schedule/configuration/group?groupKey=DEFAULT&key=${key}`)
-      .then(response => _data = response.data)
+      .then(response => _data = response.data * (isPercentage ? 100 : 1))
     },
     async getAgeBrackets() {
         await axios.get(`http://localhost:4200/api/v1/schedule/configuration/group?groupKey=INSURANCE_GROUPS`)
@@ -139,14 +139,14 @@ export default {
   
   },
   mounted() {
-    this.getConfiguration(this.minInsurancePremium, "MIN_PREMIUM_VALUE"),
-    this.getConfiguration(this.minCommissionAmount, "MIN_COMMISSION_AMOUNT"),
-    this.getConfiguration(this.minInterestRate, "MIN_INTEREST_RATE"),
-    this.getConfiguration(this.maxInterestRate, "MAX_INTEREST_RATE"),
-    this.getConfiguration(this.minCommissionRate, "MIN_COMMISSION_RATE"),
-    this.getConfiguration(this.maxCommissionRate, "MAX_COMMISSION_RATE"),
-    this.getConfiguration(this.defaultCommissionRate, "DEFAULT_COMMISSION_RATE"),
-    this.getConfiguration(this.PaymentFrequency, "MONTH_FRAME"),
+    this.getConfiguration(this.minInsurancePremium, "MIN_PREMIUM_VALUE", false),
+    this.getConfiguration(this.minCommissionAmount, "MIN_COMMISSION_AMOUNT", false),
+    this.getConfiguration(this.minInterestRate, "MIN_INTEREST_RATE", true),
+    this.getConfiguration(this.maxInterestRate, "MAX_INTEREST_RATE", true),
+    this.getConfiguration(this.minCommissionRate, "MIN_COMMISSION_RATE", true),
+    this.getConfiguration(this.maxCommissionRate, "MAX_COMMISSION_RATE", true),
+    this.getConfiguration(this.defaultCommissionRate, "DEFAULT_COMMISSION_RATE", true),
+    this.getConfiguration(this.PaymentFrequency, "MONTH_FRAME", false),
     this.getAgeBrackets()
   }
 }

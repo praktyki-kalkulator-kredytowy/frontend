@@ -180,7 +180,7 @@ export default {
     mounted: {
         async getCommission() {
             await axios.get(`http://localhost:4200/api/v1/schedule/configuration/group?groupKey=DEFAULT&key=DEFAULT_COMMISSION_RATE`)
-            .then(response => this.commissionRate = response.data)
+            .then(response => this.commissionRate = response.data*100)
         }
     }
 }
