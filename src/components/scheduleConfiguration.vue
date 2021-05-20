@@ -104,7 +104,7 @@
 <script>
 import useValidate from '@vuelidate/core'
 import { required, minValue, maxValue, helpers} from '@vuelidate/validators'
-
+import axios from 'axios'
 
 const notEmpty = 'Pole nie może być puste'
 export default {
@@ -153,7 +153,10 @@ export default {
         onSubmit: Function 
     },
     methods: {
-       
+       async getCommission() {
+            await axios.get(`http://localhost:4200/api/v1/schedule/configuration/group?groupKey=DEFAULT&key=DEFAULT_COMMISSION_RATE`)
+            .then(response => this.commissionRate = response.data*100)
+        },
         submit() { 
             this.v$.$validate()
             if (this.v$.$invalid) {
@@ -177,11 +180,8 @@ export default {
        
         }
     },
-    mounted: {
-        async getCommission() {
-            await axios.get(`http://localhost:4200/api/v1/schedule/configuration/group?groupKey=DEFAULT&key=DEFAULT_COMMISSION_RATE`)
-            .then(response => this.commissionRate = response.data*100)
-        }
+    mounted() {
+        this.getCommission()
     }
 }
 </script>
