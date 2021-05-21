@@ -6,7 +6,7 @@
        
         <div class="form-row">
             <label>Kapitał: </label>
-            <input v-model="capital" type="number" placeholder="kapitał">
+            <input @blur="v$.capital.$touch()" v-model="capital" type="number" placeholder="kapitał">
             
         </div>
 
@@ -17,7 +17,7 @@
 
         <div class="form-row">
             <label>Typ rat: </label>
-            <select v-model="installmentType">
+            <select @blur="v$.installmentType.$touch()" v-model="installmentType">
                 <option value="DECREASING">Malejące</option>
                 <option value="CONSTANT">Stałe</option>
 
@@ -33,7 +33,7 @@
 
         <div class="form-row">
             <label>Liczba rat: </label>
-            <input v-model="installmentAmount" type="number" placeholder="liczba rat">
+            <input @blur="v$.installmentAmount.$touch()" v-model="installmentAmount" type="number" placeholder="liczba rat">
             
         </div>
 
@@ -44,7 +44,7 @@
 
         <div class="form-row">
             <label>Oprocentowanie: </label>
-            <input v-model="interestRate" type="number" placeholder="oprocentowanie">
+            <input @blur="v$.interestRate.$touch()" v-model="interestRate" type="number" placeholder="oprocentowanie">
         </div>
 
         <p class="errorAlert" v-if="v$.interestRate.$error">
@@ -54,7 +54,7 @@
 
         <div class="form-row">
             <label>Data wypłaty: </label>
-            <v-date-picker v-model="withdrawalDate" locale="pl-PL" :update-on-input="false">
+            <v-date-picker @blur="v$.withdrawalDate.$touch()" v-model="withdrawalDate" locale="pl-PL" :update-on-input="false">
                 <template v-slot="{ inputValue, inputEvents }">
                     <input
                     :value="inputValue"
@@ -71,7 +71,7 @@
 
         <div class="form-row">
             <label>Prowizja </label>
-            <input v-model="commissionRate" type="number" placeholder="prowizja">
+            <input @blur="v$.commissionRate.$touch()" v-model="commissionRate" type="number" placeholder="prowizja">
         </div>
 
         <p class="errorAlert" v-if="v$.commissionRate.$error">
@@ -87,7 +87,7 @@
 
         <div class="form-row" v-if="insurance">
             <label>Wiek </label>
-             <input v-model="age" type="number" placeholder="wiek">
+             <input @blur="v$.age.$touch()" v-model="age" type="number" placeholder="wiek">
         </div>
 
         <p class="errorAlert" v-if="v$.age.$error">
