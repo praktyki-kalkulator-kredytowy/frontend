@@ -73,8 +73,8 @@ export default {
 
            for(let i=0; i<arr1.length; i++) {
                merged.push({
-                   ...arr1[i],
-                   ...(arr2.find((itmInner) => itmInner.insurancePremiumDate === arr1[i].installmentDate))
+                   ...(arr2.find((itmInner) => itmInner.insurancePremiumDate === arr1[i].installmentDate)),
+                   ...arr1[i]
                })
            }
            return merged
