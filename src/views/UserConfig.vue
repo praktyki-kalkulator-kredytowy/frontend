@@ -98,7 +98,7 @@ export default {
   methods: {
     async getConfiguration(_data, key, isPercentage) {
        await axios.get(`http://localhost:4200/api/v1/schedule/configuration?groupKey=DEFAULT&key=${key}`)
-      .then(response => this[_data] = parseFloat((response.data.value * (isPercentage ? 100 : 1))))
+      .then(response => this[_data] = parseFloat(((response.data.value * (isPercentage ? 100 : 1))).toFixed(2)))
     },
     async getAgeBrackets() {
         await axios.get(`http://localhost:4200/api/v1/schedule/configuration/group?groupKey=INSURANCE_GROUPS`)
@@ -110,7 +110,7 @@ export default {
                 insuranceRate: null
           })}
           this.ageBrackets[i].age = response.data[i].key.key
-          this.ageBrackets[i].insuranceRate = parseFloat(response.data[i].value*100)
+          this.ageBrackets[i].insuranceRate = parseFloat((response.data[i].value*100).toFixed(2))
           }
         })
     },
