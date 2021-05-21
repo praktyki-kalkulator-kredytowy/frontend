@@ -10,11 +10,7 @@
   <schedule-configuration :onSubmit="fetchSchedule" :loading="loading" />
   <br>
     
-  <button @click="toggleShowImport">Importuj z pliku JSON</button>
-  <div v-show="showImport">
-            <button @click="importJSON()">Zatwierdź</button>
-            <input type="file" id="selectJSON" value="">
-  </div>
+  
 
   <br/>
   <router-link to="/">Przejdź do strony głównej</router-link>
@@ -49,7 +45,6 @@ export default {
         aprc: 0,
         insurancePremiumList: []
       },
-      showImport: false,
       errors: [],
       loading: false
     }
@@ -67,23 +62,7 @@ export default {
 
           this.installments = response.data;
     },
-    importJSON() {
-        const files = document.getElementById('selectJSON').files;
-        if (files.length <= 0) {
-          return false;
-        }
-
-        const fr = new FileReader();
-
-        fr.onload = e => {
-          const result = JSON.parse(e.target.result);
-          this.installments = result
-        }
-        fr.readAsText(files.item(0));
-        },
-        toggleShowImport() {
-            this.showImport = !this.showImport
-        }
+    
   }
   
 

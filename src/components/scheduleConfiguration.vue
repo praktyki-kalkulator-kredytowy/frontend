@@ -98,6 +98,11 @@
             <button @click="submit()">Wylicz</button>
         </div>
 
+        <button @click="toggleShowImport">Importuj z pliku JSON</button>
+            <div v-show="showImport">
+            <button @click="importJSON()">Zatwierdź</button>
+            <input type="file" id="selectJSON" value="">
+  </div>
     </div>
 </template>
 
@@ -118,7 +123,8 @@ export default {
             withdrawalDate: new Date(),
             commissionRate: null,
             insurance: false,
-            age: null
+            age: null,
+            showImport: false
         }
     },
     validations() {
@@ -178,6 +184,30 @@ export default {
                 }
             }   
        
+        },
+        importJSON() {
+        const files = document.getElementById('selectJSON').files;
+        if (files.length <= 0) {
+          return false;
+        }
+
+        const fr = new FileReader();
+
+        fr.onload = e => {
+          const result = JSON.parse(e.target.result);
+          this.capital = result.capital
+          this.age = result.age
+          this.insurance = result.insurance
+          this.installmentType = result.installmentType
+          this.installmentAmount = result.installmentAmount
+          this.withdrawalDate = result.withdrawalDate
+          this.commissionRate = result.commissionRate
+          this.interestRate = result.interestRate
+        }
+        fr.readAsText(files.item(0));
+        },
+        toggleShowImport() {
+        this.showImport = !this.showImport
         }
     },
     mounted() {
