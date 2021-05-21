@@ -161,7 +161,7 @@ export default {
     methods: {
        async getCommission() {
             await axios.get(`http://localhost:4200/api/v1/schedule/configuration?groupKey=DEFAULT&key=DEFAULT_COMMISSION_RATE`)
-            .then(response => this.commissionRate = response.data.value*100)
+            .then(response => this.commissionRate = (response.data.value*100).toFixed(5))
         },
         submit() { 
             this.v$.$validate()
@@ -196,13 +196,13 @@ export default {
         fr.onload = e => {
           const result = JSON.parse(e.target.result);
           this.capital = result.capital
-          this.age = result.age
+          this.age = result.age < 18 ? 18 : result.age
           this.insurance = result.insurance
           this.installmentType = result.installmentType
           this.installmentAmount = result.installmentAmount
           this.withdrawalDate = result.withdrawalDate
-          this.commissionRate = result.commissionRate
-          this.interestRate = result.interestRate
+          this.commissionRate = result.commissionRate * 100
+          this.interestRate = result.interestRate * 100
         }
         fr.readAsText(files.item(0));
         },
