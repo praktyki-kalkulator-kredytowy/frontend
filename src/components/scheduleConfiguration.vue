@@ -118,7 +118,8 @@ export default {
             withdrawalDate: new Date(),
             commissionRate: null,
             insurance: false,
-            age: null
+            age: null,
+            conf: {}
         }
     },
     validations() {
@@ -153,9 +154,12 @@ export default {
         onSubmit: Function 
     },
     methods: {
-       async getCommission() {
-            await axios.get(`http://localhost:4200/api/v1/schedule/configuration?groupKey=DEFAULT&key=DEFAULT_COMMISSION_RATE`)
-            .then(response => this.commissionRate = response.data.value*100)
+       async getConfiguration() {
+           let response = await axios.get(`http://localhost:4200/api/v1/schedule/configuration/scheduleConfiguration`)
+           console.log("Setting configuration");
+           console.log(response.data);
+           this.conf = response.data;
+           for(let key in this.conf) this.conf[key] = this.conf[key] * 100;
         },
         submit() { 
             this.v$.$validate()
@@ -181,7 +185,7 @@ export default {
         }
     },
     mounted() {
-        this.getCommission()
+        this.getConfiguration()
     }
 }
 </script>
