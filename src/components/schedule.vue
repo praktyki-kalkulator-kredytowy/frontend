@@ -98,7 +98,7 @@ export default {
             if(num != undefined) return Number(num).toLocaleString('ru-RU', {minimumFractionDigits: 2, maximumFractionDigits: 2} )+' zł'
         },
         exportJSON() {
-            const data = JSON.stringify(this.installments)
+            const data = JSON.stringify(this.installments.scheduleConfiguration)
             const blob = new Blob([data], {type: 'text/plain'})
             const e = document.createEvent('MouseEvents'),
             a = document.createElement('a');

@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       installments: {
+        scheduleConfiguration: null,
         installmentList: [],
         aprc: 0,
         insurancePremiumList: []
