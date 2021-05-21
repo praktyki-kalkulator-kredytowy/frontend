@@ -100,9 +100,9 @@
 
         <button @click="toggleShowImport">Importuj z pliku JSON</button>
             <div v-show="showImport">
-            <button @click="importJSON()">Zatwierdź</button>
-            <input type="file" id="selectJSON" value="">
-  </div>
+                <input type="file" id="selectJSON" value=""> <br>
+                <button @click="importJSON()">Zatwierdź</button>
+            </div>
     </div>
 </template>
 
@@ -268,6 +268,11 @@ export default {
         text-align: right;
         margin: 10px;
         padding: 10px;
+    }
+
+    #selectJSON {
+        padding: 20px;
+        margin-left: 50px;
     }
     
     
