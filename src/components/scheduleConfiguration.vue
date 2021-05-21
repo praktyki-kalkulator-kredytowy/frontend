@@ -154,8 +154,8 @@ export default {
     },
     methods: {
        async getCommission() {
-            await axios.get(`http://localhost:4200/api/v1/schedule/configuration/group?groupKey=DEFAULT&key=DEFAULT_COMMISSION_RATE`)
-            .then(response => this.commissionRate = response.data*100)
+            await axios.get(`http://localhost:4200/api/v1/schedule/configuration?groupKey=DEFAULT&key=DEFAULT_COMMISSION_RATE`)
+            .then(response => this.commissionRate = response.data.value*100)
         },
         submit() { 
             this.v$.$validate()
