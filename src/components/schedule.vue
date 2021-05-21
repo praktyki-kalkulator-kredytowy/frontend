@@ -1,4 +1,54 @@
 <template>
+    <div class="installment-summary" v-if="installments.installmentList.length > 0">
+        <h2>Podsumowanie:</h2>
+        <div class="configuration-row">
+            <label>Suma rat odsetkowych: </label>
+            <span >{{ currencyFormat(calculateSum(i => i.interestInstallment)) }} </span>
+
+        </div>
+
+        <div class="configuration-row">
+            <label>Suma rat kapitalowych: </label>
+            <span>{{ currencyFormat(calculateSum(i => i.capitalInstallment)) }}</span>
+
+        </div>
+
+        <div class="configuration-row">
+            <label>Suma rat całkowitych: </label>
+            <span>{{ currencyFormat(calculateSum(i => i.capitalInstallment + i.interestInstallment)) }}</span>
+
+        </div>
+
+        <div class="configuration-row" v-if="installments.insurancePremiumList.length">
+            <label>Suma składek ubezpieczeniowych: </label>
+            <span>{{currencyFormat(installments.insuranceTotalAmount)}}</span>
+
+        </div>
+
+        <div class="configuration-row">
+            <label>Kwota kredytu do wypłaty: </label>
+            <span>{{currencyFormat(installments.loanPaidOutAmount)}}</span>
+
+        </div>
+
+        <div class="configuration-row">
+            <label>Kwota prowizji: </label>
+            <span>{{currencyFormat(installments.commissionAmount)}}</span>
+
+        </div>
+
+        <div class="configuration-row">
+            <label>Łączne koszty kredytu: </label>
+            <span>{{currencyFormat(installments.loanTotalCost)}}</span>
+
+        </div>
+
+        <div class="configuration-row">
+            <label>RSSO: </label>
+            <span> {{(installments.aprc*100).toFixed(2)}}%</span>
+
+        </div>
+    </div>
     <div v-if="installments.installmentList.length > 0">
     <table class="scheduleTable">
         <tr>
@@ -21,33 +71,6 @@
           <td> {{ currencyFormat(installment.remainingDebt) }}</td>
           <td v-if="installments.insurancePremiumList.length"> {{ currencyFormat(installment.insurancePremiumValue) }}</td>
         </tr>
-
-        <tr class="installment-summary">
-          <td></td>
-          <td></td>
-          <td> {{ currencyFormat(calculateSum(i => i.interestInstallment)) }} </td>
-          <td> {{ currencyFormat(calculateSum(i => i.capitalInstallment)) }} </td>
-          <td> {{ currencyFormat(calculateSum(i => i.capitalInstallment + i.interestInstallment)) }} </td>
-          <td></td>
-          <td v-if="installments.insurancePremiumList.length">{{currencyFormat(installments.insuranceTotalAmount)}}</td>
-        </tr>
-    
-    
-        
-        <tr>
-            <th colspan="2">Kwota kredytu do wypłaty</th>
-            <th colspan="1">Kwota prowizji</th>
-            <th colspan="2">Łączne koszty kredytu</th>
-            <th>RSSO: </th>
-        </tr>
-        
-        <tr>
-            <td colspan="2">{{currencyFormat(installments.loanPaidOutAmount)}}</td>
-            <td colspan="1">{{currencyFormat(installments.commissionAmount)}}</td>
-            <td colspan="2">{{currencyFormat(installments.loanTotalCost)}}</td>
-            <td>{{(installments.aprc*100).toFixed(2)}}%</td>
-        </tr>
-        
         
     </table>
     
@@ -142,16 +165,29 @@ export default {
         background-color: #B2EBF2;
     }
 
-
-    .scheduleTable tr:last-of-type {
-        background-color: #0097A7;
-        font-weight: bold;
-        height:50px;
-    }
-
-    .installment-summary {
-        font-weight: bold;
+    .configuration-row {
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        margin-bottom: 7px;
     }
     
+    .configuration-row label {
+        margin-right: 15px;
+        font-size: 23px;
+        align-self: center;
+    }
+
+    .configuration-row span {
+        font-size:17px;
+        padding: 10px;
+        justify-self: flex-end;
+        align-self: center;
+    }
+    .installment-summary {
+        width: 47.5%;
+        margin: auto;
+    }
 
 </style>
