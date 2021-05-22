@@ -76,12 +76,13 @@
     
     <button @click="exportJSON">Eksportuj do pliku JSON</button>
     
-    <button @click="downloadPDF('link','harmonogram.pdf')">Pobierz PDF</button>
+    <button @click="downloadPDF">Pobierz PDF</button>
     
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 import moment from 'moment'
 export default {
    props: {
@@ -131,13 +132,22 @@ export default {
             e.initEvent('click', true, false, window)
             a.dispatchEvent(e);
         },
-        downloadPDF(uri, name) {
-                var link = document.createElement("a");
-                link.download = name;
-                link.href = uri;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+        async downloadPDF() {
+                
+        await axios.post(`http://localhost:4200/api/v1/schedule/pdf`, JSON.stringify(this.installments.scheduleConfiguration), 
+            { 
+            headers:{"Content-type" : "application/json"},
+            responseType: 'blob'})
+            .then((response) => {
+              const blob = new Blob([response.data], {type: 'application/pdf'})
+              const e = document.createEvent('MouseEvents'),
+                a = document.createElement('a')
+                a.download = "harmonogram.pdf"
+                a.href = window.URL.createObjectURL(blob)
+                a.dataset.downloadurl = ['application/pdf', a.download, a.href].join(':')
+                e.initEvent('click', true, false, window)
+                a.dispatchEvent(e);
+          })
         },
 
     }
