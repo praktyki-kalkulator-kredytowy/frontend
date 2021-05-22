@@ -76,7 +76,7 @@
     
     <button @click="exportJSON">Eksportuj do pliku JSON</button>
     
-    <button @click="downloadPDF">Pobierz PDF</button>
+    <button @click="downloadPDF('link','harmonogram.pdf')">Pobierz PDF</button>
     
     </div>
 </template>
@@ -131,8 +131,13 @@ export default {
             e.initEvent('click', true, false, window)
             a.dispatchEvent(e);
         },
-        downloadPDF() {
-            console.log('XDDDDDDDDDDDDd')
+        downloadPDF(uri, name) {
+                var link = document.createElement("a");
+                link.download = name;
+                link.href = uri;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
         },
 
     }
