@@ -58,7 +58,7 @@
           <th>Rata kapitałowa</th>
           <th>Rata całkowita</th>
           <th>Kapitał po spłacie</th>
-          <th v-if="installments.insurancePremiumList.length">Składka ubezpieczeniowa</th>
+          <th v-if="installments.insurancePremiumList.length && installments.insuranceTotalAmount > 0">Składka ubezpieczeniowa</th>
           
         </tr>
 
@@ -69,7 +69,7 @@
           <td> {{ currencyFormat(installment.capitalInstallment) }} </td>
           <td> {{ currencyFormat(installment.capitalInstallment + installment.interestInstallment) }}</td>
           <td> {{ currencyFormat(installment.remainingDebt) }}</td>
-          <td v-if="installments.insurancePremiumList.length"> {{ currencyFormat(installment.insurancePremiumValue) }}</td>
+          <td v-if="installments.insurancePremiumList.length && installments.insuranceTotalAmount > 0"> {{ currencyFormat(installment.insurancePremiumValue) }}</td>
         </tr>
         
     </table>
