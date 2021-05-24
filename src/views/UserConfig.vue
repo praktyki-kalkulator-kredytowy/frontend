@@ -1,116 +1,95 @@
 <template>
  <div>
-   <h1>Konfiguracja aplikacji</h1>
-   <table class="table">
-    
-    <tr>
-      <th><label>Minimalne oprocentowanie(%):</label></th>
+    <h1>Konfiguracja aplikacji</h1>
+      <label>Minimalne oprocentowanie(%):</label>
       <input type="number" v-model="minInterestRate" required>
-      <th><button @click="setConfiguration('MIN_INTEREST_RATE', minInterestRate/100, 'DEFAULT')">Edytuj</button></th>
-      <th><button @click="deleteConfiguration('MIN_INTEREST_RATE', 'DEFAULT'); minInterestRate = null;
-                       getConfiguration('minInterestRate', 'MIN_INTEREST_RATE', true)">Usuń</button></th>
+      <button @click="setConfiguration('MIN_INTEREST_RATE', minInterestRate/100, 'DEFAULT')">Edytuj</button>
+      <button @click="deleteConfiguration('MIN_INTEREST_RATE', 'DEFAULT'); minInterestRate = null;
+                       getConfiguration('minInterestRate', 'MIN_INTEREST_RATE', true)">Usuń</button>
       <p class="errorAlert" v-if="v$.minInterestRate.$error">
             {{ v$.minInterestRate.$errors[0].$message }}
       </p>
-      </tr>
-      <tr>
-      <th><label>Maksymalne oprocentowanie(%):</label></th>
+    <br>
+      <label>Maksymalne oprocentowanie(%):</label>
       <input type="number" v-model="maxInterestRate" required>
-      <th><button @click="setConfiguration('MAX_INTEREST_RATE', maxInterestRate/100, 'DEFAULT')">Edytuj</button></th>
-      <th><button @click="deleteConfiguration('MAX_INTEREST_RATE', 'DEFAULT'); maxInterestRate = null;
-                      getConfiguration('maxInterestRate', 'MAX_INTEREST_RATE', true)">Usuń</button></th>
+      <button @click="setConfiguration('MAX_INTEREST_RATE', maxInterestRate/100, 'DEFAULT')">Edytuj</button>
+      <button @click="deleteConfiguration('MAX_INTEREST_RATE', 'DEFAULT'); maxInterestRate = null;
+                      getConfiguration('maxInterestRate', 'MAX_INTEREST_RATE', true)">Usuń</button>
       <p class="errorAlert" v-if="v$.maxInterestRate.$error">
             {{ v$.maxInterestRate.$errors[0].$message }}
       </p>
-      </tr>
-    
-
-    <tr>
-      <th><label>Minimalna kwota prowizji(PLN):</label></th>
+    <br>
+      <label>Minimalna kwota prowizji(PLN):</label>
       <input type="number" v-model="minCommissionAmount" required>
-      <th><button @click="setConfiguration('MIN_COMMISSION_AMOUNT', minCommissionAmount, 'DEFAULT')">Edytuj</button></th>
-      <th><button @click="deleteConfiguration('MIN_COMMISSION_AMOUNT', 'DEFAULT'); minCommissionAmount = null;
-                      getConfiguration('minCommissionAmount', 'MIN_COMMISSION_AMOUNT', false)">Usuń</button></th>
+      <button @click="setConfiguration('MIN_COMMISSION_AMOUNT', minCommissionAmount, 'DEFAULT')">Edytuj</button>
+      <button @click="deleteConfiguration('MIN_COMMISSION_AMOUNT', 'DEFAULT'); minCommissionAmount = null;
+                      getConfiguration('minCommissionAmount', 'MIN_COMMISSION_AMOUNT', false)">Usuń</button>
       <p class="errorAlert" v-if="v$.minCommissionAmount.$error">
             {{ v$.minCommissionAmount.$errors[0].$message }}
       </p>
-    </tr>
-
-    <tr>
-      <th><label>Minimalna wartość prowizji(%):</label></th>
+    <br>
+      <label>Minimalna wartość prowizji(%):</label>
       <input type="number" v-model="minCommissionRate" required>
-      <th><button @click="setConfiguration('MIN_COMMISSION_RATE', minCommissionRate/100, 'DEFAULT')">Edytuj</button></th>
-      <th><button @click="deleteConfiguration('MIN_COMMISSION_RATE', 'DEFAULT'); minCommissionRate = null;
-                      getConfiguration('minCommissionRate', 'MIN_COMMISSION_RATE', true)">Usuń</button></th>
+      <button @click="setConfiguration('MIN_COMMISSION_RATE', minCommissionRate/100, 'DEFAULT')">Edytuj</button>
+      <button @click="deleteConfiguration('MIN_COMMISSION_RATE', 'DEFAULT'); minCommissionRate = null;
+                      getConfiguration('minCommissionRate', 'MIN_COMMISSION_RATE', true)">Usuń</button>
       <p class="errorAlert" v-if="v$.minCommissionRate.$error">
             {{ v$.minCommissionRate.$errors[0].$message }}
       </p>
-      </tr>
-
-    <tr>
-      <th><label>Maksymalna wartość prowizji(%):</label></th>
+    <br>
+      <label>Maksymalna wartość prowizji(%):</label>
       <input type="number" v-model="maxCommissionRate" required>
-      <th><button @click="setConfiguration('MAX_COMMISSION_RATE', maxCommissionRate/100, 'DEFAULT')">Edytuj</button></th>
-      <th><button @click="deleteConfiguration('MAX_COMMISSION_RATE', 'DEFAULT'); maxCommissionRate = null
-                      getConfiguration('maxCommissionRate', 'MAX_COMMISSION_RATE', true)">Usuń</button></th>
+      <button @click="setConfiguration('MAX_COMMISSION_RATE', maxCommissionRate/100, 'DEFAULT')">Edytuj</button>
+      <button @click="deleteConfiguration('MAX_COMMISSION_RATE', 'DEFAULT'); maxCommissionRate = null
+                      getConfiguration('maxCommissionRate', 'MAX_COMMISSION_RATE', true)">Usuń</button>
       <p class="errorAlert" v-if="v$.maxCommissionRate.$error">
             {{ v$.maxCommissionRate.$errors[0].$message }}
       </p>
-
-    </tr>
-    <tr>
-      <th><label>Domyślna wartość prowizji(%):</label></th>
+    <br>
+      <label>Domyślna wartość prowizji(%):</label>
       <input type="number" v-model="defaultCommissionRate" required>
-      <th><button @click="setConfiguration('DEFAULT_COMMISSION_RATE', defaultCommissionRate/100, 'DEFAULT')">Edytuj</button></th>
-      <th><button @click="deleteConfiguration('DEFAULT_COMMISSION_RATE', 'DEFAULT'); defaultCommissionRate = null
-                      getConfiguration('defaultCommissionRate', 'DEFAULT_COMMISSION_RATE', true)">Usuń</button></th>
+      <button @click="setConfiguration('DEFAULT_COMMISSION_RATE', defaultCommissionRate/100, 'DEFAULT')">Edytuj</button>
+      <button @click="deleteConfiguration('DEFAULT_COMMISSION_RATE', 'DEFAULT'); defaultCommissionRate = null
+                      getConfiguration('defaultCommissionRate', 'DEFAULT_COMMISSION_RATE', true)">Usuń</button>
       <p class="errorAlert" v-if="v$.defaultCommissionRate.$error">
             {{ v$.defaultCommissionRate.$errors[0].$message }}
       </p>
-
-    </tr>
-    <tr>
-      <th><label>Minimalna kwota składki ubezpieczeniowej(PLN):</label></th>
+    <br>
+      <label>Minimalna kwota składki ubezpieczeniowej(PLN):</label>
       <input type="number" v-model="minInsurancePremium" required>
-      <th><button @click="setConfiguration('MIN_PREMIUM_VALUE', minInsurancePremium, 'DEFAULT')">Edytuj</button></th>
-      <th><button @click="deleteConfiguration('MIN_PREMIUM_VALUE', 'DEFAULT'); minInsurancePremium = null
-                      getConfiguration('minInsurancePremium', 'MIN_PREMIUM_VALUE', false)">Usuń</button></th>
+      <button @click="setConfiguration('MIN_PREMIUM_VALUE', minInsurancePremium, 'DEFAULT')">Edytuj</button>
+      <button @click="deleteConfiguration('MIN_PREMIUM_VALUE', 'DEFAULT'); minInsurancePremium = null
+                      getConfiguration('minInsurancePremium', 'MIN_PREMIUM_VALUE', false)">Usuń</button>
       <p class="errorAlert" v-if="v$.minInsurancePremium.$error">
             {{ v$.minInsurancePremium.$errors[0].$message }}
       </p>
-
-    </tr>
-    <tr>
-      <th><label>Częstotliwość płatności składki ubezpieczeniowej(mies.):</label></th>
+    <br>
+      <label>Częstotliwość płatności składki ubezpieczeniowej(mies.):</label>
       <input type="number" v-model="PaymentFrequency" required>
-      <th><button @click="setConfiguration('MONTH_FRAME', PaymentFrequency, 'DEFAULT')">Edytuj</button></th>
-      <th><button @click="deleteConfiguration('MONTH_FRAME', 'DEFAULT'); PaymentFrequency = null;
-                      getConfiguration('PaymentFrequency', 'MONTH_FRAME', false)">Usuń</button></th>
+      <button @click="setConfiguration('MONTH_FRAME', PaymentFrequency, 'DEFAULT')">Edytuj</button>
+      <button @click="deleteConfiguration('MONTH_FRAME', 'DEFAULT'); PaymentFrequency = null;
+                      getConfiguration('PaymentFrequency', 'MONTH_FRAME', false)">Usuń</button>
       <p class="errorAlert" v-if="v$.PaymentFrequency.$error">
             {{ v$.PaymentFrequency.$errors[0].$message }}
       </p>
-    </tr>
-  
-   </table>
-   <br><br>
-   <table class="table">
-    <tr>
-      <th><button @click="addBracket">Dodaj przedział wiekowy</button></th>
+    <br><br>
+      <button @click="addBracket">Dodaj przedział wiekowy</button>
     <br>
     <div class="bracket"
       v-for="(ageBracket, index) in ageBrackets"
       v-bind:key="index">
-        <p @click="deleteBracket(index); deleteConfiguration(ageBracket.age, 'INSURANCE_GROUPS')"></p>
-        <th><label>{{index+1}}. Wiek:</label></th>
-        <th><input type="number" v-model="ageBracket.age" required></th>
-
-        <th><label>Koszt ubezpieczenia(%):</label></th>
-        <th><input type="number" v-model="ageBracket.insuranceRate" required></th>
+        <p @click="deleteBracket(index); deleteConfiguration(ageBracket.age, 'INSURANCE_GROUPS')">x</p>
+        <label>{{index+1}}. Wiek:</label>
+        <input type="number" v-model="ageBracket.age" required>
+         
+        <br>
+        <label>Koszt ubezpieczenia(%):</label>
+        <input type="number" v-model="ageBracket.insuranceRate" required>
         <button @click="setConfiguration(ageBracket.age, ageBracket.insuranceRate/100, 'INSURANCE_GROUPS')">Edytuj</button>
          
     </div>
-    </tr>
-    </table>
+      <br><br>
+
     <router-link to="/">Przejdź do strony głównej</router-link>
 </div>
 
@@ -279,14 +258,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.table{
-  margin: auto;
-  margin-top: -10px;
-}
-table, th, td {
-  border: 1px solid black;
-          margin: 0px;
-        padding: 0px;   
+* {display: flex;
+flex-direction:column;
+align-items: center;
 }
 .errorAlert {
         color: red;
