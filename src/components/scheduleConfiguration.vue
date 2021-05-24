@@ -108,7 +108,7 @@
 
 <script>
 import useValidate from '@vuelidate/core'
-import { required, minValue, maxValue, helpers} from '@vuelidate/validators'
+import { required, minValue, maxValue, helpers } from '@vuelidate/validators'
 import axios from 'axios'
 
 
@@ -125,13 +125,8 @@ export default {
             commissionRate: null,
             insurance: false,
             age: null,
-            showImport: false,
-            minInterestRate: null,
-            maxInterestRate: null,
-            minCommissionRate: null,
-            maxCommissionRate: null,
-            defaultCommissionRate: null
-        }
+            conf: {}
+            }
     },
     validations() {
         return {
@@ -146,14 +141,14 @@ export default {
                 maxValue: helpers.withMessage('Maksymalna liczba rat to 360.', maxValue(360)) },
             interestRate: { 
                 required: helpers.withMessage(notEmpty, required),
-                minValue: helpers.withMessage('Oprocentowanie może wynosić minimalnie: '+this.minInterestRate+'%', minValue(this.minInterestRate)),
-                maxValue: helpers.withMessage('Oprocentowanie może wynosić maksymalnie '+this.maxInterestRate+'%', maxValue(this.maxInterestRate)) },
+                minValue: helpers.withMessage('Oprocentowanie może wynosić minimalnie: '+ this.conf.minInterestRate+'%', minValue(this.conf.minInterestRate)),
+                maxValue: helpers.withMessage('Oprocentowanie może wynosić maksymalnie '+ this.conf.maxInterestRate+'%', maxValue(this.conf.maxInterestRate)) },
             withdrawalDate: { 
                 required: helpers.withMessage(notEmpty, required) },
             commissionRate: { 
                 required: helpers.withMessage(notEmpty, required) , 
-                minValue: helpers.withMessage('Prowizja może wynosić miminalnie: '+this.minCommissionRate+'%', minValue(this.minCommissionRate)),
-                maxValue: helpers.withMessage('Prowizja może wynosić maksymalnie: '+this.maxCommissionRate+'%', maxValue(this.maxCommissionRate)) },
+                minValue: helpers.withMessage('Prowizja może wynosić miminalnie: '+this.conf.minCommissionRate+'%', minValue(this.conf.minCommissionRate)),
+                maxValue: helpers.withMessage('Prowizja może wynosić maksymalnie: '+this.conf.maxCommissionRate+'%', maxValue(this.conf.maxCommissionRate)) },
             
             age: {
                 required: this.insurance ? helpers.withMessage(notEmpty, required) : !required,
@@ -166,9 +161,11 @@ export default {
         onSubmit: Function 
     },
     methods: {
-        async getConfiguration(_data, key, isPercentage) {
-            await axios.get(`http://localhost:4200/api/v1/schedule/configuration?groupKey=DEFAULT&key=${key}`)
-            .then(response => this[_data] = parseFloat(((response.data.value * (isPercentage ? 100 : 1))).toFixed(2)))
+        async getConfiguration() {
+            let response = await axios.get('http://localhost:4200/api/v1/schedule/configuration/scheduleConfiguration')
+            this.conf = response.data
+
+            for(let k in this.conf) this.conf[k] = this.conf[k]*100
         },
         submit() { 
             this.v$.$validate()
@@ -217,12 +214,9 @@ export default {
         this.showImport = !this.showImport
         }
     },
-    mounted() {
-    this.getConfiguration('minInterestRate', "MIN_INTEREST_RATE", true),
-    this.getConfiguration('maxInterestRate', "MAX_INTEREST_RATE", true),
-    this.getConfiguration('minCommissionRate', "MIN_COMMISSION_RATE", true),
-    this.getConfiguration('maxCommissionRate', "MAX_COMMISSION_RATE", true),
-    this.getConfiguration('defaultCommissionRate', "DEFAULT_COMMISSION_RATE", true)
+    async mounted() {
+        await this.getConfiguration();
+        this.commissionRate = this.conf.defaultCommissionRate;
     }
 }
 </script>
