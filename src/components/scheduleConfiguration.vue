@@ -125,6 +125,7 @@ export default {
             commissionRate: null,
             insurance: false,
             age: null,
+            showImport: false,
             conf: {}
             }
     },
