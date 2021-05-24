@@ -19,7 +19,7 @@
             <label>Typ rat: </label>
             <select @blur="v$.installmentType.$touch()" v-model="installmentType">
                 <option value="DECREASING">Malejące</option>
-                <option value="CONSTANT">Stałe</option>
+                <option value="CONSTANT">Równe</option>
 
                 
             </select>
@@ -70,7 +70,7 @@
 
 
         <div class="form-row">
-            <label>Prowizja </label>
+            <label>Prowizja(%) </label>
             <input @blur="v$.commissionRate.$touch()" v-model="commissionRate" type="number" placeholder="prowizja">
         </div>
 
@@ -206,7 +206,7 @@ export default {
           this.installmentType = result.installmentType
           this.installmentAmount = result.installmentAmount
           this.withdrawalDate = result.withdrawalDate
-          this.commissionRate = result.commissionRate * 100
+          this.commissionRate = parseFloat((result.commissionRate * 100).toFixed(2))
           this.interestRate = result.interestRate * 100
         }
         fr.readAsText(files.item(0));
@@ -217,7 +217,7 @@ export default {
     },
     async mounted() {
         await this.getConfiguration();
-        this.commissionRate = this.conf.defaultCommissionRate;
+        this.commissionRate = parseFloat((this.conf.defaultCommissionRate).toFixed(2));
     }
 }
 </script>
