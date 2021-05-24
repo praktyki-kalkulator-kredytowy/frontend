@@ -201,7 +201,7 @@ export default {
         align-self: center;
     }
     .installment-summary {
-        width: 47.5%;
+        width: 55%;
         margin: auto;
     }
 

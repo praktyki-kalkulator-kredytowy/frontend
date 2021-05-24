@@ -173,7 +173,8 @@ export default {
                 $each: {
                   age: {
                     required: helpers.withMessage(notEmpty, required),
-                    minValue: helpers.withMessage(notNegative, minValue(0))
+                    minValue: helpers.withMessage(notNegative, minValue(0)),
+                    OnlyDigits: helpers.withMessage(notInt, isInt)
                   },
                   insuranceRate: {
                     required: helpers.withMessage(notEmpty, required),
