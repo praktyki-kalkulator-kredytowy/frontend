@@ -257,6 +257,7 @@ export default {
         padding: 10px;
         border: 2px solid #758078;
         border-radius: 7px;
+        outline: none;
     }
     
 

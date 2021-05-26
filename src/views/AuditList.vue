@@ -185,7 +185,7 @@ input {
   border: 2px solid lightgray;
   padding: 10px;
   margin: 10px;
-  
+  outline: none;
 }
 
 </style>
