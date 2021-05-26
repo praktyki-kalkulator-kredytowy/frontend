@@ -2,7 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home'
 import Harmonogram from '../views/Harmonogram'
 import UserConfig from '../views/UserConfig'
-
+import Audit from '../views/Audit'
+import AuditDetails from '../views/AuditDetails'
+import AuditHome from '../views/AuditHome'
 const routes = [
     {
         path: '/',
@@ -18,6 +20,15 @@ const routes = [
         path: '/config',
         name: 'config',
         component: UserConfig
+    },
+    {
+        path: '/audit',
+        name: 'audit',
+        component: Audit,
+        children: [
+            { path: '', component: AuditHome },
+            { path: 'details/:index', component: AuditDetails }
+        ]
     }
 ]
 
