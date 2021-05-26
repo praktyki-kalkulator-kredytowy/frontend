@@ -1,6 +1,7 @@
 <template>
+<h1>Konfiguracja aplikacji</h1>
  <div class="menu">
-   <h1>Konfiguracja aplikacji</h1>
+   
    
    <table class="table">
     

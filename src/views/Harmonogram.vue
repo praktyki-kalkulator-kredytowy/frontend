@@ -1,5 +1,6 @@
 <template> 
 <div>
+  <h1>Kalkulator harmonogramu kredytowego</h1>
   <section v-if="errors.length">
     <p>Wystąpił problem z aplikacją. Proszę skontaktuj się z administratorem.</p>
   </section>
