@@ -13,7 +13,7 @@
   
 
   <br/>
-  <router-link to="/">Przejdź do strony głównej</router-link>
+  <button class="nav-button" @click="$router.push('/')">Przejdź do strony głównej</button>
   <br/>
   
   <div class="scheduleContainer">

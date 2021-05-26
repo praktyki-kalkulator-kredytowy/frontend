@@ -1,7 +1,7 @@
 <template>
 <h1>test {{ $route.params.index }} </h1>
 <router-view></router-view>
-<router-link to="/audit">Powróć</router-link>
+<button class="nav-button" @click="$router.push('/audit')">Powróć</button>
 </template>
 
 <script>

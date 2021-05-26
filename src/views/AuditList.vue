@@ -1,7 +1,12 @@
 <template>
+<div class="search-wrapper">
     <input type="text"
            placeholder="Wyszukaj..."
            v-model="search">
+</div>
+
+<div class="audit-list-wrapper">
+    
   <table>
       <thead>
           <tr>
@@ -22,14 +27,13 @@
           </tr>
       </thead>
       <tbody>
-            
-                <tr @click="changedir(`/audit/details/${row.id}`)" v-for="row in filteredRows" :key="row.id">
+                <tr class="audit-item" @click="changedir(`/audit/details/${row.id}`)" v-for="row in filteredRows" :key="row.id">
                     <td v-html="highlightMatches(row.id)"></td>
                     <td v-html="highlightMatches(row.capital)"></td>
                     <td v-html="highlightMatches(row.installmentType == 'CONSTANT' ? 'Równe' : 'Malejące')"></td>
                     <td v-html="highlightMatches(row.installmentAmount)"></td>
                     <td v-html="highlightMatches(row.interestRate*100+'%')"></td>
-                    <td v-html="highlightMatches(row.withdrawalDate)"></td>
+                    <td v-html="highlightMatches(formatDate(row.withdrawalDate))"></td>
                     <td v-html="highlightMatches(row.commissionRate*100+'%')"></td>
                     <td v-html="highlightMatches(row.insurance ? 'Tak' : 'Nie')"></td>
                     <td v-html="highlightMatches(row.age)"></td>
@@ -37,15 +41,17 @@
                     <td v-html="highlightMatches(row.loanPaidOutAmount)"></td>
                     <td v-html="highlightMatches(row.commissionAmount)"></td>
                     <td v-html="highlightMatches(row.aprc+'%')"></td>
-                    <td v-html="highlightMatches(row.calculationDate)"></td>
+                    <td v-html="highlightMatches(formatDate(row.calculationDate))"></td>
                 </tr>
       </tbody>
   </table>
-  <router-link to="/">Powróć</router-link>
+  
+  </div>
+  <button class="nav-button" @click="$router.push('/')">Powróć</button>
 </template>
 
 <script>
-
+import moment from 'moment'
 
 
 export default {
@@ -87,7 +93,7 @@ export default {
                 const installmentType = row.installmentType == 'CONSTANT' ? 'równe' : 'malejące'
                 const installmentAmount = row.installmentAmount.toString()
                 const interestRate = (row.interestRate*100).toString()+'%'
-                const withdrawalDate = row.withdrawalDate.toString().toLowerCase()
+                const withdrawalDate = moment(String(row.withdrawalDate)).format('DD.MM.YYYY')
                 const commissionRate = (row.commissionRate*100).toString()+'%'
                 const insurance = row.insurance ? 'tak' : 'nie'
                 const age = row.age.toString()
@@ -96,6 +102,7 @@ export default {
                 const insuranceTotalAmount = row.insuranceTotalAmount.toString()
                 const loanTotalCost = row.loanTotalCost.toString()
                 const aprc = (row.aprc*100).toString()+'%'
+                const calculationDate = moment(String(row.calculationDate)).format('DD.MM.YYYY')
 
                 const searchTerm = this.search.toLowerCase()
 
@@ -112,7 +119,8 @@ export default {
                         loanPaidOutAmount.includes(searchTerm) ||
                         insuranceTotalAmount.includes(searchTerm) ||
                         loanTotalCost.includes(searchTerm) ||
-                        aprc.includes(searchTerm) 
+                        aprc.includes(searchTerm) ||
+                        calculationDate.includes(searchTerm)
             })
         }
     },
@@ -127,6 +135,11 @@ export default {
         },
         changedir(path) {
             this.$router.push(path)
+        },
+        formatDate(date){
+            if (date) {
+                return moment(String(date)).format('DD.MM.YYYY')
+            }
         }
     }
     
@@ -134,5 +147,45 @@ export default {
 </script>
 
 <style scoped>
+
+.search-wrapper {
+    margin: 30px;
+}
+.audit-list-wrapper {
+    margin: 30px;
+}
+table {
+    border-collapse: collapse;
+    border: 1px solid lightgray;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px, 8px rgba(0, 0, 0, 0.2)
+}
+.audit-item {
+    transition: all .2s ease-in;
+    cursor: pointer;
+}
+.audit-item:hover {
+    background-color: #f5f5f5;
+    transform: scale(1.02);
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px, 8px rgba(0, 0, 0, 0.2)
+}
+th,td{
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+td {
+    white-space: nowrap;
+}
+thead{
+    background-color: #16a085;
+    color: #fff;
+}
+input {
+  border-radius: 10px;
+  border: 2px solid lightgray;
+  padding: 10px;
+  margin: 10px;
+  
+}
 
 </style>

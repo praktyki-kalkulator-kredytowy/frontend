@@ -1,11 +1,10 @@
 <template>
   <HelloWorld />
-
-  <router-link to="/harmonogram">Przejdź do kalkulatora kredytowego</router-link>
+  <button class="nav-button" @click="$router.push('/harmonogram')">Przejdź do kalkulatora kredytowego</button>
   <br>
-  <router-link to="/config">Przejdź do edytora konfiguracji</router-link>
+  <button class="nav-button" @click="$router.push('/config')">Przejdź do edytora konfiguracji</button>
   <br>
-  <router-link to="/audit">Przejdź do danych audytowych</router-link>
+  <button class="nav-button" @click="$router.push('/audit')">Przejdź do danych audytowych</button>
 </template>
 
 <script>
@@ -19,3 +18,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+.nav-button {
+  width: 260px;
+}
+</style>
