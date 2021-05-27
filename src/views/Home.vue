@@ -1,4 +1,5 @@
 <template>
+  <h1>Strona główna</h1>
   <HelloWorld />
   <button class="nav-button" @click="$router.push('/harmonogram')">Przejdź do kalkulatora kredytowego</button>
   <br>

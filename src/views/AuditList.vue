@@ -1,9 +1,9 @@
 <template>
-<div class="search-wrapper">
+
     <input type="text"
            placeholder="Wyszukaj..."
            v-model="search">
-</div>
+
 
 <div class="audit-list-wrapper">
     
@@ -148,9 +148,7 @@ export default {
 
 <style scoped>
 
-.search-wrapper {
-    margin: 30px;
-}
+
 .audit-list-wrapper {
     margin: 30px;
 }

@@ -314,6 +314,8 @@ table, th, td {
 input {
   width: 95%;
   text-align: left;
+  border-collapse: collapse;
+  outline: none;
 }
 .errorAlert {
         color: red;
