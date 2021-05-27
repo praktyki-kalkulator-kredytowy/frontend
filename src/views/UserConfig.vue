@@ -7,13 +7,14 @@
     
     <tr>
       <th><label>Minimalne oprocentowanie(%):</label></th>
-      <input type="number" v-model="minInterestRate" required>
+      <th><input type="number" v-model="minInterestRate" required>
+      <p class="errorAlert" v-if="v$.minInterestRate.$error">
+            {{ v$.minInterestRate.$errors[0].$message }}
+      </p></th>
       <th><button @click="setConfiguration('MIN_INTEREST_RATE', minInterestRate/100, 'DEFAULT')">Zapisz</button></th>
       <th><button @click="deleteConfiguration('MIN_INTEREST_RATE', 'DEFAULT'); minInterestRate = null;
                        getConfiguration('minInterestRate', 'MIN_INTEREST_RATE', true)">Usuń</button></th>
-      <span class="errorAlert" v-if="v$.minInterestRate.$error">
-            {{ v$.minInterestRate.$errors[0].$message }}
-      </span>
+      
       </tr>
       <tr>
       <th><label>Maksymalne oprocentowanie(%):</label></th>
@@ -123,7 +124,7 @@
     
     <th><button @click="addBracket">Dodaj przedział wiekowy</button></th>
     </table>
-    <router-link to="/">Przejdź do strony głównej</router-link>
+    <button class="nav-button" @click="$router.push('/')">Powróć do strony głównej</button>
 </div>
 
 
@@ -291,25 +292,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.menu{
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  max-width: 80%;
-  margin: auto;
-  padding: 0;
-}
+
 .table{
   margin: 0;
   margin-top: -10px;
-  display: block;
   border-collapse: collapse;
 }
 table, th, td {
   border: 1px solid black;
-  margin: 0;
-  padding: 0; 
-  border-collapse: collapse
+  
 }
 input {
   width: 95%;

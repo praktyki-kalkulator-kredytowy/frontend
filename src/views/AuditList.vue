@@ -2,10 +2,11 @@
 
     <input type="text"
            placeholder="Wyszukaj..."
-           v-model="search">
+           v-model="search"
+           class="search-input">
 
 
-<div class="audit-list-wrapper">
+<div class="audit-list">
     
   <table>
       <thead>
@@ -109,7 +110,7 @@ export default {
                 },
                 {
                     id: 2,
-                    capital: 20000,
+                    capital: 20000.12,
                     installmentType: "DECREASING",
                     installmentAmount: 360,
                     interestRate: 1,
@@ -151,7 +152,7 @@ export default {
                 const aprc = (row.aprc*100).toString()+'%'
                 const calculationDate = moment(String(row.calculationDate)).format('DD.MM.YYYY')
 
-                const searchTerm = this.search.toLowerCase()
+                const searchTerm = this.search.toLowerCase().replace(/,/g, '.')
 
                 return  parseInt(id.includes(searchTerm)) ||
                         capital.includes(searchTerm) ||
@@ -216,48 +217,49 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
-.audit-list-wrapper {
+.audit-list {
     margin: 30px;
+
+    table {
+        border-collapse: collapse;
+        border: 1px solid lightgray;
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px, 8px rgba(0, 0, 0, 0.2)
+    }
+    th,td{
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+    td {
+        white-space: nowrap;
+        font-size: smaller;
+        font-weight: 600;
+    }
+    th {
+        height: 60px;
+    }
+    table th:hover {
+        color: #16a085;
+        border: 1px solid #16a085;
+        background-color: white;
+    }
+    thead{
+        background-color: #16a085;
+        color: #fff;
+    }
+    .audit-item {
+        transition: all .2s ease-in;
+        cursor: pointer;
+    }
+    .audit-item:hover {
+        background-color: #f5f5f5;
+        transform: scale(1.02);
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px, 8px rgba(0, 0, 0, 0.2)
 }
-table {
-    border-collapse: collapse;
-    border: 1px solid lightgray;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px, 8px rgba(0, 0, 0, 0.2)
 }
-.audit-item {
-    transition: all .2s ease-in;
-    cursor: pointer;
-}
-.audit-item:hover {
-    background-color: #f5f5f5;
-    transform: scale(1.02);
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px, 8px rgba(0, 0, 0, 0.2)
-}
-th,td{
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-}
-td {
-    white-space: nowrap;
-    font-size: smaller;
-    font-weight: 600;
-}
-th {
-    height: 60px;
-}
-table th:hover {
-    color: #16a085;
-    border: 1px solid #16a085;
-    background-color: white;
-}
-thead{
-    background-color: #16a085;
-    color: #fff;
-}
-input {
+.search-input {
   border-radius: 10px;
   border: 2px solid lightgray;
   padding: 10px;
