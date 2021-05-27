@@ -1,13 +1,20 @@
 <template> 
 <div>
   <h1>Kalkulator harmonogramu kredytowego</h1>
-  <section v-if="errors.length">
-    <p>Wystąpił problem z aplikacją. Proszę skontaktuj się z administratorem.</p>
-  </section>
-
-  <section v-else>
-    <div v-if="loading">Proszę czekać...</div>
-  </section>
+  <h3 v-show="loading">Trwa ładowanie...</h3>
+  <Popup v-if="showErrorPopup" @close="showErrorPopup = false">
+      <template v-slot:header>
+        <h3>Wystąpił błąd</h3>
+      </template>
+      <template v-slot:body>
+        Proszę skontaktuj się z administratorem aplikacji
+      </template>
+      <template v-slot:footer>
+        
+      </template>
+  </Popup>
+  
+  
   <schedule-configuration :onSubmit="fetchSchedule" :loading="loading" />
   <br>
     
@@ -21,7 +28,7 @@
     <schedule :installments="installments" />
   </div>
 
-
+{{ errorMessage }}
 </div>
 </template>
 
@@ -30,13 +37,14 @@
 <script>
 import axios from 'axios'
 import scheduleConfiguration from '../components/scheduleConfiguration'
-import Schedule from '../components/schedule.vue'
-
+import Schedule from '../components/schedule'
+import Popup from '../components/Popup'
 export default {
   name: 'Harmonogram',
   components: {
     scheduleConfiguration,
-    Schedule
+    Schedule,
+    Popup
   },
   data() {
     return {
@@ -46,7 +54,8 @@ export default {
         aprc: 0,
         insurancePremiumList: []
       },
-      errors: [],
+      errorMessage: '',
+      showErrorPopup: false,
       loading: false
     }
   
@@ -55,13 +64,20 @@ export default {
   {
      async fetchSchedule(data) {
        this.loading = true
-        let response =  await axios.post(`http://localhost:4200/api/v1/schedule`, JSON.stringify(data), { 
+          await axios.post(`http://localhost:4200/api/v1/schedule`, JSON.stringify(data), { 
           headers:{"Content-type" : "application/json"}
           })
-          .catch(error => this.errors.push(error.message))
-          .finally(() => this.loading = false)
-
-          this.installments = response.data;
+          .then(response => {
+            this.installments = response.data
+          })
+          .finally(() => {
+            this.showErrorPopup = true
+            this.loading = false
+            })
+          
+      
+          
+          
     },
     
   }
