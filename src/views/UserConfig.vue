@@ -1,130 +1,145 @@
 <template>
 <h1>Konfiguracja aplikacji</h1>
- <div class="menu">
+ <div class="user-config">
    
    
-   <table class="table">
-    
+   <table>
+     <thead>
+       <th>Nazwa</th>
+       <th>Wartość</th>
+       <th colspan="2">Akcja</th>
+     </thead>
+    <tbody>
     <tr>
-      <th><label>Minimalne oprocentowanie(%):</label></th>
-      <th><input type="number" v-model="minInterestRate" required>
-      <p class="errorAlert" v-if="v$.minInterestRate.$error">
+      <td><label>Minimalne oprocentowanie(%):</label></td>
+      <td><input type="number" v-model="minInterestRate" required>
+      <p class="error-alert" v-if="v$.minInterestRate.$error">
             {{ v$.minInterestRate.$errors[0].$message }}
-      </p></th>
-      <th><button @click="setConfiguration('MIN_INTEREST_RATE', minInterestRate/100, 'DEFAULT')">Zapisz</button></th>
-      <th><button @click="deleteConfiguration('MIN_INTEREST_RATE', 'DEFAULT'); minInterestRate = null;
-                       getConfiguration('minInterestRate', 'MIN_INTEREST_RATE', true)">Usuń</button></th>
+      </p></td>
+      <td><button @click="setConfiguration('MIN_INTEREST_RATE', minInterestRate/100, 'DEFAULT')">Zapisz</button></td>
+      <td><button @click="deleteConfiguration('MIN_INTEREST_RATE', 'DEFAULT'); 
+                       getConfiguration('minInterestRate', 'MIN_INTEREST_RATE', true)">Usuń</button></td>
       
       </tr>
       <tr>
-      <th><label>Maksymalne oprocentowanie(%):</label></th>
-      <input type="number" v-model="maxInterestRate" required>
-      <th><button @click="setConfiguration('MAX_INTEREST_RATE', maxInterestRate/100, 'DEFAULT')">Zapisz</button></th>
-      <th><button @click="deleteConfiguration('MAX_INTEREST_RATE', 'DEFAULT'); maxInterestRate = null;
-                      getConfiguration('maxInterestRate', 'MAX_INTEREST_RATE', true)">Usuń</button></th>
-      <span class="errorAlert" v-if="v$.maxInterestRate.$error">
+      <td><label>Maksymalne oprocentowanie(%):</label></td>
+      <td><input type="number" v-model="maxInterestRate" required>
+      <p class="error-alert" v-if="v$.maxInterestRate.$error">
             {{ v$.maxInterestRate.$errors[0].$message }}
-      </span>
+      </p></td>
+      <td><button @click="setConfiguration('MAX_INTEREST_RATE', maxInterestRate/100, 'DEFAULT')">Zapisz</button></td>
+      <td><button @click="deleteConfiguration('MAX_INTEREST_RATE', 'DEFAULT');
+                      getConfiguration('maxInterestRate', 'MAX_INTEREST_RATE', true)">Usuń</button></td>
+      
       </tr>
     
 
     <tr>
-      <th><label>Minimalna kwota prowizji(PLN):</label></th>
-      <input type="number" v-model="minCommissionAmount" required>
-      <th><button @click="setConfiguration('MIN_COMMISSION_AMOUNT', minCommissionAmount, 'DEFAULT')">Zapisz</button></th>
-      <th><button @click="deleteConfiguration('MIN_COMMISSION_AMOUNT', 'DEFAULT'); minCommissionAmount = null;
-                      getConfiguration('minCommissionAmount', 'MIN_COMMISSION_AMOUNT', false)">Usuń</button></th>
-      <span class="errorAlert" v-if="v$.minCommissionAmount.$error">
+      <td><label>Minimalna kwota prowizji(PLN):</label></td>
+      <td><input type="number" v-model="minCommissionAmount" required>
+      <p class="error-alert" v-if="v$.minCommissionAmount.$error">
             {{ v$.minCommissionAmount.$errors[0].$message }}
-      </span>
+      </p></td>
+      <td><button @click="setConfiguration('MIN_COMMISSION_AMOUNT', minCommissionAmount, 'DEFAULT')">Zapisz</button></td>
+      <td><button @click="deleteConfiguration('MIN_COMMISSION_AMOUNT', 'DEFAULT');
+                      getConfiguration('minCommissionAmount', 'MIN_COMMISSION_AMOUNT', false)">Usuń</button></td>
+      
     </tr>
 
     <tr>
-      <th><label>Minimalna wartość prowizji(%):</label></th>
-      <input type="number" v-model="minCommissionRate" required>
-      <th><button @click="setConfiguration('MIN_COMMISSION_RATE', minCommissionRate/100, 'DEFAULT')">Zapisz</button></th>
-      <th><button @click="deleteConfiguration('MIN_COMMISSION_RATE', 'DEFAULT'); minCommissionRate = null;
-                      getConfiguration('minCommissionRate', 'MIN_COMMISSION_RATE', true)">Usuń</button></th>
-      <span class="errorAlert" v-if="v$.minCommissionRate.$error">
+      <td><label>Minimalna wartość prowizji(%):</label></td>
+      <td><input type="number" v-model="minCommissionRate" required>
+      <p class="error-alert" v-if="v$.minCommissionRate.$error">
             {{ v$.minCommissionRate.$errors[0].$message }}
-      </span>
+      </p></td>
+      <td><button @click="setConfiguration('MIN_COMMISSION_RATE', minCommissionRate/100, 'DEFAULT')">Zapisz</button></td>
+      <td><button @click="deleteConfiguration('MIN_COMMISSION_RATE', 'DEFAULT');
+                      getConfiguration('minCommissionRate', 'MIN_COMMISSION_RATE', true)">Usuń</button></td>
+      
       </tr>
 
     <tr>
-      <th><label>Maksymalna wartość prowizji(%):</label></th>
-      <input type="number" v-model="maxCommissionRate" required>
-      <th><button @click="setConfiguration('MAX_COMMISSION_RATE', maxCommissionRate/100, 'DEFAULT')">Zapisz</button></th>
-      <th><button @click="deleteConfiguration('MAX_COMMISSION_RATE', 'DEFAULT'); maxCommissionRate = null
-                      getConfiguration('maxCommissionRate', 'MAX_COMMISSION_RATE', true)">Usuń</button></th>
-      <span class="errorAlert" v-if="v$.maxCommissionRate.$error">
+      <td><label>Maksymalna wartość prowizji(%):</label></td>
+      <td><input type="number" v-model="maxCommissionRate" required>
+      <p class="error-alert" v-if="v$.maxCommissionRate.$error">
             {{ v$.maxCommissionRate.$errors[0].$message }}
-      </span>
+      </p></td>
+      <td><button @click="setConfiguration('MAX_COMMISSION_RATE', maxCommissionRate/100, 'DEFAULT')">Zapisz</button></td>
+      <td><button @click="deleteConfiguration('MAX_COMMISSION_RATE', 'DEFAULT');
+                      getConfiguration('maxCommissionRate', 'MAX_COMMISSION_RATE', true)">Usuń</button></td>
+      
 
     </tr>
     <tr>
-      <th><label>Domyślna wartość prowizji(%):</label></th>
-      <input type="number" v-model="defaultCommissionRate" required>
-      <th><button @click="setConfiguration('DEFAULT_COMMISSION_RATE', defaultCommissionRate/100, 'DEFAULT')">Zapisz</button></th>
-      <th><button @click="deleteConfiguration('DEFAULT_COMMISSION_RATE', 'DEFAULT'); defaultCommissionRate = null
-                      getConfiguration('defaultCommissionRate', 'DEFAULT_COMMISSION_RATE', true)">Usuń</button></th>
-      <span class="errorAlert" v-if="v$.defaultCommissionRate.$error">
+      <td><label>Domyślna wartość prowizji(%):</label></td>
+      <td><input type="number" v-model="defaultCommissionRate" required>
+      <p class="error-alert" v-if="v$.defaultCommissionRate.$error">
             {{ v$.defaultCommissionRate.$errors[0].$message }}
-      </span>
+      </p></td>
+      <td><button @click="setConfiguration('DEFAULT_COMMISSION_RATE', defaultCommissionRate/100, 'DEFAULT')">Zapisz</button></td>
+      <td><button @click="deleteConfiguration('DEFAULT_COMMISSION_RATE', 'DEFAULT');
+                      getConfiguration('defaultCommissionRate', 'DEFAULT_COMMISSION_RATE', true)">Usuń</button></td>
+      
 
     </tr>
     <tr>
-      <th><label>Minimalna kwota składki ubezpieczeniowej(PLN):</label></th>
-      <input type="number" v-model="minInsurancePremium" required>
-      <th><button @click="setConfiguration('MIN_PREMIUM_VALUE', minInsurancePremium, 'DEFAULT')">Zapisz</button></th>
-      <th><button @click="deleteConfiguration('MIN_PREMIUM_VALUE', 'DEFAULT'); minInsurancePremium = null
-                      getConfiguration('minInsurancePremium', 'MIN_PREMIUM_VALUE', false)">Usuń</button></th>
-      <span class="errorAlert" v-if="v$.minInsurancePremium.$error">
+      <td><label>Minimalna kwota składki ubezpieczeniowej(PLN):</label></td>
+      <td><input type="number" v-model="minInsurancePremium" required>
+      <p class="error-alert" v-if="v$.minInsurancePremium.$error">
             {{ v$.minInsurancePremium.$errors[0].$message }}
-      </span>
+      </p></td>
+      <td><button @click="setConfiguration('MIN_PREMIUM_VALUE', minInsurancePremium, 'DEFAULT')">Zapisz</button></td>
+      <td><button @click="deleteConfiguration('MIN_PREMIUM_VALUE', 'DEFAULT'); minInsurancePremium = null
+                      getConfiguration('minInsurancePremium', 'MIN_PREMIUM_VALUE', false)">Usuń</button></td>
+      
 
     </tr>
     
     <tr>
-      <th><label>Częstotliwość płatności składki ubezpieczeniowej(mies.):</label></th>
-      <input type="number" v-model="PaymentFrequency" required>
-      <th><button @click="setConfiguration('MONTH_FRAME', PaymentFrequency, 'DEFAULT')">Zapisz</button></th>
-      <th><button @click="deleteConfiguration('MONTH_FRAME', 'DEFAULT'); PaymentFrequency = null;
-                      getConfiguration('PaymentFrequency', 'MONTH_FRAME', false)">Usuń</button></th>
-      <span class="errorAlert" v-if="v$.PaymentFrequency.$error">
+      <td><label>Częstotliwość płatności składki ubezpieczeniowej(mies.):</label></td>
+      <td><input type="number" v-model="PaymentFrequency" required>
+      <p class="error-alert" v-if="v$.PaymentFrequency.$error">
             {{ v$.PaymentFrequency.$errors[0].$message }}
-      </span>
+      </p></td>
+      <td><button @click="setConfiguration('MONTH_FRAME', PaymentFrequency, 'DEFAULT')">Zapisz</button></td>
+      <td><button @click="deleteConfiguration('MONTH_FRAME', 'DEFAULT'); PaymentFrequency = null;
+                      getConfiguration('PaymentFrequency', 'MONTH_FRAME', false)">Usuń</button></td>
+      
     </tr>
-  
-   </table>
+  </tbody>
+  </table>
    <br><br>
-   <table class="table">
-     <tr>
-       <th>Lp.</th>
-       <th>Wiek:</th>
-       <th>Koszt ubezpieczenia(%):</th>
-       <th>Akcja</th>
-     </tr>
-     
+   <table>
+     <thead>
+        <tr>
+          <th>Lp.</th>
+          <th>Wiek:</th>
+          <th>Koszt ubezpieczenia(%):</th>
+          <th colspan="2">Akcja</th>
+        </tr>
+     </thead>
     
       
     
-    <tr class="bracket"
-      v-for="(ageBracket, index) in ageBrackets"
+    <tr v-for="(ageBracket, index) in ageBrackets"
       v-bind:key="index">
         
-        <th><label>{{index+1}}. </label></th>
+        <td><label>{{index+1}}. </label></td>
         <td><input type="number" v-model="ageBracket.age" required></td>
 
         
         <td><input type="number" v-model="ageBracket.insuranceRate" required></td>
-        <button @click="setConfiguration(ageBracket.age, ageBracket.insuranceRate/100, 'INSURANCE_GROUPS')">Zapisz</button>
-         <button @click="deleteBracket(index); deleteConfiguration(ageBracket.age, 'INSURANCE_GROUPS')">Usuń</button>
+        <td><button @click="setConfiguration(ageBracket.age, ageBracket.insuranceRate/100, 'INSURANCE_GROUPS')">Zapisz</button></td>
+        <td><button @click="deleteBracket(index); deleteConfiguration(ageBracket.age, 'INSURANCE_GROUPS')">Usuń</button></td>
     </tr>
     
     
-    <th><button @click="addBracket">Dodaj przedział wiekowy</button></th>
+    
     </table>
-    <button class="nav-button" @click="$router.push('/')">Powróć do strony głównej</button>
+    <button @click="addBracket">Dodaj przedział wiekowy</button>
+</div>
+<div class="return">
+  <button class="nav-button" @click="$router.push('/')">Powróć do strony głównej</button>
 </div>
 
 
@@ -290,34 +305,69 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
 
-
-.table{
-  margin: 0;
-  margin-top: -10px;
-  border-collapse: collapse;
+.user-config {
+  margin: 30px 15% 50px 15%;
+   table {
+        border-collapse: collapse;
+        border: 1px solid lightgray;
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px, 8px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        
+    }
+    th,td{
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+    td {
+        white-space: nowrap;
+        font-weight: 600;
+        height: 40px;
+        padding: 0 15px;
+    }
+    th {
+        height: 60px;
+    }
+    thead{
+        background-color: #16a085;
+        color: #fff;
+    }
+    input {
+      outline: none;
+      border: 1px solid lightgray;
+      height: 90%;
+      width: 100%;
+    }
+    button {
+      width: 150px;
+      height: 90%;
+      margin: 5px;
+      color: #16a085;
+      background-color: white;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+      border: solid 2px #16a085;
+      border-radius: 4px;
+      padding: 0.5em 1em;
+      font-weight: 600;
+    }
+    button:hover {
+      color: white;
+      border-color: currentColor;
+      background-color: #16a085;
+      cursor: pointer;
+    }
+    .error-alert {
+      color: red;
+    }
+    .error-border {
+      border: 1px solid pink
+    }
 }
-table, th, td {
-  border: 1px solid black;
-  
+.return {
+  margin: 100px;
 }
-input {
-  width: 95%;
-  text-align: left;
-  border-collapse: collapse;
-  outline: none;
-}
-.errorAlert {
-        color: red;
-        text-align: right;
-        margin: 10px;
-        padding: 10px;
-  }
-  .bracket {
-    border: 1px solid black;
-    padding: 20px;
-    padding-top: 10px;
-    margin: 5px;
-  }
 </style>

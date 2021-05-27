@@ -248,6 +248,7 @@ export default {
     thead{
         background-color: #16a085;
         color: #fff;
+        cursor: pointer;
     }
     .audit-item {
         transition: all .2s ease-in;

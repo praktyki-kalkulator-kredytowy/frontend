@@ -43,6 +43,7 @@ export default {
     color: #16a085;
     border-color: currentColor;
     background-color: white;
+    cursor: pointer;
 }
 h1 {
     font-weight: 600;
