@@ -10,26 +10,53 @@
   <table>
       <thead>
           <tr>
-              <th>ID</th>
-              <th>Kapitał</th>
-              <th>Rodzaj rat</th>
-              <th>Liczba rat</th>
-              <th>Oprocentowanie</th>
-              <th>Data wypłaty</th>
-              <th>Prowizja</th>
-              <th>Ubezpieczenie</th>
-              <th>Wiek</th>
-              <th>Suma rat odsetkowych</th>
-              <th>Kwota kredytu do wypłaty</th>
-              <th>Kwota prowizji</th>
-              <th>RRSO</th>
-              <th>Data wyliczenia</th>
+              <th @click="sortTable('id')">ID
+                  <div v-if="sortColumn == 'id'">{{ ascending ? '▲' : '▼' }}</div></th>
+              <th @click="sortTable('capital')">Kapitał
+                  <div v-if="sortColumn == 'capital'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('installmentType')">Rodzaj rat
+                  <div v-if="sortColumn == 'installmentType'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('installmentAmount')">Liczba rat
+                  <div v-if="sortColumn == 'installmentAmount'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('interestRate')">Oprocentowanie
+                  <div v-if="sortColumn == 'interestRate'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('withdrawalDate')">Data wypłaty
+                  <div v-if="sortColumn == 'withdrawalDate'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('commissionRate')">Prowizja
+                  <div v-if="sortColumn == 'commissionRate'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('insurance')">Ubezpieczenie
+                  <div v-if="sortColumn == 'insurance'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('age')">Wiek
+                  <div v-if="sortColumn == 'age'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('capitalInstallmentSum')">Suma rat odsetkowych
+                  <div v-if="sortColumn == 'capitalInstallmentSum'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('loanPaidOutAmount')">Kwota kredytu do wypłaty
+                  <div v-if="sortColumn == 'loanPaidOutAmount'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('commissionAmount')">Kwota prowizji
+                  <div v-if="sortColumn == 'commissionAmount'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('aprc')">RRSO
+                  <div v-if="sortColumn == 'aprc'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
+              <th @click="sortTable('calculationDate')">Data wyliczenia
+                  <div v-if="sortColumn == 'calculationDate'">{{ ascending ? '▲' : '▼' }}</div>
+              </th>
           </tr>
       </thead>
       <tbody>
-                <tr class="audit-item" @click="changedir(`/audit/details/${row.id}`)" v-for="row in filteredRows" :key="row.id">
+                <tr class="audit-item" @click="changedir(`/audit/details/${row.id}`)" v-for="row in auditData" :key="row.id">
                     <td v-html="highlightMatches(row.id)"></td>
-                    <td v-html="highlightMatches(row.capital)"></td>
+                    <td v-html="highlightMatches(currencyFormat(row.capital))"></td>
                     <td v-html="highlightMatches(row.installmentType == 'CONSTANT' ? 'Równe' : 'Malejące')"></td>
                     <td v-html="highlightMatches(row.installmentAmount)"></td>
                     <td v-html="highlightMatches(row.interestRate*100+'%')"></td>
@@ -37,9 +64,9 @@
                     <td v-html="highlightMatches(row.commissionRate*100+'%')"></td>
                     <td v-html="highlightMatches(row.insurance ? 'Tak' : 'Nie')"></td>
                     <td v-html="highlightMatches(row.age)"></td>
-                    <td v-html="highlightMatches(row.capitalInstallmentSum)"></td>
-                    <td v-html="highlightMatches(row.loanPaidOutAmount)"></td>
-                    <td v-html="highlightMatches(row.commissionAmount)"></td>
+                    <td v-html="highlightMatches(currencyFormat(row.capitalInstallmentSum))"></td>
+                    <td v-html="highlightMatches(currencyFormat(row.loanPaidOutAmount))"></td>
+                    <td v-html="highlightMatches(currencyFormat(row.commissionAmount))"></td>
                     <td v-html="highlightMatches(row.aprc+'%')"></td>
                     <td v-html="highlightMatches(formatDate(row.calculationDate))"></td>
                 </tr>
@@ -52,29 +79,49 @@
 
 <script>
 import moment from 'moment'
-
+import axios from 'axios'
 
 export default {
     name: 'AuditList',
     data() {
         return {
             search: '',
+            ascending: false,
+            sortColumn: '',
             auditData: [
                 {
                     id: 1,
-                    capital: 0,
+                    capital: 10000,
                     installmentType: "DECREASING",
                     installmentAmount: 360,
                     interestRate: 1,
-                    withdrawalDate: "2021-05-26",
+                    withdrawalDate: "2021-05-27",
                     commissionRate: 1,
                     age: 150,
                     insurance: true,
-                    capitalInstallmentSum: 0,
-                    loanPaidOutAmount: 0,
-                    commissionAmount: 0,
-                    insuranceTotalAmount: 0,
-                    loanTotalCost: 0,
+                    capitalInstallmentSum: 10000,
+                    loanPaidOutAmount: 10000,
+                    commissionAmount: 100000,
+                    insuranceTotalAmount: 10000,
+                    loanTotalCost: 10000,
+                    aprc: 0,
+                    calculationDate: "2021-05-27"
+                },
+                {
+                    id: 2,
+                    capital: 20000,
+                    installmentType: "DECREASING",
+                    installmentAmount: 360,
+                    interestRate: 1,
+                    withdrawalDate: "2021-06-26",
+                    commissionRate: 1,
+                    age: 150,
+                    insurance: true,
+                    capitalInstallmentSum: 10000,
+                    loanPaidOutAmount: 10000,
+                    commissionAmount: 100000,
+                    insuranceTotalAmount: 10000,
+                    loanTotalCost: 10000,
                     aprc: 0,
                     calculationDate: "2021-05-26"
                 }
@@ -97,10 +144,10 @@ export default {
                 const commissionRate = (row.commissionRate*100).toString()+'%'
                 const insurance = row.insurance ? 'tak' : 'nie'
                 const age = row.age.toString()
-                const capitalInstallmentSum = row.capitalInstallmentSum.toString()
-                const loanPaidOutAmount = row.loanPaidOutAmount.toString()
-                const insuranceTotalAmount = row.insuranceTotalAmount.toString()
-                const loanTotalCost = row.loanTotalCost.toString()
+                const capitalInstallmentSum = this.currencyFormat(row.capitalInstallmentSum).toString()
+                const loanPaidOutAmount = this.currencyFormat(row.loanPaidOutAmount).toString()
+                const insuranceTotalAmount = this.currencyFormat(row.insuranceTotalAmount).toString()
+                const loanTotalCost = this.currencyFormat(row.loanTotalCost).toString()
                 const aprc = (row.aprc*100).toString()+'%'
                 const calculationDate = moment(String(row.calculationDate)).format('DD.MM.YYYY')
 
@@ -122,7 +169,8 @@ export default {
                         aprc.includes(searchTerm) ||
                         calculationDate.includes(searchTerm)
             })
-        }
+        },
+        
     },
     methods: {
         highlightMatches(data) {
@@ -131,7 +179,7 @@ export default {
             if (!matchExists) return text
 
             const re = new RegExp(this.search, 'ig')
-            return text.replace(re, matchedText => `<strong>${matchedText}</strong>`)
+            return text.replace(re, matchedText => `<mark>${matchedText}</mark>`)
         },
         changedir(path) {
             this.$router.push(path)
@@ -140,14 +188,43 @@ export default {
             if (date) {
                 return moment(String(date)).format('DD.MM.YYYY')
             }
+        },
+        currencyFormat(num) {
+            if(num != undefined) return Number(num).toLocaleString('ru-RU', {minimumFractionDigits: 2, maximumFractionDigits: 2} )
+        },
+        getAuditData() {
+            axios.get(`http://localhost:4200/api/v1/audit`)
+            .then(response => {
+                this.auditData = response.data
+            })
+        },
+        sortTable(col) {
+        if (this.sortColumn === col) {
+            this.ascending = !this.ascending;
+        } else {
+            this.ascending = true;
+            this.sortColumn = col;
         }
+
+        var ascending = this.ascending;
+
+        this.auditData.sort(function(a, b) {
+            if (a[col] > b[col]) {
+            return ascending ? 1 : -1
+            } else if (a[col] < b[col]) {
+            return ascending ? -1 : 1
+            }
+            return 0;
+      })
     }
-    
+    },
+    mounted() {
+        this.getAuditData()
+    }
 }
 </script>
 
 <style scoped>
-
 
 .audit-list-wrapper {
     margin: 30px;
@@ -173,6 +250,16 @@ th,td{
 }
 td {
     white-space: nowrap;
+    font-size: smaller;
+    font-weight: 600;
+}
+th {
+    height: 60px;
+}
+table th:hover {
+    color: #16a085;
+    border: 1px solid #16a085;
+    background-color: white;
 }
 thead{
     background-color: #16a085;
