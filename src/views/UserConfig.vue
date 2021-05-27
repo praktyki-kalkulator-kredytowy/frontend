@@ -113,8 +113,8 @@
      <thead>
         <tr>
           <th>Lp.</th>
-          <th>Wiek:</th>
-          <th>Koszt ubezpieczenia(%):</th>
+          <th>Górny limit wieku</th>
+          <th>Koszt ubezpieczenia(%)</th>
           <th colspan="2">Akcja</th>
         </tr>
      </thead>
@@ -359,6 +359,9 @@ export default {
       border-color: currentColor;
       background-color: #16a085;
       cursor: pointer;
+    }
+    button:focus {
+      outline: none;
     }
     .error-alert {
       color: red;
