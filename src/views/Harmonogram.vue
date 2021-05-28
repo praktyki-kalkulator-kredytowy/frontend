@@ -20,14 +20,15 @@
     
   
 
-  <br/>
-  <button class="nav-button" @click="$router.push('/')">Przejdź do strony głównej</button>
-  <br/>
   
-  <div class="scheduleContainer">
+  
+  <div class="schedule-container">
     <schedule :schedule="scheduleData" />
   </div>
 
+  <div class="return">
+  <button class="nav-button" @click="$router.push('/')">Przejdź do strony głównej</button>
+  </div>
 
 </div>
 </template>
@@ -105,12 +106,15 @@ th, td {
   text-align: left;
 }
 
-.scheduleContainer {
+.schedule-container {
   width:65%;
   margin: auto;
   margin-top: 30px;
 }
 
+.return{
+  margin: 100px;
+}
 
 
 
