@@ -155,8 +155,8 @@
 
         
         <td><input type="number" v-model="ageBracket.insuranceRate" required></td>
-        <td><button @click="setConfiguration(ageBracket.age, ageBracket.insuranceRate/100, 'INSURANCE_GROUPS')">Zapisz</button></td>
-        <td><button @click="deleteBracket(index); deleteConfiguration(ageBracket.age, 'INSURANCE_GROUPS')">Przywróć domyślne</button></td>
+        <td><button @click="setAgeBracket(ageBracket.age, ageBracket.insuranceRate/100, 'INSURANCE_GROUPS', index)">Zapisz</button></td>
+        <td><button @click="deleteBracket(index); deleteConfiguration(ageBracket.age, 'INSURANCE_GROUPS')">Usuń</button></td>
     </tr>
     
     
@@ -314,6 +314,15 @@ export default {
             this.loading = false
           })
           
+    },
+    setAgeBracket(key, value, group, index) {
+      
+      if (this.ageBrackets.filter(br => br.age === key).length > 1) {
+        this.ageBrackets.find(br => br.age === key).insuranceRate = value*100
+        this.deleteBracket(index)
+      }
+      
+      this.setConfiguration(key, value, group)
     },
     async deleteConfiguration(key, groupKey) {
       this.loading = true
