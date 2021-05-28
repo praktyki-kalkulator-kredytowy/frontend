@@ -68,7 +68,7 @@
                     <td>{{ currencyFormat(row.capitalInstallmentSum) }}</td>
                     <td>{{ currencyFormat(row.loanPaidOutAmount) }}</td>
                     <td>{{ currencyFormat(row.commissionAmount) }}</td>
-                    <td>{{ row.aprc*100+'%' }}</td>
+                    <td>{{ (row.aprc*100).toFixed(2)+'%' }}</td>
                     <td>{{ formatDate(row.calculationDate) }}</td>
                 </tr>
       </tbody>
