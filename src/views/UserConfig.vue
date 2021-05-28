@@ -307,8 +307,10 @@ export default {
           .then(() => {
             this.showRequestSuccess = true
             })
-          .finally(() => {
+          .catch(() => {
             this.showRequestFail = true
+            })
+          .finally(() => {
             this.loading = false
           })
           
@@ -323,8 +325,10 @@ export default {
       .then(() => {
         this.showRequestSuccess = true
       })
-      .finally(() => {
+      .catch(() => {
         this.showRequestFail = true
+      })
+      .finally(() => {
         this.loading = false
       })
     },
