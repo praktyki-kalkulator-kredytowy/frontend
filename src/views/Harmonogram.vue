@@ -9,9 +9,6 @@
       <template v-slot:body>
         Proszę skontaktuj się z administratorem aplikacji
       </template>
-      <template v-slot:footer>
-        
-      </template>
   </Popup>
   
   

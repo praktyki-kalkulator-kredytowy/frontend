@@ -29,9 +29,7 @@
       </p>
       
       </template>
-      <template v-slot:footer>
-        
-      </template>
+      
   </Popup>
  <div class="user-config">
    
