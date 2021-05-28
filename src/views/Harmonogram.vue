@@ -25,10 +25,10 @@
   <br/>
   
   <div class="scheduleContainer">
-    <schedule :installments="installments" />
+    <schedule :schedule="scheduleData" />
   </div>
 
-{{ errorMessage }}
+
 </div>
 </template>
 
@@ -48,11 +48,16 @@ export default {
   },
   data() {
     return {
-      installments: {
+      scheduleData: {
         scheduleConfiguration: null,
-        installmentList: [],
-        aprc: 0,
-        insurancePremiumList: []
+        payments: [],
+        capitalInstallmentSum: null,
+        interestInstallmentSum: null,
+        loanPaidOutAmount: null,
+        commissionAmount: null,
+        insuranceTotalAmount: null,
+        loanTotalCost: null,
+        aprc: 0
       },
       errorMessage: '',
       showErrorPopup: false,
@@ -67,13 +72,15 @@ export default {
           await axios.post(`http://localhost:4200/api/v1/schedule`, JSON.stringify(data), { 
           headers:{"Content-type" : "application/json"}
           })
-          .then(response => {
-            this.installments = response.data
+          .then((response) => {
+            this.scheduleData = response.data
+          })
+          .catch(() => {
+            this.showErrorPopup = true
           })
           .finally(() => {
-            this.showErrorPopup = true
             this.loading = false
-            })
+          })
           
       
           

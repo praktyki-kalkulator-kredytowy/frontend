@@ -1,55 +1,55 @@
 <template>
-    <div class="installment-summary" v-if="installments.installmentList.length > 0">
+    <div class="installment-summary" v-if="schedule.payments.length > 0">
         <h2>Podsumowanie:</h2>
         <div class="configuration-row">
             <label>Suma rat odsetkowych: </label>
-            <span >{{ currencyFormat(calculateSum(i => i.interestInstallment)) }} </span>
+            <span >{{ currencyFormat(schedule.interestInstallmentSum) }} </span>
 
         </div>
 
         <div class="configuration-row">
             <label>Suma rat kapitalowych: </label>
-            <span>{{ currencyFormat(calculateSum(i => i.capitalInstallment)) }}</span>
+            <span>{{ currencyFormat(schedule.capitalInstallmentSum) }}</span>
 
         </div>
 
         <div class="configuration-row">
             <label>Suma rat całkowitych: </label>
-            <span>{{ currencyFormat(calculateSum(i => i.capitalInstallment + i.interestInstallment)) }}</span>
+            <span>{{ currencyFormat(schedule.capitalInstallmentSum + schedule.interestInstallmentSum) }}</span>
 
         </div>
 
-        <div class="configuration-row" v-if="installments.insurancePremiumList.length">
+        <div class="configuration-row" v-if="schedule.payments.length">
             <label>Suma składek ubezpieczeniowych: </label>
-            <span>{{currencyFormat(installments.insuranceTotalAmount)}}</span>
+            <span>{{currencyFormat(schedule.insuranceTotalAmount)}}</span>
 
         </div>
 
         <div class="configuration-row">
             <label>Kwota kredytu do wypłaty: </label>
-            <span>{{currencyFormat(installments.loanPaidOutAmount)}}</span>
+            <span>{{currencyFormat(schedule.loanPaidOutAmount)}}</span>
 
         </div>
 
         <div class="configuration-row">
             <label>Kwota prowizji: </label>
-            <span>{{currencyFormat(installments.commissionAmount)}}</span>
+            <span>{{currencyFormat(schedule.commissionAmount)}}</span>
 
         </div>
 
         <div class="configuration-row">
             <label>Łączne koszty kredytu: </label>
-            <span>{{currencyFormat(installments.loanTotalCost)}}</span>
+            <span>{{currencyFormat(schedule.loanTotalCost)}}</span>
 
         </div>
 
         <div class="configuration-row">
             <label>RSSO: </label>
-            <span> {{(installments.aprc*100).toFixed(2)}}%</span>
+            <span> {{(schedule.aprc*100).toFixed(2)}}%</span>
 
         </div>
     </div>
-    <div v-if="installments.installmentList.length > 0">
+    <div v-if="schedule.payments.length > 0">
     <table class="scheduleTable">
         <tr>
           <th>Rata</th>
@@ -58,18 +58,18 @@
           <th>Rata kapitałowa</th>
           <th>Rata całkowita</th>
           <th>Kapitał po spłacie</th>
-          <th v-if="installments.insurancePremiumList.length && installments.insuranceTotalAmount > 0">Składka ubezpieczeniowa</th>
+          <th v-if="schedule.insuranceTotalAmount > 0">Składka ubezpieczeniowa</th>
           
         </tr>
 
-        <tr :key="installment.index" v-for="installment in fullInstallmentList">
-          <td> {{ installment.index }}</td>
-          <td> {{ formatDate(installment.installmentDate)}}</td>
-          <td> {{ currencyFormat(installment.interestInstallment) }}</td>
-          <td> {{ currencyFormat(installment.capitalInstallment) }} </td>
-          <td> {{ currencyFormat(installment.capitalInstallment + installment.interestInstallment) }}</td>
-          <td> {{ currencyFormat(installment.remainingDebt) }}</td>
-          <td v-if="installments.insurancePremiumList.length && installments.insuranceTotalAmount > 0"> {{ currencyFormat(installment.insurancePremiumValue) }}</td>
+        <tr :key="payment.index" v-for="payment in schedule.payments">
+          <td> {{ payment.index }}</td>
+          <td> {{ formatDate(payment.date)}}</td>
+          <td> {{ currencyFormat(payment.interestInstallment) }}</td>
+          <td> {{ currencyFormat(payment.capitalInstallment) }} </td>
+          <td> {{ currencyFormat(payment.capitalInstallment + payment.interestInstallment) }}</td>
+          <td> {{ currencyFormat(payment.remainingDebt) }}</td>
+          <td v-if="schedule.insuranceTotalAmount > 0"> {{ currencyFormat(payment.insurancePremium) }}</td>
         </tr>
         
     </table>
@@ -87,33 +87,9 @@ import axios from 'axios'
 import moment from 'moment'
 export default {
    props: {
-       installments: Object
-   },
-   computed: {
-       fullInstallmentList() {
-           let arr1 = this.installments.installmentList
-           let arr2 = this.installments.insurancePremiumList
-
-           let merged = []
-
-           for(let i=0; i<arr1.length; i++) {
-               merged.push({
-                   ...(arr2.find((itmInner) => itmInner.insurancePremiumDate === arr1[i].installmentDate)),
-                   ...arr1[i]
-               })
-           }
-           return merged
-       }
+       schedule: Object
    },
     methods: {
-        calculateSum(elementExtractor) {
-            let sum = 0;
-            for(const i of this.installments.installmentList) {
-                sum += elementExtractor(i);
-            }
-        
-            return sum
-        },
         formatDate(date){
             if (date) {
                 return moment(String(date)).format('DD.MM.YYYY')
@@ -123,7 +99,7 @@ export default {
             if(num != undefined) return Number(num).toLocaleString('ru-RU', {minimumFractionDigits: 2, maximumFractionDigits: 2} )+' zł'
         },
         exportJSON() {
-            const data = JSON.stringify(this.installments.scheduleConfiguration)
+            const data = JSON.stringify(this.schedule.scheduleConfiguration)
             const blob = new Blob([data], {type: 'text/plain'})
             const e = document.createEvent('MouseEvents'),
             a = document.createElement('a');
@@ -135,7 +111,7 @@ export default {
         },
         async downloadPDF() {
                 
-        await axios.post(`http://localhost:4200/api/v1/schedule/pdf`, JSON.stringify(this.installments.scheduleConfiguration), 
+        await axios.post(`http://localhost:4200/api/v1/schedule/pdf`, JSON.stringify(this.schedule), 
             { 
             headers:{"Content-type" : "application/json"},
             responseType: 'blob'})
