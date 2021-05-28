@@ -69,7 +69,7 @@
       <td><input :class="{'error-border' : v$.minInterestRate.$invalid}" type="number" v-model="minInterestRate"></td>
       <td><button @click="setConfiguration('MIN_INTEREST_RATE', minInterestRate/100, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MIN_INTEREST_RATE', 'DEFAULT'); 
-                       getConfiguration('minInterestRate', 'MIN_INTEREST_RATE', true)">Usuń</button></td>
+                       getConfiguration('minInterestRate', 'MIN_INTEREST_RATE', true)">Przywróć domyślne</button></td>
       </tr>
 
       <tr>
@@ -77,7 +77,7 @@
       <td><input :class="{'error-border' : v$.maxInterestRate.$invalid}" type="number" v-model="maxInterestRate"></td>
       <td><button @click="setConfiguration('MAX_INTEREST_RATE', maxInterestRate/100, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MAX_INTEREST_RATE', 'DEFAULT');
-                      getConfiguration('maxInterestRate', 'MAX_INTEREST_RATE', true)">Usuń</button></td>
+                      getConfiguration('maxInterestRate', 'MAX_INTEREST_RATE', true)">Przywróć domyślne</button></td>
       </tr>
     
 
@@ -86,7 +86,7 @@
       <td><input :class="{'error-border' : v$.minCommissionAmount.$invalid}" type="number" v-model="minCommissionAmount"></td>
       <td><button @click="setConfiguration('MIN_COMMISSION_AMOUNT', minCommissionAmount, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MIN_COMMISSION_AMOUNT', 'DEFAULT');
-                      getConfiguration('minCommissionAmount', 'MIN_COMMISSION_AMOUNT', false)">Usuń</button></td>
+                      getConfiguration('minCommissionAmount', 'MIN_COMMISSION_AMOUNT', false)">Przywróć domyślne</button></td>
       
     </tr>
 
@@ -95,7 +95,7 @@
       <td><input :class="{'error-border' : v$.minCommissionRate.$invalid}" type="number" v-model="minCommissionRate"></td>
       <td><button @click="setConfiguration('MIN_COMMISSION_RATE', minCommissionRate/100, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MIN_COMMISSION_RATE', 'DEFAULT');
-                      getConfiguration('minCommissionRate', 'MIN_COMMISSION_RATE', true)">Usuń</button></td>
+                      getConfiguration('minCommissionRate', 'MIN_COMMISSION_RATE', true)">Przywróć domyślne</button></td>
     </tr>
 
     <tr>
@@ -103,7 +103,7 @@
       <td><input :class="{'error-border' : v$.maxCommissionRate.$invalid}" type="number" v-model="maxCommissionRate"></td>
       <td><button @click="setConfiguration('MAX_COMMISSION_RATE', maxCommissionRate/100, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MAX_COMMISSION_RATE', 'DEFAULT');
-                      getConfiguration('maxCommissionRate', 'MAX_COMMISSION_RATE', true)">Usuń</button></td>
+                      getConfiguration('maxCommissionRate', 'MAX_COMMISSION_RATE', true)">Przywróć domyślne</button></td>
     </tr>
 
     <tr>
@@ -111,7 +111,7 @@
       <td><input :class="{'error-border' : v$.defaultCommissionRate.$invalid}" type="number" v-model="defaultCommissionRate"></td>
       <td><button @click="setConfiguration('DEFAULT_COMMISSION_RATE', defaultCommissionRate/100, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('DEFAULT_COMMISSION_RATE', 'DEFAULT');
-                      getConfiguration('defaultCommissionRate', 'DEFAULT_COMMISSION_RATE', true)">Usuń</button></td>
+                      getConfiguration('defaultCommissionRate', 'DEFAULT_COMMISSION_RATE', true)">Przywróć domyślne</button></td>
     </tr>
 
     <tr>
@@ -120,7 +120,7 @@
       </td>
       <td><button @click="setConfiguration('MIN_PREMIUM_VALUE', minInsurancePremium, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MIN_PREMIUM_VALUE', 'DEFAULT');
-                      getConfiguration('minInsurancePremium', 'MIN_PREMIUM_VALUE', false)">Usuń</button>
+                      getConfiguration('minInsurancePremium', 'MIN_PREMIUM_VALUE', false)">Przywróć domyślne</button>
       </td>
     </tr>
     
@@ -129,7 +129,7 @@
       <td><input :class="{'error-border' : v$.PaymentFrequency.$invalid}" type="number" v-model="PaymentFrequency"></td>
       <td><button @click="setConfiguration('MONTH_FRAME', PaymentFrequency, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MONTH_FRAME', 'DEFAULT');
-                      getConfiguration('PaymentFrequency', 'MONTH_FRAME', false)">Usuń</button>
+                      getConfiguration('PaymentFrequency', 'MONTH_FRAME', false)">Przywróć domyślne</button>
       </td>
     </tr>
   </tbody>
@@ -139,7 +139,7 @@
      <thead>
         <tr>
           <th>Lp.</th>
-          <th>Górny limit wieku</th>
+          <th>Dolny limit wieku</th>
           <th>Koszt ubezpieczenia(%)</th>
           <th colspan="2">Akcja</th>
         </tr>
@@ -156,7 +156,7 @@
         
         <td><input type="number" v-model="ageBracket.insuranceRate" required></td>
         <td><button @click="setConfiguration(ageBracket.age, ageBracket.insuranceRate/100, 'INSURANCE_GROUPS')">Zapisz</button></td>
-        <td><button @click="deleteBracket(index); deleteConfiguration(ageBracket.age, 'INSURANCE_GROUPS')">Usuń</button></td>
+        <td><button @click="deleteBracket(index); deleteConfiguration(ageBracket.age, 'INSURANCE_GROUPS')">Przywróć domyślne</button></td>
     </tr>
     
     
