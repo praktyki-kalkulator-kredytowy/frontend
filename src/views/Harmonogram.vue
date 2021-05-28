@@ -7,7 +7,10 @@
         <h3>Wystąpił błąd</h3>
       </template>
       <template v-slot:body>
-        Proszę skontaktuj się z administratorem aplikacji
+        Proszę skontaktuj się z administratorem aplikacji.
+      </template>
+      <template v-slot:footer>
+        Przepraszamy za nieudogodnienia.
       </template>
   </Popup>
   
