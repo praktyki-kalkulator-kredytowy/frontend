@@ -1,5 +1,38 @@
 <template>
 <h1>Konfiguracja aplikacji</h1>
+<Popup v-if="showValidationError" @close="showValidationError = false">
+      <template v-slot:header>
+        <h3>Wystąpiły błędy we wprowadzanych danych</h3>
+      </template>
+      <template v-slot:body>
+      
+      <p class="error-alert" v-if="v$.minInterestRate.$error">
+          Minimalne oprocentowanie: {{ v$.minInterestRate.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.maxInterestRate.$error">
+          Maksymalne oprocentowanie: {{ v$.maxInterestRate.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.minCommissionAmount.$error">
+          Minimalna kwota prowizji:   {{ v$.minCommissionAmount.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.minCommissionRate.$error">
+          Minimalna wartość prowizji: {{ v$.minCommissionRate.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.maxCommissionRate.$error">
+          Maksymalna wartość prowizji: {{ v$.maxCommissionRate.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.defaultCommissionRate.$error">
+          Domyślna wartość prowizji: {{ v$.defaultCommissionRate.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.minInsurancePremium.$error">
+          Minimalna kwota składki ubezpieczeniowej: {{ v$.minInsurancePremium.$errors[0].$message }}
+      </p>
+      
+      </template>
+      <template v-slot:footer>
+        
+      </template>
+  </Popup>
  <div class="user-config">
    
    
@@ -12,34 +45,24 @@
     <tbody>
     <tr>
       <td><label>Minimalne oprocentowanie(%):</label></td>
-      <td><input type="number" v-model="minInterestRate" required>
-      <p class="error-alert" v-if="v$.minInterestRate.$error">
-            {{ v$.minInterestRate.$errors[0].$message }}
-      </p></td>
+      <td><input :class="{'error-border' : v$.minInterestRate.$invalid}" type="number" v-model="minInterestRate"></td>
       <td><button @click="setConfiguration('MIN_INTEREST_RATE', minInterestRate/100, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MIN_INTEREST_RATE', 'DEFAULT'); 
                        getConfiguration('minInterestRate', 'MIN_INTEREST_RATE', true)">Usuń</button></td>
-      
       </tr>
+
       <tr>
       <td><label>Maksymalne oprocentowanie(%):</label></td>
-      <td><input type="number" v-model="maxInterestRate" required>
-      <p class="error-alert" v-if="v$.maxInterestRate.$error">
-            {{ v$.maxInterestRate.$errors[0].$message }}
-      </p></td>
+      <td><input :class="{'error-border' : v$.maxInterestRate.$invalid}" type="number" v-model="maxInterestRate"></td>
       <td><button @click="setConfiguration('MAX_INTEREST_RATE', maxInterestRate/100, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MAX_INTEREST_RATE', 'DEFAULT');
                       getConfiguration('maxInterestRate', 'MAX_INTEREST_RATE', true)">Usuń</button></td>
-      
       </tr>
     
 
     <tr>
       <td><label>Minimalna kwota prowizji(PLN):</label></td>
-      <td><input type="number" v-model="minCommissionAmount" required>
-      <p class="error-alert" v-if="v$.minCommissionAmount.$error">
-            {{ v$.minCommissionAmount.$errors[0].$message }}
-      </p></td>
+      <td><input :class="{'error-border' : v$.minCommissionAmount.$invalid}" type="number" v-model="minCommissionAmount"></td>
       <td><button @click="setConfiguration('MIN_COMMISSION_AMOUNT', minCommissionAmount, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MIN_COMMISSION_AMOUNT', 'DEFAULT');
                       getConfiguration('minCommissionAmount', 'MIN_COMMISSION_AMOUNT', false)">Usuń</button></td>
@@ -48,63 +71,45 @@
 
     <tr>
       <td><label>Minimalna wartość prowizji(%):</label></td>
-      <td><input type="number" v-model="minCommissionRate" required>
-      <p class="error-alert" v-if="v$.minCommissionRate.$error">
-            {{ v$.minCommissionRate.$errors[0].$message }}
-      </p></td>
+      <td><input :class="{'error-border' : v$.minCommissionRate.$invalid}" type="number" v-model="minCommissionRate"></td>
       <td><button @click="setConfiguration('MIN_COMMISSION_RATE', minCommissionRate/100, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MIN_COMMISSION_RATE', 'DEFAULT');
                       getConfiguration('minCommissionRate', 'MIN_COMMISSION_RATE', true)">Usuń</button></td>
-      
-      </tr>
+    </tr>
 
     <tr>
       <td><label>Maksymalna wartość prowizji(%):</label></td>
-      <td><input type="number" v-model="maxCommissionRate" required>
-      <p class="error-alert" v-if="v$.maxCommissionRate.$error">
-            {{ v$.maxCommissionRate.$errors[0].$message }}
-      </p></td>
+      <td><input :class="{'error-border' : v$.maxCommissionRate.$invalid}" type="number" v-model="maxCommissionRate"></td>
       <td><button @click="setConfiguration('MAX_COMMISSION_RATE', maxCommissionRate/100, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('MAX_COMMISSION_RATE', 'DEFAULT');
                       getConfiguration('maxCommissionRate', 'MAX_COMMISSION_RATE', true)">Usuń</button></td>
-      
-
     </tr>
+
     <tr>
       <td><label>Domyślna wartość prowizji(%):</label></td>
-      <td><input type="number" v-model="defaultCommissionRate" required>
-      <p class="error-alert" v-if="v$.defaultCommissionRate.$error">
-            {{ v$.defaultCommissionRate.$errors[0].$message }}
-      </p></td>
+      <td><input :class="{'error-border' : v$.defaultCommissionRate.$invalid}" type="number" v-model="defaultCommissionRate"></td>
       <td><button @click="setConfiguration('DEFAULT_COMMISSION_RATE', defaultCommissionRate/100, 'DEFAULT')">Zapisz</button></td>
       <td><button @click="deleteConfiguration('DEFAULT_COMMISSION_RATE', 'DEFAULT');
                       getConfiguration('defaultCommissionRate', 'DEFAULT_COMMISSION_RATE', true)">Usuń</button></td>
-      
-
     </tr>
+
     <tr>
       <td><label>Minimalna kwota składki ubezpieczeniowej(PLN):</label></td>
-      <td><input type="number" v-model="minInsurancePremium" required>
-      <p class="error-alert" v-if="v$.minInsurancePremium.$error">
-            {{ v$.minInsurancePremium.$errors[0].$message }}
-      </p></td>
+      <td><input :class="{'error-border' : v$.minInsurancePremium.$invalid}" type="number" v-model="minInsurancePremium">
+      </td>
       <td><button @click="setConfiguration('MIN_PREMIUM_VALUE', minInsurancePremium, 'DEFAULT')">Zapisz</button></td>
-      <td><button @click="deleteConfiguration('MIN_PREMIUM_VALUE', 'DEFAULT'); minInsurancePremium = null
-                      getConfiguration('minInsurancePremium', 'MIN_PREMIUM_VALUE', false)">Usuń</button></td>
-      
-
+      <td><button @click="deleteConfiguration('MIN_PREMIUM_VALUE', 'DEFAULT');
+                      getConfiguration('minInsurancePremium', 'MIN_PREMIUM_VALUE', false)">Usuń</button>
+      </td>
     </tr>
     
     <tr>
       <td><label>Częstotliwość płatności składki ubezpieczeniowej(mies.):</label></td>
-      <td><input type="number" v-model="PaymentFrequency" required>
-      <p class="error-alert" v-if="v$.PaymentFrequency.$error">
-            {{ v$.PaymentFrequency.$errors[0].$message }}
-      </p></td>
+      <td><input :class="{'error-border' : v$.PaymentFrequency.$invalid}" type="number" v-model="PaymentFrequency"></td>
       <td><button @click="setConfiguration('MONTH_FRAME', PaymentFrequency, 'DEFAULT')">Zapisz</button></td>
-      <td><button @click="deleteConfiguration('MONTH_FRAME', 'DEFAULT'); PaymentFrequency = null;
-                      getConfiguration('PaymentFrequency', 'MONTH_FRAME', false)">Usuń</button></td>
-      
+      <td><button @click="deleteConfiguration('MONTH_FRAME', 'DEFAULT');
+                      getConfiguration('PaymentFrequency', 'MONTH_FRAME', false)">Usuń</button>
+      </td>
     </tr>
   </tbody>
   </table>
@@ -149,6 +154,7 @@
 import axios from 'axios'
 import useValidate from '@vuelidate/core'
 import { required, minValue, maxValue, helpers} from '@vuelidate/validators'
+import Popup from '../components/Popup'
 
 const notEmpty = 'Pole nie może być puste'
 const notNegative = 'Wartość nie może być ujemna'
@@ -159,6 +165,9 @@ function isInt (value) {
 
 export default {
   name: 'UserConfig',
+  components: {
+    Popup
+  },
   data() {
     return {
         v$: useValidate(),
@@ -175,7 +184,8 @@ export default {
             age: null,
             insuranceRate: null
           }
-        ]
+        ],
+        showValidationError: false
         
 
     }
@@ -255,7 +265,7 @@ export default {
     },
     async setConfiguration(key, value, group) {
       if (this.v$.$invalid) {
-          alert('Nieprawidłowe dane')
+          this.showValidationError = true
           return
       }
       let data = {
@@ -336,7 +346,7 @@ export default {
     }
     input {
       outline: none;
-      border: 1px solid lightgray;
+      border: 2px solid lightgray;
       height: 90%;
       width: 100%;
     }
@@ -363,13 +373,19 @@ export default {
     button:focus {
       outline: none;
     }
-    .error-alert {
-      color: red;
-    }
-    .error-border {
-      border: 1px solid pink
-    }
+   
+    
 }
+ .error-alert {
+      color: red;
+  }
+  
+  .error-border {
+    border: 2px solid red !important;
+    box-shadow: 0 0 10px rgb(255, 117, 117);
+  }
+  
+  
 .return {
   margin: 100px;
 }
