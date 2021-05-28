@@ -1,5 +1,6 @@
 <template>
 <h1>Konfiguracja aplikacji</h1>
+<h3 v-show="loading">Trwa ładowanie...</h3>
 <Popup v-if="showValidationError" @close="showValidationError = false">
       <template v-slot:header>
         <h3>Wystąpiły błędy we wprowadzanych danych</h3>
@@ -29,8 +30,30 @@
       </p>
       
       </template>
-      
-  </Popup>
+</Popup>
+
+<Popup v-if="showRequestSuccess" @close="showRequestSuccess = false">
+      <template v-slot:header>
+        <h3>Sukces!</h3>
+      </template>
+      <template v-slot:body>
+        Udało się zmienić konfigurację.
+      </template>
+</Popup>
+
+<Popup v-if="showRequestFail" @close="showRequestFail = false">
+      <template v-slot:header>
+        <h3>Wystąpił błąd aplikacji</h3>
+      </template>
+      <template v-slot:body>
+        <p>Nie udało się zmienić konfiguracji.</p>
+        <p>Proszę skontaktuj się z administratorem aplikacji.</p>
+      </template>
+      <template v-slot:footer>
+        Przepraszamy za nieudogodnienie.
+      </template>
+</Popup>
+
  <div class="user-config">
    
    
@@ -183,7 +206,10 @@ export default {
             insuranceRate: null
           }
         ],
-        showValidationError: false
+        showValidationError: false,
+        showRequestSuccess: false,
+        showRequestFail: false,
+        loading: false
         
 
     }
@@ -262,6 +288,9 @@ export default {
         })
     },
     async setConfiguration(key, value, group) {
+
+      this.loading = true
+
       if (this.v$.$invalid) {
           this.showValidationError = true
           return
@@ -272,19 +301,32 @@ export default {
           group: group
       }
       
-      
-     let response =  await axios.post(`http://localhost:4200/api/v1/schedule/configuration`, JSON.stringify(data), { 
+      await axios.post(`http://localhost:4200/api/v1/schedule/configuration`, JSON.stringify(data), { 
           headers:{"Content-type" : "application/json"}
           })
-          response.status === 200 ? alert('Udało się zmienić konfigurację.') : alert('Wystąpił błąd.')
+          .then(() => {
+            this.showRequestSuccess = true
+            })
+          .finally(() => {
+            this.showRequestFail = true
+            this.loading = false
+          })
+          
     },
     async deleteConfiguration(key, groupKey) {
+      this.loading = true
       let data = {
         key: key,
         groupKey: groupKey
       }
-      let response = await axios.delete(`http://localhost:4200/api/v1/schedule/configuration`, { data: data })
-      response.status == 200 ? alert('Udało się usunąć konfigurację.') : alert('Wystąpił błąd.')
+      await axios.delete(`http://localhost:4200/api/v1/schedule/configuration`, { data: data })
+      .then(() => {
+        this.showRequestSuccess = true
+      })
+      .finally(() => {
+        this.showRequestFail = true
+        this.loading = false
+      })
     },
     addBracket() {
         this.ageBrackets.push({
