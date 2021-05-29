@@ -147,7 +147,7 @@
     
       
     
-    <tr v-for="(ageBracket, index) in ageBrackets"
+    <tr v-for="(ageBracket, index) in sortedAgeBrackets"
       v-bind:key="index">
         
         <td><label>{{index+1}}. </label></td>
@@ -213,6 +213,15 @@ export default {
         
 
     }
+  },
+  computed: {
+    sortedAgeBrackets() {
+      function compareAge(a,b) {
+        return (a.age > b.age) ? 1 : (b.age > a.age) ? -1 : 0
+      }
+      return this.ageBrackets.slice().sort(compareAge)
+    }
+    
   },
   validations() {
         return {
@@ -350,6 +359,7 @@ export default {
     deleteBracket(index) {
         this.ageBrackets.splice(index, 1)
     }
+    
   
   },
   mounted() {
