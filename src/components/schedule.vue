@@ -1,5 +1,5 @@
 <template>
-    <div class="installment-summary" v-if="schedule.payments.length > 0">
+    <div class="schedule-summary-container" v-if="schedule.payments.length > 0">
         <h2>Podsumowanie:</h2>
         <div class="configuration-row">
             <label>Suma rat odsetkowych: </label>
@@ -49,19 +49,19 @@
 
         </div>
     </div>
-    <div v-if="schedule.payments.length > 0">
+    <div class="schedule-payments-container" v-if="schedule.payments.length > 0">
     <table class="scheduleTable">
-        <tr>
-          <th>Rata</th>
-          <th>Data raty</th>
-          <th>Rata odsetkowa</th>
-          <th>Rata kapitałowa</th>
-          <th>Rata całkowita</th>
-          <th>Kapitał po spłacie</th>
-          <th v-if="schedule.insuranceTotalAmount > 0">Składka ubezpieczeniowa</th>
-          
-        </tr>
-
+        <thead>
+            <tr>
+                <th>Rata</th>
+                <th>Data raty</th>
+                <th>Rata odsetkowa</th>
+                <th>Rata kapitałowa</th>
+                <th>Rata całkowita</th>
+                <th>Kapitał po spłacie</th>
+                <th v-if="schedule.insuranceTotalAmount > 0">Składka ubezpieczeniowa</th>
+            </tr>
+        </thead>
         <tr :key="payment.index" v-for="payment in schedule.payments">
           <td> {{ payment.index }}</td>
           <td> {{ formatDate(payment.date)}}</td>
@@ -73,12 +73,11 @@
         </tr>
         
     </table>
-    
-    <button @click="exportJSON">Eksportuj do pliku JSON</button>
-    
-    <button @click="downloadPDF">Pobierz PDF</button>
-    
+    <div class="buttons-container">
+        <button @click="exportJSON">Eksportuj do pliku JSON</button>
+        <button @click="downloadPDF">Pobierz PDF</button>
     </div>
+</div>
 
 </template>
 
@@ -135,7 +134,7 @@ export default {
 </script>
 
 
-<style scoped>
+<style lang="scss" scoped>
 
     .scheduleTable {
         border-collapse: collapse;
@@ -143,20 +142,21 @@ export default {
         margin: auto;
         font-size: larger;
         text-align: right;
-    }
-
-    .scheduleTable, .scheduleTable td, th {
         border: 2px solid #0097A7;
-    }
+        thead {
+            color: white;
+        }
 
-    .scheduleTable th {
-        background-color: #0097A7;
+        td, th {
+            border: 2px solid #0097A7;
+        }
+        th {
+            background-color: #0097A7;
+        }
+        tr:nth-of-type(odd) {
+            background-color: #B2EBF2;
+        }
     }
-
-    .scheduleTable tr:nth-of-type(2n+1) {
-        background-color: #B2EBF2;
-    }
-
     .configuration-row {
         width: 100%;
         display: flex;
@@ -177,9 +177,41 @@ export default {
         justify-self: flex-end;
         align-self: center;
     }
-    .installment-summary {
+    .schedule-summary-container {
         width: 55%;
         margin: auto;
+    }
+    .schedule-payments-container {
+        margin-top: 40px;
+        
+        button {
+            width: 150px;
+            height: 60px;
+            margin: 5px;
+            color: #16a085;
+            background-color: white;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            border: solid 2px #16a085;
+            border-radius: 4px;
+            padding: 0.5em 1em;
+            font-weight: 600;
+        }
+        button:hover {
+            color: white;
+            border-color: currentColor;
+            background-color: #16a085;
+            cursor: pointer;
+        }
+        button:focus {
+            outline: none;
+        }
+        .buttons-container {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        }
     }
 
 </style>

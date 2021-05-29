@@ -14,15 +14,9 @@
       </template>
   </Popup>
   
-  
-  <schedule-configuration :onSubmit="fetchSchedule" :loading="loading" />
-  <br>
-    
-  
-
-  
-  
   <div class="schedule-container">
+    <schedule-configuration :onSubmit="fetchSchedule" :loading="loading" />
+  
     <schedule :schedule="scheduleData" />
   </div>
 
@@ -110,10 +104,13 @@ th, td {
   width:65%;
   margin: auto;
   margin-top: 30px;
+  border: 1px solid lightgray;
+  padding: 50px;
+  border-radius: 25px;
 }
 
 .return{
-  margin: 100px;
+  margin: 50px;
 }
 
 
