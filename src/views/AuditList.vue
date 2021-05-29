@@ -89,48 +89,7 @@ export default {
             search: '',
             ascending: false,
             sortColumn: '',
-            auditData: [
-                {
-                    id: 1,
-                    capital: 10000,
-                    installmentType: "DECREASING",
-                    installmentAmount: 360,
-                    interestRate: 1,
-                    withdrawalDate: "2021-05-27",
-                    commissionRate: 1,
-                    age: 150,
-                    insurance: true,
-                    capitalInstallmentSum: 10000,
-                    loanPaidOutAmount: 10000,
-                    commissionAmount: 100000,
-                    insuranceTotalAmount: 10000,
-                    loanTotalCost: 10000,
-                    aprc: 0,
-                    calculationDate: "2021-05-27"
-                },
-                {
-                    id: 2,
-                    capital: 20000.12,
-                    installmentType: "DECREASING",
-                    installmentAmount: 360,
-                    interestRate: 1,
-                    withdrawalDate: "2021-06-26",
-                    commissionRate: 1,
-                    age: 150,
-                    insurance: true,
-                    capitalInstallmentSum: 10000,
-                    loanPaidOutAmount: 10000,
-                    commissionAmount: 100000,
-                    insuranceTotalAmount: 10000,
-                    loanTotalCost: 10000,
-                    aprc: 0,
-                    calculationDate: "2021-05-26"
-                }
-            ]
-            
-            
-
-            
+            auditData: []
         }
     },
     computed: {
@@ -266,6 +225,9 @@ export default {
   padding: 10px;
   margin: 10px;
   outline: none;
+}
+.nav-button {
+    margin-bottom: 50px;
 }
 
 </style>
