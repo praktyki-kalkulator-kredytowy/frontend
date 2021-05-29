@@ -147,7 +147,7 @@
     
       
     
-    <tr v-for="(ageBracket, index) in sortedAgeBrackets"
+    <tr v-for="(ageBracket, index) in ageBrackets"
       v-bind:key="index">
         
         <td><label>{{index+1}}. </label></td>
@@ -155,7 +155,7 @@
 
         
         <td><input type="number" v-model="ageBracket.insuranceRate" required></td>
-        <td><button @click="setAgeBracket(ageBracket.age, ageBracket.insuranceRate/100, 'INSURANCE_GROUPS', index)">Zapisz</button></td>
+        <td><button @click="setAgeBracket(ageBracket.age, ageBracket.insuranceRate/100, 'INSURANCE_GROUPS', index); sortAgeBrackets()">Zapisz</button></td>
         <td><button @click="deleteBracket(index); deleteConfiguration(ageBracket.age, 'INSURANCE_GROUPS')">Usuń</button></td>
     </tr>
     
@@ -213,15 +213,6 @@ export default {
         
 
     }
-  },
-  computed: {
-    sortedAgeBrackets() {
-      function compareAge(a,b) {
-        return (a.age > b.age) ? 1 : (b.age > a.age) ? -1 : 0
-      }
-      return this.ageBrackets.slice().sort(compareAge)
-    }
-    
   },
   validations() {
         return {
@@ -295,6 +286,7 @@ export default {
           this.ageBrackets[i].insuranceRate = parseFloat((response.data[i].value*100).toFixed(2))
           }
         })
+        this.sortAgeBrackets()
     },
     async setConfiguration(key, value, group) {
 
@@ -358,10 +350,15 @@ export default {
     },
     deleteBracket(index) {
         this.ageBrackets.splice(index, 1)
+    },
+    sortAgeBrackets() {
+      function compareAge(a,b) {
+        return (Number(a.age) > Number(b.age)) ? 1 : (Number(b.age) > Number(a.age)) ? -1 : 0
+      }
+      return this.ageBrackets.sort(compareAge)
     }
-    
+   }, 
   
-  },
   mounted() {
     this.getConfiguration('minInsurancePremium', "MIN_PREMIUM_VALUE", false),
     this.getConfiguration('minCommissionAmount', "MIN_COMMISSION_AMOUNT", false),
