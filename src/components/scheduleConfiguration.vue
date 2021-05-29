@@ -1,5 +1,33 @@
 <template>
-
+    <Popup v-if="showValidationError" @close="showValidationError = false">
+      <template v-slot:header>
+        <h3>Wystąpiły błędy we wprowadzanych danych</h3>
+      </template>
+      <template v-slot:body>
+      <p class="error-alert" v-if="v$.capital.$error">
+          Kapitał: {{ v$.capital.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.installmentType.$error">
+          Typ rat: {{ v$.installmentType.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.installmentAmount.$error">
+          Liczba rat:   {{ v$.installmentAmount.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.interestRate.$error">
+          Oprocentowanie: {{ v$.interestRate.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.withdrawalDate.$error">
+          Data wypłaty: {{ v$.withdrawalDate.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.commissionRate.$error">
+          Prowizja: {{ v$.commissionRate.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.age.$error">
+          Wiek: {{ v$.age.$errors[0].$message }}
+      </p>
+      
+      </template>
+    </Popup>
     
 
     <div class="form">
@@ -10,7 +38,7 @@
             
         </div>
 
-        <p class="errorAlert" v-if="v$.capital.$error">
+        <p class="error-alert" v-if="v$.capital.$error">
             {{ v$.capital.$errors[0].$message }}
         </p>
 
@@ -26,7 +54,7 @@
             
         </div>
 
-        <p class="errorAlert" v-if="v$.installmentType.$error">
+        <p class="error-alert" v-if="v$.installmentType.$error">
             {{ v$.installmentType.$errors[0].$message }}
         </p>
 
@@ -37,7 +65,7 @@
             
         </div>
 
-        <p class="errorAlert" v-if="v$.installmentAmount.$error">
+        <p class="error-alert" v-if="v$.installmentAmount.$error">
             {{ v$.installmentAmount.$errors[0].$message }}
         </p>
 
@@ -47,7 +75,7 @@
             <input @blur="v$.interestRate.$touch()" v-model="interestRate" type="number" placeholder="oprocentowanie">
         </div>
 
-        <p class="errorAlert" v-if="v$.interestRate.$error">
+        <p class="error-alert" v-if="v$.interestRate.$error">
             {{ v$.interestRate.$errors[0].$message }}
         </p>
 
@@ -64,7 +92,7 @@
             </v-date-picker>
         </div>
 
-        <p class="errorAlert" v-if="v$.withdrawalDate.$error">
+        <p class="error-alert" v-if="v$.withdrawalDate.$error">
             {{ v$.withdrawalDate.$errors[0].$message }}
         </p>
 
@@ -74,7 +102,7 @@
             <input @blur="v$.commissionRate.$touch()" v-model="commissionRate" type="number" placeholder="prowizja">
         </div>
 
-        <p class="errorAlert" v-if="v$.commissionRate.$error">
+        <p class="error-alert" v-if="v$.commissionRate.$error">
         {{ v$.commissionRate.$errors[0].$message }}
         </p>
 
@@ -90,19 +118,20 @@
              <input @blur="v$.age.$touch()" v-model="age" type="number" placeholder="wiek">
         </div>
 
-        <p class="errorAlert" v-if="v$.age.$error">
+        <p class="error-alert" v-if="v$.age.$error">
             {{ v$.age.$errors[0].$message }}
         </p>
         
-        <div class="button">
-            <button @click="submit()">Wylicz</button>
-        </div>
+        <div class="buttons-container">
+            <button class="submit-button" @click="submit()">Wylicz</button>
+        
 
         <button @click="toggleShowImport">Importuj z pliku JSON</button>
-            <div v-show="showImport">
-                <input type="file" id="selectJSON" value=""> <br>
+            <div class="json-import-container" v-show="showImport">
+                <input type="file" id="selectJSON" value="">
                 <button @click="importJSON()">Zatwierdź</button>
             </div>
+        </div>
     </div>
 </template>
 
@@ -110,7 +139,7 @@
 import useValidate from '@vuelidate/core'
 import { required, minValue, maxValue, helpers } from '@vuelidate/validators'
 import axios from 'axios'
-
+import Popup from '../components/Popup'
 
 const notEmpty = 'Pole nie może być puste'
 export default {
@@ -126,8 +155,12 @@ export default {
             insurance: false,
             age: null,
             showImport: false,
-            conf: {}
+            conf: {},
+            showValidationError: false
             }
+    },
+    components: {
+        Popup
     },
     validations() {
         return {
@@ -171,7 +204,7 @@ export default {
         submit() { 
             this.v$.$validate()
             if (this.v$.$invalid) {
-                alert('Nieprawidłowe dane')
+                this.showValidationError = true
                 return
             }
             else {
@@ -222,7 +255,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
     * {
         box-sizing: border-box;
@@ -230,8 +263,7 @@ export default {
 
     .form {
         display: inline-block;
-        
-        
+        width: 50%;
     }
 
     .form-row {
@@ -240,37 +272,84 @@ export default {
         justify-content: space-between;
         margin-bottom: 7px;
         text-align: left;
-    }
-    .button {
-        margin: 7px;
-        justify-content: space-between;
-        
-    }
-    .form-row label {
-        margin-right: 15px;
-        font-size: 23px;
-        align-self: center;
-    }
+    
+    
+        label {
+            margin-right: 15px;
+            font-size: 23px;
+            align-self: center;
+        }
 
-    .form-row input, select, button {
-        width: 200px;
-        padding: 10px;
-        border: 2px solid #758078;
-        border-radius: 7px;
-        outline: none;
+        input, select, button {
+            width: 200px;
+            padding: 10px;
+            border: 2px solid #758078;
+            border-radius: 7px;
+            outline: none;
+        }
+    }
+    .buttons-container {
+        margin: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        .submit-button {
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            margin: 2px 0;
+            border: solid 2px transparent;
+            border-radius: 4px;
+            padding: 0.5em 1em;
+            color: #ffffff;
+            background-color: #16a085;
+            font-weight: 600
+        }
+        .submit-button:active {
+            transform: translateY(1px);
+            filter: saturate(150%);
+        }
+        .submit-button:hover {
+            color: #16a085;
+            border-color: currentColor;
+            background-color: white;
+            cursor: pointer;
+        }
     }
     
 
     button {
-        cursor: pointer;
+            width: 150px;
+            height: 60px;
+            margin: 5px;
+            color: #16a085;
+            background-color: white;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            border: solid 2px #16a085;
+            border-radius: 4px;
+            padding: 0.5em 1em;
+            font-weight: 600;
+        }
+        button:hover {
+            color: white;
+            border-color: currentColor;
+            background-color: #16a085;
+            cursor: pointer;
+        }
+        button:focus {
+            outline: none;
+        }
+    .json-import-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
+    
 
-    button:hover {
-        background: #B2EBF2;
-        border-color: #0097A7;
-    }
-
-    .errorAlert {
+    .error-alert {
         color: red;
         text-align: right;
         margin: 10px;
