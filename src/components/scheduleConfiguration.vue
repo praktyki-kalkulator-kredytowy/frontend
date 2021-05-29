@@ -245,7 +245,7 @@ export default {
                     withdrawalDate: this.withdrawalDate,
                     commissionRate: this.commissionRate / 100,
                     insurance: this.insurance,
-                    age: this.age 
+                    age: this.insurance ? this.age : null
                     })
                 }
             }   
