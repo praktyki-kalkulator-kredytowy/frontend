@@ -27,11 +27,11 @@ export default {
   width: 260px;
 }
 img {
-  width: 25%;
+  width: 15%;
   padding-bottom: 50px;
   padding-top: 20px;
 }
 .homepage-container {
-  padding-bottom: 200px;
+  padding-bottom: 100px;
 }
 </style>
