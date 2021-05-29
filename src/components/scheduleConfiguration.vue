@@ -34,7 +34,11 @@
        
         <div class="form-row">
             <label>Kapitał: </label>
-            <input @blur="v$.capital.$touch()" v-model="capital" type="number" placeholder="kapitał">
+            <input :class="{'error-border' : v$.capital.$error}" 
+                    @blur="v$.capital.$touch()" 
+                    v-model="capital" 
+                    type="number" 
+                    placeholder="kapitał">
             
         </div>
 
@@ -45,10 +49,14 @@
 
         <div class="form-row">
             <label>Typ rat: </label>
-            <select @blur="v$.installmentType.$touch()" v-model="installmentType">
+            <select :class="{'error-border' : v$.installmentType.$error}" 
+                    @blur="v$.installmentType.$touch()" 
+                    v-model="installmentType">
                 <option value="DECREASING">Malejące</option>
                 <option value="CONSTANT">Równe</option>
-
+            <p class="error-alert" v-if="v$.installmentType.$error">
+                Typ rat: {{ v$.installmentType.$errors[0].$message }}
+            </p>
                 
             </select>
             
@@ -61,7 +69,11 @@
 
         <div class="form-row">
             <label>Liczba rat: </label>
-            <input @blur="v$.installmentAmount.$touch()" v-model="installmentAmount" type="number" placeholder="liczba rat">
+            <input :class="{'error-border' : v$.installmentAmount.$error}" 
+                    @blur="v$.installmentAmount.$touch()" 
+                    v-model="installmentAmount" 
+                    type="number" 
+                    placeholder="liczba rat">
             
         </div>
 
@@ -72,7 +84,11 @@
 
         <div class="form-row">
             <label>Oprocentowanie: </label>
-            <input @blur="v$.interestRate.$touch()" v-model="interestRate" type="number" placeholder="oprocentowanie">
+            <input :class="{'error-border' : v$.interestRate.$error}" 
+                    @blur="v$.interestRate.$touch()" 
+                    v-model="interestRate" 
+                    type="number" 
+                    placeholder="oprocentowanie">
         </div>
 
         <p class="error-alert" v-if="v$.interestRate.$error">
@@ -82,9 +98,13 @@
 
         <div class="form-row">
             <label>Data wypłaty: </label>
-            <v-date-picker @blur="v$.withdrawalDate.$touch()" v-model="withdrawalDate" locale="pl-PL" :update-on-input="false">
+            <v-date-picker  v-model="withdrawalDate" 
+                            locale="pl-PL" 
+                            :update-on-input="false">
                 <template v-slot="{ inputValue, inputEvents }">
                     <input
+                    :class="{'error-border' : v$.withdrawalDate.$error}" 
+                    @blur="v$.withdrawalDate.$touch()"
                     :value="inputValue"
                     v-on="inputEvents"
                     />
@@ -99,7 +119,11 @@
 
         <div class="form-row">
             <label>Prowizja(%) </label>
-            <input @blur="v$.commissionRate.$touch()" v-model="commissionRate" type="number" placeholder="prowizja">
+            <input :class="{'error-border' : v$.commissionRate.$error}" 
+                    @blur="v$.commissionRate.$touch()" 
+                    v-model="commissionRate" 
+                    type="number" 
+                    placeholder="prowizja">
         </div>
 
         <p class="error-alert" v-if="v$.commissionRate.$error">
@@ -115,7 +139,11 @@
 
         <div class="form-row" v-if="insurance">
             <label>Wiek </label>
-             <input @blur="v$.age.$touch()" v-model="age" type="number" placeholder="wiek">
+             <input :class="{'error-border' : v$.age.$error}" 
+                    @blur="v$.age.$touch()" 
+                    v-model="age" 
+                    type="number" 
+                    placeholder="wiek">
         </div>
 
         <p class="error-alert" v-if="v$.age.$error">
@@ -354,6 +382,11 @@ export default {
         text-align: right;
         margin: 10px;
         padding: 10px;
+    }
+    .error-border {
+        border: 2px solid red !important;
+        box-shadow: 0 0 10px rgb(255, 117, 117);
+        outline: none;
     }
 
     #selectJSON {
