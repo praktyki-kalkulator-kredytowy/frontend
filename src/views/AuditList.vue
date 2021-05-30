@@ -146,8 +146,8 @@
               <th @click="sortTable('age')">Wiek
                   <div v-if="sortColumn == 'age'">{{ ascending ? '▲' : '▼' }}</div>
               </th>
-              <th @click="sortTable('capitalInstallmentSum')">Suma rat odsetkowych
-                  <div v-if="sortColumn == 'capitalInstallmentSum'">{{ ascending ? '▲' : '▼' }}</div>
+              <th @click="sortTable('interestInstallmentSum')">Suma rat odsetkowych
+                  <div v-if="sortColumn == 'interestInstallmentSum'">{{ ascending ? '▲' : '▼' }}</div>
               </th>
               <th @click="sortTable('loanPaidOutAmount')">Kwota kredytu do wypłaty
                   <div v-if="sortColumn == 'loanPaidOutAmount'">{{ ascending ? '▲' : '▼' }}</div>
@@ -174,7 +174,7 @@
                     <td>{{ (row.commissionRate*100).toFixed(2)+'%' }}</td>
                     <td>{{ row.insurance ? 'Tak' : 'Nie' }}</td>
                     <td>{{ row.age }}</td>
-                    <td>{{ currencyFormat(row.capitalInstallmentSum) }}</td>
+                    <td>{{ currencyFormat(row.interestInstallmentSum) }}</td>
                     <td>{{ currencyFormat(row.loanPaidOutAmount) }}</td>
                     <td>{{ currencyFormat(row.commissionAmount) }}</td>
                     <td>{{ (row.aprc*100).toFixed(2)+'%' }}</td>
@@ -253,7 +253,7 @@ export default {
                 const commissionRate = (row.commissionRate*100).toString()+'%'
                 const insurance = row.insurance ? 'tak' : 'nie'
                 const age = row.age
-                const capitalInstallmentSum = row.capitalInstallmentSum.toString()
+                const interestInstallmentSum = row.interestInstallmentSum.toString()
                 const loanPaidOutAmount = row.loanPaidOutAmount.toString()
                 const insuranceTotalAmount = row.insuranceTotalAmount.toString()
                 const loanTotalCost = row.loanTotalCost.toString()
@@ -271,7 +271,7 @@ export default {
                         commissionRate.includes(searchTerm) ||
                         insurance.includes(searchTerm) ||
                         age.includes(searchTerm) ||
-                        capitalInstallmentSum.includes(searchTerm) ||
+                        interestInstallmentSum.includes(searchTerm) ||
                         loanPaidOutAmount.includes(searchTerm) ||
                         insuranceTotalAmount.includes(searchTerm) ||
                         loanTotalCost.includes(searchTerm) ||
