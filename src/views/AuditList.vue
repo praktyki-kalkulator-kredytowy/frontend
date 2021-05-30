@@ -23,7 +23,7 @@
     <div class="filter-options" v-show="showFilters">
         <div class="filter-item-wrapper">
             <div class="filter-item">
-                <h3>Filtruj datę wyliczenia</h3>
+                <h3>Filtruj według daty wyliczenia</h3>
                 <input type="checkbox" v-model="calculationDateFilterChecked">
             </div>
 
@@ -52,7 +52,7 @@
         </div>
         <div class="filter-item-wrapper">
             <div class="filter-item">
-                <h3>Filtruj datę wypłaty</h3>
+                <h3>Filtruj według daty wypłaty</h3>
                 <input type="checkbox" v-model="withdrawalDateFilterChecked">
             </div>
             
@@ -82,7 +82,7 @@
 
         <div class="filter-item-wrapper">
             <div class="filter-item">
-                <h3>Filtruj kapitał</h3>
+                <h3>Filtruj według kapitału</h3>
                 <input type="checkbox" v-model="capitalFilterChecked">
             </div>
             
@@ -95,7 +95,7 @@
 
         <div class="filter-item-wrapper">
             <div class="filter-item">
-                <h3>Filtruj liczbę rat</h3>
+                <h3>Filtruj według liczby rat</h3>
                 <input type="checkbox" v-model="installmentAmountFilterChecked">
             </div>
             
@@ -108,7 +108,7 @@
 
         <div class="filter-item-wrapper">
             <div class="filter-item">
-                <h3>Filtruj oprocentowanie</h3>
+                <h3>Filtruj według oprocentowania</h3>
                 <input type="checkbox" v-model="interestRateFilterChecked">
             </div>
             
@@ -121,7 +121,7 @@
 
         <div class="filter-item-wrapper">
             <div class="filter-item">
-                <h3>Filtruj sumę kwot ubezpieczeniowych</h3>
+                <h3>Filtruj według sumy ubezpieczenia</h3>
                 <input type="checkbox" v-model="insuranceSumFilterChecked">
             </div>
         
@@ -134,7 +134,7 @@
 
         <div class="filter-item-wrapper">
             <div class="filter-item">
-                <h3>Filtruj prowizję</h3>
+                <h3>Filtruj według prowizji</h3>
                 <input type="checkbox" v-model="commissionRateFilterChecked">
             </div>
             
@@ -147,7 +147,7 @@
 
         <div class="filter-item-wrapper">
             <div class="filter-item">
-                <h3>Filtruj wiek</h3>
+                <h3>Filtruj według wieku</h3>
                 <input type="checkbox" v-model="ageFilterChecked">
             </div>
 
@@ -161,7 +161,7 @@
 
         <div class="filter-item-wrapper">
             <div class="filter-item">
-                <h3>Filtruj RRSO</h3>
+                <h3>Filtruj według RRSO</h3>
                 <input type="checkbox" v-model="aprcFilterChecked">
             </div>
             
