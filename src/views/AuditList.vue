@@ -310,10 +310,10 @@ export default {
             let params = {}
             if (this.isFiltered) {
                 params = {
-                    calculationStartDate: this.calculationDateRange.start.toLocaleDateString(),
-                    calculationEndDate: this.calculationDateRange.end.toLocaleDateString(),
-                    withdrawalStartDate: this.withdrawalDateRange.start.toLocaleDateString(),
-                    withdrawalEndDate: this.withdrawalDateRange.end.toLocaleDateString(),
+                    calculationStartDate: this.formatDate(this.calculationDateRange.start),
+                    calculationEndDate: this.formatDate(this.calculationDateRange.end),
+                    withdrawalStartDate: this.formatDate(this.withdrawalDateRange.start),
+                    withdrawalEndDate: this.formatDate(this.withdrawalDateRange.end),
                     capitalStart: this.capitalRange.start,
                     capitalEnd: this.capitalRange.end,
                     installmentAmountStart: this.installmentAmountRange.start,
