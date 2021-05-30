@@ -142,8 +142,8 @@
             
             <div class="filter-item" v-show="capitalFilterChecked">
                 <h3>przedzial kwoty kredytu</h3>
-                <input type="number" v-model="capitalRange.start">
-                <input type="number" v-model="capitalRange.end">
+                <input :class="{'error-border' : v$.capitalRange.start.$invalid}" type="number" v-model="capitalRange.start">
+                <input :class="{'error-border' : v$.capitalRange.end.$invalid}" type="number" v-model="capitalRange.end">
             </div>
         </div>
 
@@ -155,8 +155,8 @@
             
             <div class="filter-item" v-show="installmentAmountFilterChecked">
                 <h3>Przedział liczby rat</h3>
-                <input type="number" v-model="installmentAmountRange.start">
-                <input type="number" v-model="installmentAmountRange.end">
+                <input :class="{'error-border' : v$.installmentAmountRange.start.$invalid}" type="number" v-model="installmentAmountRange.start">
+                <input :class="{'error-border' : v$.installmentAmountRange.end.$invalid}" type="number" v-model="installmentAmountRange.end">
             </div>
         </div>
 
@@ -168,8 +168,8 @@
             
             <div class="filter-item" v-show="interestRateFilterChecked">
                 <h3>Przedział oprocentowania</h3>
-                <input type="number" v-model="interestRateRange.start">
-                <input type="number" v-model="interestRateRange.end">
+                <input :class="{'error-border' : v$.interestRateRange.start.$invalid}" type="number" v-model="interestRateRange.start">
+                <input :class="{'error-border' : v$.interestRateRange.end.$invalid}" type="number" v-model="interestRateRange.end">
             </div>
         </div>
 
@@ -181,8 +181,8 @@
         
             <div class="filter-item" v-show="insuranceSumFilterChecked">
                 <h3>Przedział sumy ubezpieczenia</h3>
-                <input type="number" v-model="insuranceSumRange.start">
-                <input type="number" v-model="insuranceSumRange.end">
+                <input :class="{'error-border' : v$.insuranceSumRange.start.$invalid}" type="number" v-model="insuranceSumRange.start">
+                <input :class="{'error-border' : v$.insuranceSumRange.end.$invalid}" type="number" v-model="insuranceSumRange.end">
             </div>
         </div>
 
@@ -194,8 +194,8 @@
             
             <div class="filter-item" v-show="commissionRateFilterChecked">
                 <h3>Przedział prowizji</h3>
-                <input type="number" v-model="commissionRateRange.start">
-                <input type="number" v-model="commissionRateRange.end">
+                <input :class="{'error-border' : v$.commissionRateRange.start.$invalid}" type="number" v-model="commissionRateRange.start">
+                <input :class="{'error-border' : v$.commissionRateRange.end.$invalid}" type="number" v-model="commissionRateRange.end">
             </div>
         </div>
 
@@ -208,8 +208,8 @@
             
             <div class="filter-item" v-show="ageFilterChecked">
                 <h3>Przedzial wieku klienta</h3>
-                <input type="number" v-model="ageRange.start">
-                <input type="number" v-model="ageRange.end">
+                <input :class="{'error-border' : v$.ageRange.start.$invalid}" type="number" v-model="ageRange.start">
+                <input :class="{'error-border' : v$.ageRange.end.$invalid}" type="number" v-model="ageRange.end">
             </div>
         </div>
 
@@ -221,8 +221,8 @@
             
             <div class="filter-item" v-show="aprcFilterChecked">
                 <h3>Przedział rrso</h3>
-                <input type="number" v-model="aprcRange.start">
-                <input type="number" v-model="aprcRange.end">
+                <input :class="{'error-border' : v$.aprcRange.start.$invalid}" type="number" v-model="aprcRange.start">
+                <input :class="{'error-border' : v$.aprcRange.end.$invalid}" type="number" v-model="aprcRange.end">
             </div>
         </div>
 
@@ -633,7 +633,8 @@ export default {
             margin: 15px;
             padding: 10px;
             border: 1px solid lightgray;
-            border-radius: 5px;           
+            border-radius: 5px;
+            outline: none;           
         } 
     }
     }
@@ -661,6 +662,13 @@ export default {
     border-color: currentColor;
     background-color: white;
 }
-
+.error-alert {
+      color: red;
+  }
+  
+  .error-border {
+    border: 2px solid red !important;
+    box-shadow: 0 0 10px rgb(255, 117, 117);
+  }
 
 </style>
