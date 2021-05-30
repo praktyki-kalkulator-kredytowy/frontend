@@ -147,7 +147,7 @@
         <td>{{ ageBracket.insuranceRate }}</td>
         <td><button @click="deleteBracket(index); deleteConfiguration(ageBracket.age, 'INSURANCE_GROUPS')">Usuń</button></td>
     </tr>
-    <tr class="add-bracket-row">
+    <tr>
       <td><label>Dodaj przedział</label></td>
       <td><input type="number" v-model="newBracket.age"></td>
       <td><input type="number" v-model="newBracket.insuranceRate"></td>
@@ -437,9 +437,7 @@ export default {
     
 }
 
-  .add-bracket-row {
-    border: 2px solid lightgray;
-  }
+
  .error-alert {
       color: red;
   }
