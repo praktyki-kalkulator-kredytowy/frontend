@@ -176,7 +176,7 @@
                     <td>{{ formatDate(row.withdrawalDate) }}</td>
                     <td>{{ (row.commissionRate*100).toFixed(2)+'%' }}</td>
                     <td>{{ row.insurance ? 'Tak' : 'Nie' }}</td>
-                    <td>{{ row.age == 0 ? null : row.age }}</td>
+                    <td>{{ row.age }}</td>
                     <td>{{ currencyFormat(row.capitalInstallmentSum) }}</td>
                     <td>{{ currencyFormat(row.loanPaidOutAmount) }}</td>
                     <td>{{ currencyFormat(row.commissionAmount) }}</td>
@@ -256,7 +256,7 @@ export default {
                 const withdrawalDate = moment(String(row.withdrawalDate)).format('DD.MM.YYYY')
                 const commissionRate = (row.commissionRate*100).toString()+'%'
                 const insurance = row.insurance ? 'tak' : 'nie'
-                const age = row.age.toString()
+                const age = row.age
                 const capitalInstallmentSum = row.capitalInstallmentSum.toString()
                 const loanPaidOutAmount = row.loanPaidOutAmount.toString()
                 const insuranceTotalAmount = row.insuranceTotalAmount.toString()
