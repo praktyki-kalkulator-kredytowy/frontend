@@ -142,19 +142,19 @@ export default {
         margin: auto;
         font-size: larger;
         text-align: right;
-        border: 2px solid #0097A7;
+        border: 2px solid #16a085;
         thead {
             color: white;
         }
 
         td, th {
-            border: 2px solid #0097A7;
+            border: 2px solid #16a085;
         }
         th {
-            background-color: #0097A7;
+            background-color: #16a085;
         }
         tr:nth-of-type(odd) {
-            background-color: #B2EBF2;
+            background-color: #cdefea;
         }
     }
     .configuration-row {

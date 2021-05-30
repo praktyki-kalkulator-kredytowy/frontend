@@ -371,7 +371,7 @@ export default {
             if (a[col] > b[col]) {
             return ascending ? 1 : -1
             } else if (a[col] < b[col]) {
-            return ascending ? -1 : 1
+              return ascending ? -1 : 1
             }
             return 0;
       })
