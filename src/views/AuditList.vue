@@ -319,14 +319,14 @@ export default {
                     capitalEnd: this.capitalRange.end,
                     installmentAmountStart: this.installmentAmountRange.start,
                     installmentAmountEnd: this.installmentAmountRange.end,
-                    interestRateStart: this.interestRateRange.start,
-                    interestRateEnd: this.interestRateRange.end,
+                    interestRateStart: this.interestRateRange.start/100,
+                    interestRateEnd: this.interestRateRange.end/100,
                     insuranceSumStart: this.insuranceSumRange.start,
                     insuranceSumEnd: this.insuranceSumRange.end,
                     clientAgeStart: this.checkInsurance ? this.ageRange.start : null,
                     clientAgeEnd: this.checkInsurance ? this.ageRange.end : null,
-                    aprcStart: this.aprcRange.start,
-                    aprcEnd: this.aprcRange.end
+                    aprcStart: this.aprcRange.start/100,
+                    aprcEnd: this.aprcRange.end/100
                     }
             }
             await axios.get(`http://localhost:4200/api/v1/audit`, { params: params })
