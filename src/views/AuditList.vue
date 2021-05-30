@@ -83,21 +83,30 @@
 
             <div class="filter-item" v-show="calculationDateFilterChecked">
                 <h3>Przedział wyliczenia kredytu</h3>
-                <v-date-picker  v-model="calculationDateRange" 
+                <v-date-picker  v-model="calculationDateRange.start" 
                                     locale="pl-PL"
                                     color="teal" 
                                     :update-on-input="false"
-                                    mode="date"
-                                    is-range>
+                                    mode="date">
                     <template v-slot="{ inputValue, inputEvents }">
                         <div>
                         <input
-                            :value="inputValue.start"
-                            v-on="inputEvents.start"
+                            :value="inputValue"
+                            v-on="inputEvents"
                         />
+                        </div>
+                    </template>
+                </v-date-picker>
+                <v-date-picker  v-model="calculationDateRange.end" 
+                                    locale="pl-PL"
+                                    color="teal" 
+                                    :update-on-input="false"
+                                    mode="date">
+                    <template v-slot="{ inputValue, inputEvents }">
+                        <div>
                         <input
-                            :value="inputValue.end"
-                            v-on="inputEvents.end"
+                            :value="inputValue"
+                            v-on="inputEvents"
                         />
                         </div>
                     </template>
@@ -112,21 +121,30 @@
             
             <div class="filter-item" v-show="withdrawalDateFilterChecked">
                 <h3>Przedział wypłaty kredytu</h3>
-                <v-date-picker  v-model="withdrawalDateRange" 
+                <v-date-picker  v-model="withdrawalDateRange.start" 
                                     locale="pl-PL"
                                     color="teal" 
                                     :update-on-input="false"
-                                    mode="date"
-                                    is-range>
+                                    mode="date">
                     <template v-slot="{ inputValue, inputEvents }">
                         <div>
                         <input
-                            :value="inputValue.start"
-                            v-on="inputEvents.start"
+                            :value="inputValue"
+                            v-on="inputEvents"
                         />
+                        </div>
+                    </template>
+                </v-date-picker>
+                <v-date-picker  v-model="withdrawalDateRange.start" 
+                                    locale="pl-PL"
+                                    color="teal" 
+                                    :update-on-input="false"
+                                    mode="date">
+                    <template v-slot="{ inputValue, inputEvents }">
+                        <div>
                         <input
-                            :value="inputValue.end"
-                            v-on="inputEvents.end"
+                            :value="inputValue"
+                            v-on="inputEvents"
                         />
                         </div>
                     </template>
