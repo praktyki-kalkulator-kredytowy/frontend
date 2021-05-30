@@ -4,8 +4,117 @@
            placeholder="Wyszukaj..."
            v-model="search"
            class="search-input">
+    <div class="show-filter-container">
+        <button class="nav-button" @click="showFilters = !showFilters">Opcje filtrowania</button>
+    </div>
+    <div class="filter-options" v-show="showFilters">
+        <div class="filter-item">
+            <h3>Przedział wyliczenia kredytu</h3>
+            <v-date-picker  v-model="calculationDateRange" 
+                                locale="pl-PL"
+                                color="teal" 
+                                :update-on-input="false"
+                                mode="date"
+                                is-range>
+                <template v-slot="{ inputValue, inputEvents }">
+                    <div>
+                    <input
+                        :value="inputValue.start"
+                        v-on="inputEvents.start"
+                    />
+                    <input
+                        :value="inputValue.end"
+                        v-on="inputEvents.end"
+                    />
+                    </div>
+                </template>
+            </v-date-picker>
+        </div>
 
+        
+        <div class="filter-item">
+            <h3>Przedział wypłaty kredytu</h3>
+            <v-date-picker  v-model="withdrawalDateRange" 
+                                locale="pl-PL"
+                                color="teal" 
+                                :update-on-input="false"
+                                mode="date"
+                                is-range>
+                <template v-slot="{ inputValue, inputEvents }">
+                    <div>
+                    <input
+                        :value="inputValue.start"
+                        v-on="inputEvents.start"
+                    />
+                    <input
+                        :value="inputValue.end"
+                        v-on="inputEvents.end"
+                    />
+                    </div>
+                </template>
+            </v-date-picker>
+        </div>
 
+        
+        <div class="filter-item">
+            <h3>przedzial kwoty kredytu</h3>
+            <input type="number" v-model="capitalRange.start">
+            <input type="number" v-model="capitalRange.end">
+        </div>
+
+        
+        <div class="filter-item">
+            <h3>Przedział liczby rat</h3>
+            <input type="number" v-model="installmentAmountRange.start">
+            <input type="number" v-model="installmentAmountRange.end">
+        </div>
+
+        
+        <div class="filter-item">
+            <h3>Przedział oprocentowania</h3>
+            <input type="number" v-model="interestRateRange.start">
+            <input type="number" v-model="interestRateRange.end">
+        </div>
+
+       
+        <div class="filter-item">
+             <h3>Przedział sumy ubezpieczenia</h3>
+            <input type="number" v-model="insuranceSumRange.start">
+            <input type="number" v-model="insuranceSumRange.end">
+        </div>
+
+        
+        <div class="filter-item">
+            <h3>Przedział prowizji</h3>
+            <input type="number" v-model="commissionRateRange.start">
+            <input type="number" v-model="commissionRateRange.end">
+        </div>
+
+       
+        <div class="filter-item">
+            <h3>ubezpieczenie</h3>
+            <input type="checkbox" v-model="checkInsurance">
+        </div>
+
+        
+        <div class="filter-item" v-show="checkInsurance">
+            <h3>Przedzial wieku klienta</h3>
+            <input type="number" v-model="ageRange.start">
+            <input type="number" v-model="ageRange.end">
+        </div>
+
+        
+        <div class="filter-item">
+            <h3>Przedział rrso</h3>
+            <input type="number" v-model="aprcRange.start">
+            <input type="number" v-model="aprcRange.end">
+        </div>
+
+        <div class="button-container">
+        <button class="nav-button" v-show="!isFiltered" @click="addFilters">Dodaj filter</button>
+        <button class="nav-button red" v-show="isFiltered" @click="removeFilters">Usuń filtry</button>
+        </div>
+    </div>
 <div class="audit-list">
     
   <table>
@@ -58,7 +167,7 @@
           </tr>
       </thead>
       <tbody>
-                <tr class="audit-item" @click="changedir(`/audit/details/${row.id}`)" v-for="row in filteredRows" :key="row.id">
+                <tr class="audit-item" @click="changedir(`/audit/details/${row.id}`)" v-for="row in searchedRows" :key="row.id">
                     <td>{{ row.id }}</td>
                     <td>{{ currencyFormat(row.capital) }}</td>
                     <td>{{ row.installmentType == 'CONSTANT' ? 'Równe' : 'Malejące' }}</td>
@@ -93,11 +202,51 @@ export default {
             search: '',
             ascending: false,
             sortColumn: '',
-            auditData: []
+            auditData: [],
+            showFilters: false,
+            calculationDateRange: {
+                start: new Date(),
+                end: new Date()
+            },
+            withdrawalDateRange: {
+                start: new Date(),
+                end: new Date()
+            },
+            capitalRange: {
+                start: 0,
+                end: 100000000
+            },
+            installmentAmountRange: {
+                start: 0,
+                end: 360
+            },
+            interestRateRange: {
+                start: 0,
+                end: 100
+            },
+            insuranceSumRange: {
+                start: 0,
+                end: 100
+            },
+            commissionRateRange: {
+                start: 0,
+                end: 100
+            },
+            ageRange: {
+                start: 0,
+                end: 100
+            },
+            aprcRange: {
+                start: 0,
+                end: 100
+            },
+            checkInsurance: false,
+            isFiltered: false,
+            filteredAuditData: []
         }
     },
     computed: {
-        filteredRows() {
+        searchedRows() {
             return this.auditData.filter(row => {
                 const id = row.id.toString()
                 const capital = row.capital.toString()
@@ -117,7 +266,7 @@ export default {
 
                 const searchTerm = this.search.toLowerCase().replace(/,/g, '.')
 
-                return  parseInt(id.includes(searchTerm)) ||
+                return  (parseInt(id.includes(searchTerm)) ||
                         capital.includes(searchTerm) ||
                         installmentType.includes(searchTerm) ||
                         installmentAmount.includes(searchTerm) ||
@@ -131,12 +280,21 @@ export default {
                         insuranceTotalAmount.includes(searchTerm) ||
                         loanTotalCost.includes(searchTerm) ||
                         aprc.includes(searchTerm) ||
-                        calculationDate.includes(searchTerm)
+                        calculationDate.includes(searchTerm)) 
+                       
             })
         },
-        
     },
     methods: {
+        addFilters() {
+            this.isFiltered = true
+            this.getAuditData()
+        },
+        removeFilters() {
+            this.isFiltered = false
+            this.showFilters = false
+            this.getAuditData
+        },
         changedir(path) {
             this.$router.push(path)
         },
@@ -148,8 +306,30 @@ export default {
         currencyFormat(num) {
             if(num != undefined) return Number(num).toLocaleString('ru-RU', {minimumFractionDigits: 2, maximumFractionDigits: 2} )
         },
-        getAuditData() {
-            axios.get(`http://localhost:4200/api/v1/audit`)
+        async getAuditData() {
+            let params = {}
+            console.log(this.calculationDateRange.start.toISOString().slice(0, 10))
+            if (this.isFiltered) {
+                params = {
+                    calculationStartDate: this.calculationDateRange.start.toISOString().slice(0, 10),
+                    calculationEndDate: this.calculationDateRange.end.toISOString().slice(0, 10),
+                    withdrawalStartDate: this.withdrawalDateRange.start.toISOString().slice(0, 10),
+                    withdrawalEndDate: this.withdrawalDateRange.end.toISOString().slice(0, 10),
+                    capitalStart: this.capitalRange.start,
+                    capitalEnd: this.capitalRange.end,
+                    installmentAmountStart: this.installmentAmountRange.start,
+                    installmentAmountEnd: this.installmentAmountRange.end,
+                    interestRateStart: this.interestRateRange.start,
+                    interestRateEnd: this.interestRateRange.end,
+                    insuranceSumStart: this.insuranceSumRange.start,
+                    insuranceSumEnd: this.insuranceSumRange.end,
+                    clientAgeStart: this.checkInsurance ? this.ageRange.start : null,
+                    clientAgeEnd: this.checkInsurance ? this.ageRange.end : null,
+                    aprcStart: this.aprcRange.start,
+                    aprcEnd: this.aprcRange.end
+                    }
+            }
+            await axios.get(`http://localhost:4200/api/v1/audit`, { params: params })
             .then(response => {
                 this.auditData = response.data
             })
@@ -221,17 +401,50 @@ export default {
         background-color: #f5f5f5;
         transform: scale(1.02);
         box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px, 8px rgba(0, 0, 0, 0.2)
+    }
 }
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 240px 40px 240px;
+    padding-top: 40px;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+
+    .filter-item {
+        display: inline-block;
+        
+        input{
+            margin: 15px;
+            padding: 10px;
+            border: 1px solid lightgray;
+            border-radius: 5px;           
+        } 
+    }
 }
 .search-input {
   border-radius: 10px;
   border: 2px solid lightgray;
   padding: 10px;
-  margin: 10px;
+  margin: 20px;
   outline: none;
 }
 .nav-button {
     margin-bottom: 50px;
 }
+
+.button-container {
+    padding: 40px;
+}
+.red {
+     background-color: red;
+}
+.red:hover {
+    color: red;
+    border-color: currentColor;
+    background-color: white;
+}
+
 
 </style>
