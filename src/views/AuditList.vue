@@ -293,7 +293,7 @@ export default {
         removeFilters() {
             this.isFiltered = false
             this.showFilters = false
-            this.getAuditData
+            this.getAuditData()
         },
         changedir(path) {
             this.$router.push(path)
@@ -308,13 +308,12 @@ export default {
         },
         async getAuditData() {
             let params = {}
-            console.log(this.calculationDateRange.start.toISOString().slice(0, 10))
             if (this.isFiltered) {
                 params = {
-                    calculationStartDate: this.calculationDateRange.start.toISOString().slice(0, 10),
-                    calculationEndDate: this.calculationDateRange.end.toISOString().slice(0, 10),
-                    withdrawalStartDate: this.withdrawalDateRange.start.toISOString().slice(0, 10),
-                    withdrawalEndDate: this.withdrawalDateRange.end.toISOString().slice(0, 10),
+                    calculationStartDate: this.calculationDateRange.start.toLocaleDateString(),
+                    calculationEndDate: this.calculationDateRange.end.toLocaleDateString(),
+                    withdrawalStartDate: this.withdrawalDateRange.start.toLocaleDateString(),
+                    withdrawalEndDate: this.withdrawalDateRange.end.toLocaleDateString(),
                     capitalStart: this.capitalRange.start,
                     capitalEnd: this.capitalRange.end,
                     installmentAmountStart: this.installmentAmountRange.start,
