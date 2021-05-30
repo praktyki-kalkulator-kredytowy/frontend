@@ -303,15 +303,15 @@
                     <td>{{ currencyFormat(row.capital) }}</td>
                     <td>{{ row.installmentType == 'CONSTANT' ? 'Równe' : 'Malejące' }}</td>
                     <td>{{ row.installmentAmount }}</td>
-                    <td>{{ (row.interestRate*100).toFixed(2)+'%' }}</td>
+                    <td>{{ (row.interestRate*100).toFixed(2).toString().replace(/\./g, ',')+'%' }}</td>
                     <td>{{ formatDate(row.withdrawalDate) }}</td>
-                    <td>{{ (row.commissionRate*100).toFixed(2)+'%' }}</td>
+                    <td>{{ (row.commissionRate*100).toFixed(2).toString().replace(/\./g, ',')+'%' }}</td>
                     <td>{{ row.insurance ? 'Tak' : 'Nie' }}</td>
                     <td>{{ row.age }}</td>
                     <td>{{ currencyFormat(row.interestInstallmentSum) }}</td>
                     <td>{{ currencyFormat(row.loanPaidOutAmount) }}</td>
                     <td>{{ currencyFormat(row.commissionAmount) }}</td>
-                    <td>{{ (row.aprc*100).toFixed(2)+'%' }}</td>
+                    <td>{{ (row.aprc*100).toFixed(2).toString().replace(/\./g, ',')+'%' }}</td>
                     <td>{{ formatDate(row.calculationDate) }}</td>
                 </tr>
       </tbody>
