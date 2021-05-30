@@ -317,6 +317,8 @@ export default {
                     installmentAmountEnd: this.installmentAmountRange.end,
                     interestRateStart: this.interestRateRange.start/100,
                     interestRateEnd: this.interestRateRange.end/100,
+                    commissionRateStart: this.commissionRateRange.start,
+                    commissionRateEnd: this.commissionRateRange.end,
                     insuranceSumStart: this.insuranceSumRange.start,
                     insuranceSumEnd: this.insuranceSumRange.end,
                     clientAgeStart: this.checkInsurance ? this.ageRange.start : null,
