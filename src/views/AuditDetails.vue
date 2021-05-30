@@ -18,7 +18,7 @@
     <h1>Obliczenia z {{ scheduleEvent.calculationDate }}</h1>
 
     <schedule-conf-data :conf="scheduleEvent.schedule.scheduleConfiguration"></schedule-conf-data>
-    <schedule :schedule="scheduleEvent.schedule"></schedule>
+    <schedule :schedule="scheduleEvent.schedule" :showExportButtons="false"></schedule>
   </div>
 
 
@@ -70,6 +70,9 @@ export default {
   border: 1px solid lightgray;
   padding: 50px;
   border-radius: 25px;
+}
+.nav-button {
+  margin: 50px;
 }
 
 </style>

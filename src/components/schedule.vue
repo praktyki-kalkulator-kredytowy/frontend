@@ -73,7 +73,7 @@
         </tr>
         
     </table>
-    <div class="buttons-container">
+    <div class="buttons-container" v-show="showExportButtons">
         <button @click="exportJSON">Eksportuj do pliku JSON</button>
         <button @click="downloadPDF">Pobierz PDF</button>
     </div>
@@ -86,7 +86,8 @@ import axios from 'axios'
 import moment from 'moment'
 export default {
    props: {
-       schedule: Object
+       schedule: Object,
+       showExportButtons: Boolean
    },
     methods: {
         formatDate(date){
