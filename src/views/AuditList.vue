@@ -161,9 +161,6 @@
               <th @click="sortTable('calculationDate')">Data wyliczenia
                   <div v-if="sortColumn == 'calculationDate'">{{ ascending ? '▲' : '▼' }}</div>
               </th>
-              <th>
-                  &nbsp;
-              </th>
           </tr>
       </thead>
       <tbody>
@@ -182,7 +179,6 @@
                     <td>{{ currencyFormat(row.commissionAmount) }}</td>
                     <td>{{ (row.aprc*100).toFixed(2)+'%' }}</td>
                     <td>{{ formatDate(row.calculationDate) }}</td>
-                    <td><button class="nav-button" @click="$router.push('/')">Szczegóły</button></td>
                 </tr>
       </tbody>
   </table>
