@@ -308,12 +308,13 @@ export default {
         },
         async getAuditData() {
             let params = {}
+            console.log(this.calculationDateRange.start)
             if (this.isFiltered) {
                 params = {
-                    calculationStartDate: this.formatDate(this.calculationDateRange.start),
-                    calculationEndDate: this.formatDate(this.calculationDateRange.end),
-                    withdrawalStartDate: this.formatDate(this.withdrawalDateRange.start),
-                    withdrawalEndDate: this.formatDate(this.withdrawalDateRange.end),
+                    calculationStartDate: this.calculationDateRange.start.toISOString().slice(0, 10),
+                    calculationEndDate: this.calculationDateRange.end.toISOString().slice(0, 10),
+                    withdrawalStartDate: this.withdrawalDateRange.start.toISOString().slice(0, 10),
+                    withdrawalEndDate: this.withdrawalDateRange.end.toISOString().slice(0, 10),
                     capitalStart: this.capitalRange.start,
                     capitalEnd: this.capitalRange.end,
                     installmentAmountStart: this.installmentAmountRange.start,
