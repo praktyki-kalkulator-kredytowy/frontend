@@ -133,7 +133,7 @@
           <th>Lp.</th>
           <th>Dolny limit wieku</th>
           <th>Koszt ubezpieczenia(%)</th>
-          <th colspan="2">Akcja</th>
+          <th>Akcja</th>
         </tr>
      </thead>
     
@@ -143,18 +143,19 @@
       v-bind:key="index">
         
         <td><label>{{index+1}}. </label></td>
-        <td><input type="number" v-model="ageBracket.age" required></td>
-
-        
-        <td><input type="number" v-model="ageBracket.insuranceRate" required></td>
-        <td><button @click="setAgeBracket(ageBracket.age, ageBracket.insuranceRate/100, 'INSURANCE_GROUPS', index); sortAgeBrackets()">Zapisz</button></td>
+        <td>{{ ageBracket.age }}</td>
+        <td>{{ ageBracket.insuranceRate }}</td>
         <td><button @click="deleteBracket(index); deleteConfiguration(ageBracket.age, 'INSURANCE_GROUPS')">Usuń</button></td>
     </tr>
-    
-    
-    
+    <tr class="add-bracket-row">
+      <td><label>Dodaj przedział</label></td>
+      <td><input type="number" v-model="newBracket.age"></td>
+      <td><input type="number" v-model="newBracket.insuranceRate"></td>
+      <td><button @click="setAgeBracket(newBracket.age, newBracket.insuranceRate/100, 'INSURANCE_GROUPS'); sortAgeBrackets()">Zapisz</button></td>
+    </tr>
     </table>
-    <button @click="addBracket">Dodaj przedział wiekowy</button>
+
+    
 </div>
 <div class="return">
   <button class="nav-button" @click="$router.push('/')">Powróć do strony głównej</button>
@@ -201,7 +202,11 @@ export default {
         showValidationError: false,
         showRequestSuccess: false,
         showRequestFail: false,
-        loading: false
+        loading: false,
+        newBracket: {
+          age: null,
+          insuranceRate: null
+        }
         
 
     }
@@ -308,14 +313,14 @@ export default {
           })
           
     },
-    setAgeBracket(key, value, group, index) {
+    async setAgeBracket(key, value, group) {
       
       if (this.ageBrackets.filter(br => br.age === key).length > 1) {
         this.ageBrackets.find(br => br.age === key).insuranceRate = value*100
-        this.deleteBracket(index)
       }
       
-      this.setConfiguration(key, value, group)
+      await this.setConfiguration(key, value, group)
+      await this.getAgeBrackets()
     },
     async deleteConfiguration(key, groupKey) {
       this.loading = true
@@ -404,7 +409,6 @@ export default {
       outline: none;
       border: 2px solid lightgray;
       height: 90%;
-      width: 100%;
     }
     button {
       width: 150px;
@@ -432,6 +436,10 @@ export default {
    
     
 }
+
+  .add-bracket-row {
+    border: 2px solid lightgray;
+  }
  .error-alert {
       color: red;
   }
