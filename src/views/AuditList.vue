@@ -271,7 +271,7 @@ export default {
                 const withdrawalDate = moment(String(row.withdrawalDate)).format('DD.MM.YYYY')
                 const commissionRate = (row.commissionRate*100).toString()+'%'
                 const insurance = row.insurance ? 'tak' : 'nie'
-                const age = row.age
+                const age = (row.age || '' ).toString()
                 const interestInstallmentSum = row.interestInstallmentSum.toString()
                 const loanPaidOutAmount = row.loanPaidOutAmount.toString()
                 const insuranceTotalAmount = row.insuranceTotalAmount.toString()
