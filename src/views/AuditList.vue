@@ -1,5 +1,18 @@
 <template>
 
+  <h3 v-show="loading">Trwa ładowanie...</h3>
+  <Popup v-if="error" @close="error = false">
+    <template v-slot:header>
+      <h3>Wystąpił błąd</h3>
+    </template>
+    <template v-slot:body>
+      Proszę skontaktuj się z administratorem aplikacji.
+    </template>
+    <template v-slot:footer>
+      Przepraszamy za nieudogodnienia.
+    </template>
+  </Popup>
+
     <input type="text"
            placeholder="Wyszukaj..."
            v-model="search"
@@ -190,11 +203,17 @@
 <script>
 import moment from 'moment'
 import axios from 'axios'
+import Popup from '../components/Popup'
 
 export default {
     name: 'AuditList',
+    components: {
+      Popup
+    },
     data() {
         return {
+            error: false,
+            loading: false,
             search: '',
             ascending: false,
             sortColumn: '',
@@ -325,10 +344,16 @@ export default {
                     aprcEnd: this.aprcRange.end/100
                     }
             }
-            await axios.get(`http://localhost:4200/api/v1/audit`, { params: params })
-            .then(response => {
-                this.auditData = response.data
-            })
+
+            try {
+              this.loading = true;
+              let response = await axios.get(`http://localhost:4200/api/v1/audit`, { params: params });
+              this.auditData = response.data;
+            } catch(e) {
+              this.error = true;
+            }
+            this.loading = false;
+
         },
         sortTable(col) {
         if (this.sortColumn === col) {
