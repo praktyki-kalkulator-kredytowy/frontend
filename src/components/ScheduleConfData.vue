@@ -20,8 +20,8 @@
     </div>
 
     <div class="configuration-row">
-      <label>Suma składek ubezpieczeniowych: </label>
-      <span>{{ conf.interestRate * 100 }}%</span>
+      <label>Oprocentowanie: </label>
+      <span>{{ (conf.interestRate * 100).toFixed(2).toString().replace(/\./g, ',') }}%</span>
 
     </div>
 
@@ -33,7 +33,7 @@
 
     <div class="configuration-row">
       <label>Prowizja: </label>
-      <span>{{ conf.commissionRate * 100 }}%</span>
+      <span>{{ (conf.commissionRate * 100).toFixed(2).toString().replace(/\./g, ',') }}%</span>
 
     </div>
 

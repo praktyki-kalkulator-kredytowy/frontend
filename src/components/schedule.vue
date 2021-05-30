@@ -45,7 +45,7 @@
 
         <div class="configuration-row">
             <label>RSSO: </label>
-            <span> {{(schedule.aprc*100).toFixed(2)}}%</span>
+            <span> {{(schedule.aprc*100).toFixed(2).toString().replace(/\./g, ',')}}%</span>
 
         </div>
     </div>
