@@ -507,24 +507,24 @@ export default {
             let params = {}
             if (this.isFiltered) {
                 params = {
-                    calculationStartDate: this.calculationDateFilterChecked ? this.calculationDateRange.start.toISOString().slice(0, 10) : null,
-                    calculationEndDate: this.calculationDateFilterChecked ? this.calculationDateRange.end.toISOString().slice(0, 10) : null,
-                    withdrawalStartDate: this.withdrawalDateFilterChecked ? this.withdrawalDateRange.start.toISOString().slice(0, 10) : null,
-                    withdrawalEndDate: this.withdrawalDateFilterChecked ? this.withdrawalDateRange.end.toISOString().slice(0, 10) : null,
+                    calculationStartDate: this.calculationDateFilterChecked ? this.calculationDateRange?.start?.toISOString().slice(0, 10) ?? '' : null,
+                    calculationEndDate: this.calculationDateFilterChecked ? this.calculationDateRange?.end?.toISOString().slice(0, 10) ?? '' : null,
+                    withdrawalStartDate: this.withdrawalDateFilterChecked ? this.withdrawalDateRange?.start?.toISOString().slice(0, 10) ?? '' : null,
+                    withdrawalEndDate: this.withdrawalDateFilterChecked ? this.withdrawalDateRange?.end?.toISOString().slice(0, 10) ?? '' : null,
                     capitalStart: this.capitalFilterChecked ? this.capitalRange.start : null,
                     capitalEnd: this.capitalFilterChecked ? this.capitalRange.end : null,
                     installmentAmountStart: this.installmentAmountFilterChecked ? this.installmentAmountRange.start : null,
                     installmentAmountEnd: this.installmentAmountFilterChecked ? this.installmentAmountRange.end : null,
-                    interestRateStart: this.interestRateFilterChecked ? this.interestRateRange.start/100 : null,
-                    interestRateEnd: this.interestRateFilterChecked ? this.interestRateRange.end/100 : null,
-                    commissionRateStart: this.commissionRateFilterChecked ? this.commissionRateRange.start : null,
-                    commissionRateEnd: this.commissionRateFilterChecked ? this.commissionRateRange.end : null,
+                    interestRateStart: this.interestRateFilterChecked ? this.interestRateRange.start === '' ? '' : this.interestRateRange.start/100 : null,
+                    interestRateEnd: this.interestRateFilterChecked ? this.interestRateRange.end === '' ? '' : this.interestRateRange.end/100 : null,
+                    commissionRateStart: this.commissionRateFilterChecked ? this.commissionRateRange.start === '' ? '' : this.commissionRateRange.start/100 : null,
+                    commissionRateEnd: this.commissionRateFilterChecked ? this.commissionRateRange.end === '' ? '' : this.commissionRateRange.end/100 : null,
                     insuranceSumStart: this.insuranceSumFilterChecked ? this.insuranceSumRange.start : null,
                     insuranceSumEnd: this.insuranceSumFilterChecked ? this.insuranceSumRange.end : null,
                     clientAgeStart: this.ageFilterChecked ? this.ageRange.start : null,
                     clientAgeEnd: this.ageFilterChecked ? this.ageRange.end : null,
-                    aprcStart: this.aprcFilterChecked ? this.aprcRange.start/100 : null,
-                    aprcEnd: this.aprcFilterChecked ? this.aprcRange.end/100 : null
+                    aprcStart: this.aprcFilterChecked ? this.aprcRange.start === '' ? '' : this.aprcRange.start/100 : null,
+                    aprcEnd: this.aprcFilterChecked ? this.aprcRange.end === '' ? '' : this.aprcRange.end/100 : null
                     }
             }
 
