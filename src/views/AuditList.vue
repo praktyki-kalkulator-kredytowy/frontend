@@ -13,6 +13,60 @@
     </template>
   </Popup>
 
+<Popup v-if="showValidationError" @close="showValidationError = false">
+      <template v-slot:header>
+        <h3>Wystąpiły błędy we wprowadzonych filtrach</h3>
+      </template>
+      <template v-slot:body>
+      <p class="error-alert" v-if="v$.capitalRange.start.$error">
+          Minimalny kapital: {{ v$.capitalRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.capitalRange.end.$error">
+          Maksymalny kapital: {{ v$.capitalRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.installmentAmountRange.start.$error">
+          Minimalna ilość rat: {{ v$.installmentAmountRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.installmentAmountRange.end.$error">
+          Maksymalna ilośc rat: {{ v$.installmentAmountRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.interestRateRange.start.$error">
+          Minimalne oprocentowanie: {{ v$.interestRateRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.interestRateRange.end.$error">
+          Maksymalne oprocentowanie: {{ v$.interestRateRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.insuranceSumRange.start.$error">
+          Minimalna suma ubezpieczenia: {{ v$.insuranceSumRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.insuranceSumRange.end.$error">
+          Maksymalna suma ubezpieczenia: {{ v$.insuranceSumRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.commissionRateRange.start.$error">
+          Minimalna prowizja: {{ v$.commissionRateRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.commissionRateRange.end.$error">
+          Maksymalna prowizja: {{ v$.commissionRateRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.ageRange.start.$error">
+          Minimalny wiek: {{ v$.ageRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.ageRange.end.$error">
+          Maksymalny wiek: {{ v$.ageRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.aprcRange.start.$error">
+          Minimalne RRSO: {{ v$.aprcRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.aprcRange.end.$error">
+          Maksymalne RRSO: {{ v$.aprcRange.end.$errors[0].$message }}
+      </p>
+      
+      </template>
+      <template v-slot:footer>
+      
+    </template>
+    </Popup>
+
     <input type="text"
            placeholder="Wyszukaj..."
            v-model="search"
@@ -21,106 +75,155 @@
         <button class="nav-button" @click="showFilters = !showFilters">Opcje filtrowania</button>
     </div>
     <div class="filter-options" v-show="showFilters">
-        <div class="filter-item">
-            <h3>Przedział wyliczenia kredytu</h3>
-            <v-date-picker  v-model="calculationDateRange" 
-                                locale="pl-PL"
-                                color="teal" 
-                                :update-on-input="false"
-                                mode="date"
-                                is-range>
-                <template v-slot="{ inputValue, inputEvents }">
-                    <div>
-                    <input
-                        :value="inputValue.start"
-                        v-on="inputEvents.start"
-                    />
-                    <input
-                        :value="inputValue.end"
-                        v-on="inputEvents.end"
-                    />
-                    </div>
-                </template>
-            </v-date-picker>
+        <div class="filter-item-wrapper">
+            <div class="filter-item">
+                <h3>Filtruj według daty wyliczenia</h3>
+                <input type="checkbox" v-model="calculationDateFilterChecked">
+            </div>
+
+            <div class="filter-item" v-show="calculationDateFilterChecked">
+                <h3>Przedział wyliczenia kredytu</h3>
+                <v-date-picker  v-model="calculationDateRange" 
+                                    locale="pl-PL"
+                                    color="teal" 
+                                    :update-on-input="false"
+                                    mode="date"
+                                    is-range>
+                    <template v-slot="{ inputValue, inputEvents }">
+                        <div>
+                        <input
+                            :value="inputValue.start"
+                            v-on="inputEvents.start"
+                        />
+                        <input
+                            :value="inputValue.end"
+                            v-on="inputEvents.end"
+                        />
+                        </div>
+                    </template>
+                </v-date-picker>
+            </div>
+        </div>
+        <div class="filter-item-wrapper">
+            <div class="filter-item">
+                <h3>Filtruj według daty wypłaty</h3>
+                <input type="checkbox" v-model="withdrawalDateFilterChecked">
+            </div>
+            
+            <div class="filter-item" v-show="withdrawalDateFilterChecked">
+                <h3>Przedział wypłaty kredytu</h3>
+                <v-date-picker  v-model="withdrawalDateRange" 
+                                    locale="pl-PL"
+                                    color="teal" 
+                                    :update-on-input="false"
+                                    mode="date"
+                                    is-range>
+                    <template v-slot="{ inputValue, inputEvents }">
+                        <div>
+                        <input
+                            :value="inputValue.start"
+                            v-on="inputEvents.start"
+                        />
+                        <input
+                            :value="inputValue.end"
+                            v-on="inputEvents.end"
+                        />
+                        </div>
+                    </template>
+                </v-date-picker>
+            </div>
         </div>
 
+        <div class="filter-item-wrapper">
+            <div class="filter-item">
+                <h3>Filtruj według kapitału</h3>
+                <input type="checkbox" v-model="capitalFilterChecked">
+            </div>
+            
+            <div class="filter-item" v-show="capitalFilterChecked">
+                <h3>przedzial kwoty kredytu</h3>
+                <input :class="{'error-border' : v$.capitalRange.start.$invalid}" type="number" v-model="capitalRange.start">
+                <input :class="{'error-border' : v$.capitalRange.end.$invalid}" type="number" v-model="capitalRange.end">
+            </div>
+        </div>
+
+        <div class="filter-item-wrapper">
+            <div class="filter-item">
+                <h3>Filtruj według liczby rat</h3>
+                <input type="checkbox" v-model="installmentAmountFilterChecked">
+            </div>
+            
+            <div class="filter-item" v-show="installmentAmountFilterChecked">
+                <h3>Przedział liczby rat</h3>
+                <input :class="{'error-border' : v$.installmentAmountRange.start.$invalid}" type="number" v-model="installmentAmountRange.start">
+                <input :class="{'error-border' : v$.installmentAmountRange.end.$invalid}" type="number" v-model="installmentAmountRange.end">
+            </div>
+        </div>
+
+        <div class="filter-item-wrapper">
+            <div class="filter-item">
+                <h3>Filtruj według oprocentowania</h3>
+                <input type="checkbox" v-model="interestRateFilterChecked">
+            </div>
+            
+            <div class="filter-item" v-show="interestRateFilterChecked">
+                <h3>Przedział oprocentowania</h3>
+                <input :class="{'error-border' : v$.interestRateRange.start.$invalid}" type="number" v-model="interestRateRange.start">
+                <input :class="{'error-border' : v$.interestRateRange.end.$invalid}" type="number" v-model="interestRateRange.end">
+            </div>
+        </div>
+
+        <div class="filter-item-wrapper">
+            <div class="filter-item">
+                <h3>Filtruj według sumy ubezpieczenia</h3>
+                <input type="checkbox" v-model="insuranceSumFilterChecked">
+            </div>
         
-        <div class="filter-item">
-            <h3>Przedział wypłaty kredytu</h3>
-            <v-date-picker  v-model="withdrawalDateRange" 
-                                locale="pl-PL"
-                                color="teal" 
-                                :update-on-input="false"
-                                mode="date"
-                                is-range>
-                <template v-slot="{ inputValue, inputEvents }">
-                    <div>
-                    <input
-                        :value="inputValue.start"
-                        v-on="inputEvents.start"
-                    />
-                    <input
-                        :value="inputValue.end"
-                        v-on="inputEvents.end"
-                    />
-                    </div>
-                </template>
-            </v-date-picker>
+            <div class="filter-item" v-show="insuranceSumFilterChecked">
+                <h3>Przedział sumy ubezpieczenia</h3>
+                <input :class="{'error-border' : v$.insuranceSumRange.start.$invalid}" type="number" v-model="insuranceSumRange.start">
+                <input :class="{'error-border' : v$.insuranceSumRange.end.$invalid}" type="number" v-model="insuranceSumRange.end">
+            </div>
         </div>
 
-        
-        <div class="filter-item">
-            <h3>przedzial kwoty kredytu</h3>
-            <input type="number" v-model="capitalRange.start">
-            <input type="number" v-model="capitalRange.end">
+        <div class="filter-item-wrapper">
+            <div class="filter-item">
+                <h3>Filtruj według prowizji</h3>
+                <input type="checkbox" v-model="commissionRateFilterChecked">
+            </div>
+            
+            <div class="filter-item" v-show="commissionRateFilterChecked">
+                <h3>Przedział prowizji</h3>
+                <input :class="{'error-border' : v$.commissionRateRange.start.$invalid}" type="number" v-model="commissionRateRange.start">
+                <input :class="{'error-border' : v$.commissionRateRange.end.$invalid}" type="number" v-model="commissionRateRange.end">
+            </div>
         </div>
 
-        
-        <div class="filter-item">
-            <h3>Przedział liczby rat</h3>
-            <input type="number" v-model="installmentAmountRange.start">
-            <input type="number" v-model="installmentAmountRange.end">
+        <div class="filter-item-wrapper">
+            <div class="filter-item">
+                <h3>Filtruj według wieku</h3>
+                <input type="checkbox" v-model="ageFilterChecked">
+            </div>
+
+            
+            <div class="filter-item" v-show="ageFilterChecked">
+                <h3>Przedzial wieku klienta</h3>
+                <input :class="{'error-border' : v$.ageRange.start.$invalid}" type="number" v-model="ageRange.start">
+                <input :class="{'error-border' : v$.ageRange.end.$invalid}" type="number" v-model="ageRange.end">
+            </div>
         </div>
 
-        
-        <div class="filter-item">
-            <h3>Przedział oprocentowania</h3>
-            <input type="number" v-model="interestRateRange.start">
-            <input type="number" v-model="interestRateRange.end">
-        </div>
-
-       
-        <div class="filter-item">
-             <h3>Przedział sumy ubezpieczenia</h3>
-            <input type="number" v-model="insuranceSumRange.start">
-            <input type="number" v-model="insuranceSumRange.end">
-        </div>
-
-        
-        <div class="filter-item">
-            <h3>Przedział prowizji</h3>
-            <input type="number" v-model="commissionRateRange.start">
-            <input type="number" v-model="commissionRateRange.end">
-        </div>
-
-       
-        <div class="filter-item">
-            <h3>ubezpieczenie</h3>
-            <input type="checkbox" v-model="checkInsurance">
-        </div>
-
-        
-        <div class="filter-item" v-show="checkInsurance">
-            <h3>Przedzial wieku klienta</h3>
-            <input type="number" v-model="ageRange.start">
-            <input type="number" v-model="ageRange.end">
-        </div>
-
-        
-        <div class="filter-item">
-            <h3>Przedział rrso</h3>
-            <input type="number" v-model="aprcRange.start">
-            <input type="number" v-model="aprcRange.end">
+        <div class="filter-item-wrapper">
+            <div class="filter-item">
+                <h3>Filtruj według RRSO</h3>
+                <input type="checkbox" v-model="aprcFilterChecked">
+            </div>
+            
+            <div class="filter-item" v-show="aprcFilterChecked">
+                <h3>Przedział rrso</h3>
+                <input :class="{'error-border' : v$.aprcRange.start.$invalid}" type="number" v-model="aprcRange.start">
+                <input :class="{'error-border' : v$.aprcRange.end.$invalid}" type="number" v-model="aprcRange.end">
+            </div>
         </div>
 
         <div class="button-container">
@@ -200,7 +303,11 @@
   <button class="nav-button" @click="$router.push('/')">Powróć</button>
 </template>
 
+
 <script>
+const notNegative = 'Wartość nie może być ujemna'
+import useValidate from '@vuelidate/core'
+import { minValue, helpers } from '@vuelidate/validators'
 import moment from 'moment'
 import axios from 'axios'
 import Popup from '../components/Popup'
@@ -212,6 +319,7 @@ export default {
     },
     data() {
         return {
+            v$: useValidate(),
             error: false,
             loading: false,
             search: '',
@@ -255,10 +363,80 @@ export default {
                 start: 0,
                 end: 100
             },
-            checkInsurance: false,
+            calculationDateFilterChecked: false,
+            withdrawalDateFilterChecked: false,
+            capitalFilterChecked: false,
+            installmentAmountFilterChecked: false,
+            interestRateFilterChecked: false,
+            insuranceSumFilterChecked: false,
+            commissionRateFilterChecked: false,
+            ageFilterChecked: false,
+            aprcFilterChecked: false,
             isFiltered: false,
-            filteredAuditData: []
+            filteredAuditData: [],
+            showValidationError: false
         }
+    },
+    validations() {
+        return {
+            capitalRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            installmentAmountRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            interestRateRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            insuranceSumRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            commissionRateRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            ageRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            aprcRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            }
+        }
+
     },
     computed: {
         searchedRows() {
@@ -271,7 +449,7 @@ export default {
                 const withdrawalDate = moment(String(row.withdrawalDate)).format('DD.MM.YYYY')
                 const commissionRate = (row.commissionRate*100).toString()+'%'
                 const insurance = row.insurance ? 'tak' : 'nie'
-                const age = row.age
+                const age = (row.age || '' ).toString()
                 const interestInstallmentSum = row.interestInstallmentSum.toString()
                 const loanPaidOutAmount = row.loanPaidOutAmount.toString()
                 const insuranceTotalAmount = row.insuranceTotalAmount.toString()
@@ -302,6 +480,10 @@ export default {
     },
     methods: {
         addFilters() {
+            if (this.v$.$invalid) {
+                this.showValidationError = true
+            return
+      }
             this.isFiltered = true
             this.getAuditData()
         },
@@ -323,27 +505,26 @@ export default {
         },
         async getAuditData() {
             let params = {}
-            console.log(this.calculationDateRange.start)
             if (this.isFiltered) {
                 params = {
-                    calculationStartDate: this.calculationDateRange.start.toISOString().slice(0, 10),
-                    calculationEndDate: this.calculationDateRange.end.toISOString().slice(0, 10),
-                    withdrawalStartDate: this.withdrawalDateRange.start.toISOString().slice(0, 10),
-                    withdrawalEndDate: this.withdrawalDateRange.end.toISOString().slice(0, 10),
-                    capitalStart: this.capitalRange.start,
-                    capitalEnd: this.capitalRange.end,
-                    installmentAmountStart: this.installmentAmountRange.start,
-                    installmentAmountEnd: this.installmentAmountRange.end,
-                    interestRateStart: this.interestRateRange.start/100,
-                    interestRateEnd: this.interestRateRange.end/100,
-                    commissionRateStart: this.commissionRateRange.start,
-                    commissionRateEnd: this.commissionRateRange.end,
-                    insuranceSumStart: this.insuranceSumRange.start,
-                    insuranceSumEnd: this.insuranceSumRange.end,
-                    clientAgeStart: this.checkInsurance ? this.ageRange.start : null,
-                    clientAgeEnd: this.checkInsurance ? this.ageRange.end : null,
-                    aprcStart: this.aprcRange.start/100,
-                    aprcEnd: this.aprcRange.end/100
+                    calculationStartDate: this.calculationDateFilterChecked ? this.calculationDateRange.start.toISOString().slice(0, 10) : null,
+                    calculationEndDate: this.calculationDateFilterChecked ? this.calculationDateRange.end.toISOString().slice(0, 10) : null,
+                    withdrawalStartDate: this.withdrawalDateFilterChecked ? this.withdrawalDateRange.start.toISOString().slice(0, 10) : null,
+                    withdrawalEndDate: this.withdrawalDateFilterChecked ? this.withdrawalDateRange.end.toISOString().slice(0, 10) : null,
+                    capitalStart: this.capitalFilterChecked ? this.capitalRange.start : null,
+                    capitalEnd: this.capitalFilterChecked ? this.capitalRange.end : null,
+                    installmentAmountStart: this.installmentAmountFilterChecked ? this.installmentAmountRange.start : null,
+                    installmentAmountEnd: this.installmentAmountFilterChecked ? this.installmentAmountRange.end : null,
+                    interestRateStart: this.interestRateFilterChecked ? this.interestRateRange.start/100 : null,
+                    interestRateEnd: this.interestRateFilterChecked ? this.interestRateRange.end/100 : null,
+                    commissionRateStart: this.commissionRateFilterChecked ? this.commissionRateRange.start : null,
+                    commissionRateEnd: this.commissionRateFilterChecked ? this.commissionRateRange.end : null,
+                    insuranceSumStart: this.insuranceSumFilterChecked ? this.insuranceSumRange.start : null,
+                    insuranceSumEnd: this.insuranceSumFilterChecked ? this.insuranceSumRange.end : null,
+                    clientAgeStart: this.ageFilterChecked ? this.ageRange.start : null,
+                    clientAgeEnd: this.ageFilterChecked ? this.ageRange.end : null,
+                    aprcStart: this.aprcFilterChecked ? this.aprcRange.start/100 : null,
+                    aprcEnd: this.aprcFilterChecked ? this.aprcRange.end/100 : null
                     }
             }
 
@@ -371,14 +552,15 @@ export default {
             if (a[col] > b[col]) {
             return ascending ? 1 : -1
             } else if (a[col] < b[col]) {
-            return ascending ? -1 : 1
+              return ascending ? -1 : 1
             }
             return 0;
       })
     }
     },
     mounted() {
-        this.getAuditData()
+        this.getAuditData(),
+        this.v$.$touch()
     }
 }
 </script>
@@ -435,16 +617,28 @@ export default {
     border: 1px solid lightgray;
     border-radius: 20px;
 
-    .filter-item {
+    .filter-item-wrapper {
+        border: 1px solid lightgray;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 500px;
+        margin: 20px;
+        border-radius: 20px;
+        padding: 20px;
+        .filter-item {
         display: inline-block;
         
         input{
             margin: 15px;
             padding: 10px;
             border: 1px solid lightgray;
-            border-radius: 5px;           
+            border-radius: 5px;
+            outline: none;           
         } 
     }
+    }
+    
 }
 .search-input {
   border-radius: 10px;
@@ -468,6 +662,13 @@ export default {
     border-color: currentColor;
     background-color: white;
 }
-
+.error-alert {
+      color: red;
+  }
+  
+  .error-border {
+    border: 2px solid red !important;
+    box-shadow: 0 0 10px rgb(255, 117, 117);
+  }
 
 </style>

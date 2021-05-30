@@ -17,7 +17,7 @@
   <div class="schedule-container">
     <schedule-configuration :onSubmit="fetchSchedule" :loading="loading" />
   
-    <schedule :schedule="scheduleData" />
+    <schedule :schedule="scheduleData" :showExportButtons="true" />
   </div>
 
   <div class="return">

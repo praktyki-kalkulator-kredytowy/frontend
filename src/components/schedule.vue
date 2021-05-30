@@ -45,7 +45,7 @@
 
         <div class="configuration-row">
             <label>RSSO: </label>
-            <span> {{(schedule.aprc*100).toFixed(2)}}%</span>
+            <span> {{(schedule.aprc*100).toFixed(2).toString().replace(/\./g, ',')}}%</span>
 
         </div>
     </div>
@@ -73,7 +73,7 @@
         </tr>
         
     </table>
-    <div class="buttons-container">
+    <div class="buttons-container" v-show="showExportButtons">
         <button @click="exportJSON">Eksportuj do pliku JSON</button>
         <button @click="downloadPDF">Pobierz PDF</button>
     </div>
@@ -86,7 +86,8 @@ import axios from 'axios'
 import moment from 'moment'
 export default {
    props: {
-       schedule: Object
+       schedule: Object,
+       showExportButtons: Boolean
    },
     methods: {
         formatDate(date){
@@ -142,19 +143,19 @@ export default {
         margin: auto;
         font-size: larger;
         text-align: right;
-        border: 2px solid #0097A7;
+        border: 2px solid #16a085;
         thead {
             color: white;
         }
 
         td, th {
-            border: 2px solid #0097A7;
+            border: 2px solid #16a085;
         }
         th {
-            background-color: #0097A7;
+            background-color: #16a085;
         }
         tr:nth-of-type(odd) {
-            background-color: #B2EBF2;
+            background-color: #cdefea;
         }
     }
     .configuration-row {
