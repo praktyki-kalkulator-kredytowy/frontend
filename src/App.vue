@@ -33,7 +33,8 @@ export default {
   padding: 0.5em 1em;
   color: #ffffff;
   background-color: #16a085;
-  font-weight: 600
+  font-weight: 600;
+  outline: none;
 }
 .nav-button:active {
     transform: translateY(1px);

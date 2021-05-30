@@ -99,7 +99,8 @@
         <div class="form-row">
             <label>Data wypłaty: </label>
             <v-date-picker  v-model="withdrawalDate" 
-                            locale="pl-PL" 
+                            locale="pl-PL"
+                            color="teal" 
                             :update-on-input="false">
                 <template v-slot="{ inputValue, inputEvents }">
                     <input
