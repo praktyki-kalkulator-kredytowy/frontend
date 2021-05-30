@@ -13,6 +13,60 @@
     </template>
   </Popup>
 
+<Popup v-if="showValidationError" @close="showValidationError = false">
+      <template v-slot:header>
+        <h3>Wystąpiły błędy we wprowadzonych filtrach</h3>
+      </template>
+      <template v-slot:body>
+      <p class="error-alert" v-if="v$.capitalRange.start.$error">
+          Minimalny kapital: {{ v$.capitalRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.capitalRange.end.$error">
+          Maksymalny kapital: {{ v$.capitalRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.installmentAmountRange.start.$error">
+          Minimalna ilość rat: {{ v$.installmentAmountRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.installmentAmountRange.end.$error">
+          Maksymalna ilośc rat: {{ v$.installmentAmountRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.interestRateRange.start.$error">
+          Minimalne oprocentowanie: {{ v$.interestRateRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.interestRateRange.end.$error">
+          Maksymalne oprocentowanie: {{ v$.interestRateRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.insuranceSumRange.start.$error">
+          Minimalna suma ubezpieczenia: {{ v$.insuranceSumRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.insuranceSumRange.end.$error">
+          Maksymalna suma ubezpieczenia: {{ v$.insuranceSumRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.commissionRateRange.start.$error">
+          Minimalna prowizja: {{ v$.commissionRateRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.commissionRateRange.end.$error">
+          Maksymalna prowizja: {{ v$.commissionRateRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.ageRange.start.$error">
+          Minimalny wiek: {{ v$.ageRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.ageRange.end.$error">
+          Maksymalny wiek: {{ v$.ageRange.end.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.aprcRange.start.$error">
+          Minimalne RRSO: {{ v$.aprcRange.start.$errors[0].$message }}
+      </p>
+      <p class="error-alert" v-if="v$.aprcRange.end.$error">
+          Maksymalne RRSO: {{ v$.aprcRange.end.$errors[0].$message }}
+      </p>
+      
+      </template>
+      <template v-slot:footer>
+      
+    </template>
+    </Popup>
+
     <input type="text"
            placeholder="Wyszukaj..."
            v-model="search"
@@ -249,7 +303,11 @@
   <button class="nav-button" @click="$router.push('/')">Powróć</button>
 </template>
 
+
 <script>
+const notNegative = 'Wartość nie może być ujemna'
+import useValidate from '@vuelidate/core'
+import { minValue, helpers } from '@vuelidate/validators'
 import moment from 'moment'
 import axios from 'axios'
 import Popup from '../components/Popup'
@@ -261,6 +319,7 @@ export default {
     },
     data() {
         return {
+            v$: useValidate(),
             error: false,
             loading: false,
             search: '',
@@ -314,8 +373,70 @@ export default {
             ageFilterChecked: false,
             aprcFilterChecked: false,
             isFiltered: false,
-            filteredAuditData: []
+            filteredAuditData: [],
+            showValidationError: false
         }
+    },
+    validations() {
+        return {
+            capitalRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            installmentAmountRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            interestRateRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            insuranceSumRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            commissionRateRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            ageRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            },
+            aprcRange: {
+                start: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                },
+                end: {
+                    minValue: helpers.withMessage(notNegative, minValue(0))
+                }
+            }
+        }
+
     },
     computed: {
         searchedRows() {
@@ -359,6 +480,10 @@ export default {
     },
     methods: {
         addFilters() {
+            if (this.v$.$invalid) {
+                this.showValidationError = true
+            return
+      }
             this.isFiltered = true
             this.getAuditData()
         },
@@ -380,13 +505,12 @@ export default {
         },
         async getAuditData() {
             let params = {}
-            console.log(this.calculationDateRange.start)
             if (this.isFiltered) {
                 params = {
                     calculationStartDate: this.calculationDateFilterChecked ? this.calculationDateRange.start.toISOString().slice(0, 10) : null,
                     calculationEndDate: this.calculationDateFilterChecked ? this.calculationDateRange.end.toISOString().slice(0, 10) : null,
                     withdrawalStartDate: this.withdrawalDateFilterChecked ? this.withdrawalDateRange.start.toISOString().slice(0, 10) : null,
-                    withdrawalEndDate: this.withdrawalDateRange.end.toISOString().slice(0, 10),
+                    withdrawalEndDate: this.withdrawalDateFilterChecked ? this.withdrawalDateRange.end.toISOString().slice(0, 10) : null,
                     capitalStart: this.capitalFilterChecked ? this.capitalRange.start : null,
                     capitalEnd: this.capitalFilterChecked ? this.capitalRange.end : null,
                     installmentAmountStart: this.installmentAmountFilterChecked ? this.installmentAmountRange.start : null,
@@ -435,7 +559,8 @@ export default {
     }
     },
     mounted() {
-        this.getAuditData()
+        this.getAuditData(),
+        this.v$.$touch()
     }
 }
 </script>
