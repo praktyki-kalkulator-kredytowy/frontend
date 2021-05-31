@@ -135,7 +135,7 @@
                         </div>
                     </template>
                 </v-date-picker>
-                <v-date-picker  v-model="withdrawalDateRange.start" 
+                <v-date-picker  v-model="withdrawalDateRange.end"
                                     locale="pl-PL"
                                     color="teal" 
                                     :update-on-input="false"
